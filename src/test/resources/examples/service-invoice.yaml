@@ -1,0 +1,15 @@
+ID: BAF767GHA
+Team: Shoppy
+Type: Service
+Description: Manages our shop frontend.
+Name: Team Blue
+Servicename: INV
+
+provides:
+  - Api:443
+
+Network_Zone: Backend
+
+Belongs_to_Bounded_Context: Invoice
+
+

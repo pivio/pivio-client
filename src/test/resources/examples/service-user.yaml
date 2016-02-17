@@ -1,0 +1,13 @@
+ID: AAABFE9110
+Team: User
+Type: Service
+Description: Manages all users.
+Name: Userservice
+Servicename: USR
+
+provides:
+  - Api:443
+
+Network_Zone: Backend
+Belongs_to_Bounded_Context: User
+

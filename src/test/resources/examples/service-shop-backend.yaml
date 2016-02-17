@@ -1,0 +1,16 @@
+ID: BGA81LKOP
+Team: Shoppy
+Type: Service
+Description: Backend for the Shop.
+Name: Team Blue
+Servicename: SBE
+
+provides:
+  - Api:8443
+
+talks_to:
+  - USR:Api
+
+Network_Zone: Backend
+Belongs_to_Bounded_Context: Shop
+

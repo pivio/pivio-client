@@ -1,0 +1,15 @@
+ID: BAF767GKLHA
+Team: Dollar
+Type: Service
+Description: Handles all our payments.
+Name: Payment Service
+Servicename: PAY
+
+provides:
+  - Api:443
+
+talks_to:
+  - PAY:Api
+
+Network_Zone: Backend
+Belongs_to_Bounded_Context: Payment

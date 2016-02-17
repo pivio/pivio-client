@@ -1,0 +1,8 @@
+<dependencies>
+  <dependency name='com.trilead:trilead-ssh2:1.0.0-build219'>
+    <file>trilead-ssh2-1.0.0-build219.jar</file>
+    <license name='Trilead Library License' url='http://www.svnkit.com/TRILEAD-LICENSE.txt' />
+    <license name='Test' url='http://nothing' />
+  </dependency>
+
+</dependencies>

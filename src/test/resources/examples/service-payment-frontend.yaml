@@ -1,0 +1,15 @@
+ID: JKL90GHA
+Team: Shoppy
+Type: Service
+Description: Handles the frontend for payment.
+Name: Frontend for Payment Service
+Servicename: FPY
+
+provides:
+  - Web:80
+
+talks_to:
+  - PAY:Api
+
+Network_Zone: Frontend
+Belongs_to_Bounded_Context: Payment

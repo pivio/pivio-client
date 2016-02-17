@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licenseSummary>
+    <dependencies>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>3.3.1</version>
+            <licenses>
+                <license>
+                    <name>BSD</name>
+                    <url>http://asm.objectweb.org/license.html</url>
+                </license>
+                <license>
+                    <name>Special</name>
+                    <url>None</url>
+                </license>
+            </licenses>
+        </dependency>
+
+        <dependency>
+            <groupId>AAA</groupId>
+            <artifactId>BBB</artifactId>
+            <version>5</version>
+            <licenses>
+                <license>
+                    <name>BSD</name>
+                    <url>http://asm.objectweb.org/license.html</url>
+                </license>
+            </licenses>
+        </dependency>
+
+    </dependencies>
+</licenseSummary>

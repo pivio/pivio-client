@@ -1,0 +1,11 @@
+version: 0.1
+name: ENG - Engine 
+team: Manhattan
+description: Die Engine speichert Nachrichten wie E-Postbriefe und Faxe in den Mailboxen der jeweiligen Benutzer und bietet einen kleinen Teil der Versandfunktionalität an. Dabei uebernimmt die Engine die Verwaltung saemtlicher Metadaten eingelieferter E-Postbriefe, Mails und Faxe von PKs und GWKs, waehrend die Nutzdaten in der Blobrocket verwaltet werden. Auch die Verwaltung der tatsaechlichen Mailboxen mit ihren verwandten Konzepten wie z.B. Labels obliegt der Engine.
+type: service
+links:
+  homepage: https://confluence.clear-mail.de/wiki/display/tarch/ENG+-+Hostgruppe
+  buildchain: https://teamcity.bis.epost-dev.de/project.html?projectId=EPostBlobrocket&tab=projectOverview
+  GPT-Tests vor Live-Deployment: https://teamcity.bis.epost-dev.de/viewType.html?buildTypeId=E42IntegrationTests_NonprodcodeManhattanAcceptanceTests_ManhattanAcceptanceTes_2
+  Smoke-Tests vor Live-Deployment: https://teamcity.bis.epost-dev.de/project.html?projectId=E42SmokeTestsFast&tab=projectOverview mind. fuer ENG, BRO, MAL, Chain-Portal, SND, SAR, SAU, SEM
+

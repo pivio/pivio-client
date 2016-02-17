@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licenseSummary>
+    <dependencies>
+        <dependency>
+            <groupId>ABC</groupId>
+            <artifactId>ABC</artifactId>
+            <version>4.0</version>
+            <licenses>
+                <license>
+                    <name>BSD</name>
+                    <url>http://ABC.objectweb.org/license.html</url>
+                </license>
+                <license>
+                    <name>Special</name>
+                    <url>None</url>
+                </license>
+            </licenses>
+        </dependency>
+
+        <dependency>
+            <groupId>AAA</groupId>
+            <artifactId>BBB</artifactId>
+            <version>5</version>
+            <licenses>
+                <license>
+                    <name>BSD</name>
+                    <url>http://ABC.objectweb.org/license.html</url>
+                </license>
+            </licenses>
+        </dependency>
+
+    </dependencies>
+</licenseSummary>

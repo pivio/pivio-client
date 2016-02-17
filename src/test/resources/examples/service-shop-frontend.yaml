@@ -1,0 +1,15 @@
+ID: BAF767GOPHA
+Team: Shoppy
+Type: Service
+Description: Manages our shop frontend.
+Name: Team Blue
+Servicename: SFR
+
+provides:
+  - Web:80:default
+
+talks_to:
+  - SBE
+
+Network_Zone: Frontend
+Belongs_to_Bounded_Context: Shop

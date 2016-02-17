@@ -1,0 +1,12 @@
+- name: PHP
+  version: 3.0.1
+  license: PHP License
+  url: http://php.net/license/3_01.txt
+- name: GNU C
+  version: 4.9.2
+  license: GPL
+  url: https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
+- name: Strange Framework
+  version: 1.0
+  license: GPL
+  url: https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html
