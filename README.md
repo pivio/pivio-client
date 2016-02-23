@@ -18,6 +18,26 @@ If you answer more than three questions above with yes:
             is for you
 ```
 
+ServiceCatalog collects all the information about your software artefact and uploads it to the ServiceCatalog Server.
+The idea is that a team can document the key characteristics about their software within their IDE. All the information
+  which does not change that often should be included in this file. But when it changes it is easy to do so. We came up
+  with a set of attributes which fit our needs. We think this is suitable for others as well. ServiceCatalog does not
+  force anything. You can use these attributes but you don't have to. They are a suggestion.
+  
+## The Client
+
+
+The client is intended to run in the buildchain of your software. Every time if something is committed which triggers
+your buildchain your data will be updated. For that the software needs to have a 'servicecatalog.yaml' file in the root
+folder of it. 
+  
+  
+The client does several things:
+
+- reads the servicecatalog.yaml file
+- Tries to guess the 
+
+
 # Example
 
 See src/test/resources/servicecat.yaml as an example and inspiration.
@@ -36,7 +56,7 @@ Run it with
 
 ```
 
-java -jar  build/libs/client-0.0.1-SNAPSHOT.jar
+java -jar  build/libs/servicecat.jar
 
 ```
 

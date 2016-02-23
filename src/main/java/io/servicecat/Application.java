@@ -29,7 +29,7 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String[] args) {
         try {
-            CommandLine commandLine  = configuration.parseCommandLine(args);
+            CommandLine commandLine = configuration.parseCommandLine(args);
             configuration.setParameter(commandLine);
             if (configuration.hasOption(Configuration.SWITCH_HELP)) {
                 configuration.outputHelp();
@@ -54,7 +54,11 @@ public class Application implements CommandLineRunner {
 
     void checkForIdElement(Map<String, Object> document) throws Exception {
         if (!document.containsKey("id")) {
-            throw new Exception("You need to have an id element in your configuration.");
+            StringBuffer content = new StringBuffer();
+            document.keySet().forEach(key -> {
+                content.append(document.get(key));
+            });
+            throw new Exception("You need to have an id element in your configuration. (" + content + ")");
         }
     }
 

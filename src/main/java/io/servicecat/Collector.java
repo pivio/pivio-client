@@ -47,7 +47,7 @@ public class Collector {
         try {
             document = reader.readYamlFile(file);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Could not find valid config file." + e.getLocalizedMessage());
+            throw new IllegalArgumentException("Could not find valid config file. " + e.getLocalizedMessage());
         }
         return document;
     }
@@ -59,6 +59,7 @@ public class Collector {
             Files.list(new File(parameter).toPath())
                     .filter(p -> p.getFileName().toString().endsWith(".yaml"))
                     .forEach(yaml -> {
+                        System.out.println("Reading file: "+yaml);
                         documents.add(readFile(yaml.toString()));
                     });
         } catch (Exception e) {
