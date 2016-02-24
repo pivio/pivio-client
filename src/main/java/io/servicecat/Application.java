@@ -1,5 +1,6 @@
 package io.servicecat;
 
+import io.servicecat.upload.Writer;
 import org.apache.commons.cli.CommandLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

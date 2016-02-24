@@ -1,5 +1,6 @@
 package io.servicecat;
 
+import io.servicecat.upload.Writer;
 import org.junit.Before;
 import org.junit.Test;
 
