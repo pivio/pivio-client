@@ -25,6 +25,7 @@ public class Configuration {
     public final static String SWITCH_VERBOSE = "verbose";
     public final static String SWITCH_MANUAL_DEPENDENCIES = "manualdependencies";
     public final static String SWITCH_YAML_DIR = "yamldir";
+    public final static String SWITCH_UPLOAD_FAILS_EXIT1 = "uploadfailexit1";
 
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
@@ -134,6 +135,7 @@ public class Configuration {
         options.addOption(SWITCH_VERBOSE, false, "Prints more information.");
         options.addOption(SWITCH_HELP, false, "This Help.");
         options.addOption(SWITCH_DRY_RUN, false, "Do a dry run, do not submit anything but output it to stdout.");
+        options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false, "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
 
         options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read.");
         options.addOption(SWITCH_SOURCE_DIR, true, "The directory with the sources containing the servicecat.yaml file.");
