@@ -18,14 +18,20 @@ public class Reader {
     @Autowired
     Configuration configuration;
 
-    public Map<String, Object> readYamlFile(String yamlFile) throws FileNotFoundException, YamlException, UnsupportedEncodingException {
+    public Map<String, Object> readYamlFile(String yamlFile) throws FileNotFoundException,  UnsupportedEncodingException {
         if (configuration.isVerbose()) {
             System.out.println("Loading Yaml file " + yamlFile);
         }
         File file = new File(yamlFile);
         BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
         YamlReader yamlReader = new YamlReader(in);
-        Object object = yamlReader.read();
+        Object object = null;
+        try {
+            object = yamlReader.read();
+        } catch (YamlException e) {
+            System.out.println("Error: Yamlfile "+yamlFile);
+            e.printStackTrace();
+        }
 
         if (object instanceof Map) {
             return makeLowerCaseKeys((Map<String, Object>) object);
