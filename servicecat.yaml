@@ -7,3 +7,16 @@ Links:
   Homepage: http://none
 
 Contact: Oliver Wehrens
+
+
+talks_to:
+ - TCP:AUT:8443
+
+networks:
+ - LOG
+ - SER
+
+external_connections:
+ - target: api.dp-direkt.de:443
+   why: Need to sync data with it.
+
