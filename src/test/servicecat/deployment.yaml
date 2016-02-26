@@ -1,0 +1,6 @@
+# This should not happen, but reality is: You have deployment dependencies which you can't fix in the near future. So
+# we want to declare the Service names you need.
+# - Values can be any other Servicename.
+# - Optional
+Needs_to_be_deployed_before:
+    USR

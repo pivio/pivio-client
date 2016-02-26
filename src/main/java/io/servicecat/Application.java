@@ -55,7 +55,7 @@ public class Application implements CommandLineRunner {
 
     void checkForIdElement(Map<String, Object> document) throws Exception {
         if (!document.containsKey("id")) {
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             document.keySet().forEach(key -> {
                 content.append(document.get(key));
             });

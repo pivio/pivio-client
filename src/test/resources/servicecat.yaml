@@ -53,6 +53,13 @@ provides:
     - UberBillPrint:8443:default
     - Bootstrap:8600
 
+# Alternative Idea
+
+provides:
+  - Description: REST API
+    Port: 8443
+    Protocol: https
+
 # I need to talk to these service, this can be:
 # - <Servicename>
 # - <Servicename>:<NamedPort>
@@ -66,6 +73,45 @@ talks_to:
     - PRN:Print
     - UBR:3000
     - 192.168.178.2:100
+
+## Alternative idea
+
+talks_to:
+  - Name: BIL
+    Port: 4000
+    TransportationProtocol: tcp
+    Protocol: http
+  - Name: PRN
+    Port: 8443
+    TransportationProtocol: tcp
+    Protocol: https
+  - Name: GWY
+    Port: 3128
+    TransportationProtocol: tcp
+    Protocol: https
+
+# If you need to talk to service outside your System, state it here and why
+external_connections:
+ - Target: api.superdealz.me
+   Port: 443
+   Protocol: https
+   TransportationProtocol: tcp
+   Proxy: GWY
+   Why: Need to sync data with it.
+ - Target: 192.xxx.xxx.xxx:444
+   Port: 443
+   Protocol: https
+   TransportationProtocol: tcp
+   Why: Get the latest Dealz.
+
+# If you need to attach different networks to your service, specify them here.
+# - Optional
+Attached_networks:
+  - logging
+  - shell
+  - ubp
+  - secure
+  - monitoring
 
 # In which network zone am I located. This can be interesting for hardware firewalls.
 # - Values can be anything, what fits for you is right.

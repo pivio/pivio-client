@@ -1,0 +1,13 @@
+- url: business/*
+  methods:
+    - GET
+    - POST
+    - PUT
+  name: REST Interface of ROC
+  max-length: 200
+  type: CHAR_CLASS
+- url: demo/*
+  methods:
+    - GET
+  max-length: 10
+  type: NUMBER_CLASS

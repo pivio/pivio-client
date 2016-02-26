@@ -1,0 +1,5 @@
+# I belong to the following context. This is used to get a better overview.
+# - Values can be anything, what fits for you is right.
+# - Optional
+Belongs_to_Bounded_Context:
+    Delivery
