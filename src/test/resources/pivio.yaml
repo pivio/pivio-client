@@ -22,6 +22,7 @@ general:
   # Servicename, with that name, other will find and connect to me in their 'talks_to' section
   # - Mandatory in case of Service
   servicename: UBP
+  servicename: UBP
 
   # Which team is responsible for this software
   # - Mandatory
@@ -69,8 +70,8 @@ network:
   # Alternative Idea
 
   provides:
-    - description: REST API
-      service_name: uber-bill-print-service
+    - service_name: uber-bill-print-service
+      description: REST API
       port: 8443
       protocol: https
       transportation_protocol: tcp
@@ -99,7 +100,7 @@ network:
   #   Target: where to talk to
   #   Port: Which port
   external_connections:
-   - target: api.superdealz.me
+   - target: https://api.superdealz.me
      port: 443
      protocol: https
      transportationProtocol: tcp
@@ -143,7 +144,7 @@ belongs_to_bounded_context: Delivery
 # Intended usage of this component:
 # - private: - only for use by the owner
 # - public: - exposes an api for other owner
-# Components that are under development, experimental, not suppoted, replace, or to change
+# Components that are under development, experimental, not supported, replace, or to change
 # without warning should generally be marked as private.
 visibility: Private
 

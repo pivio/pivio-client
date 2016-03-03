@@ -1,3 +1,9 @@
+# STATUS
+
+This is alpha software.
+
+** DO NOT USE **
+
 # Pivio
 
 A documentation system for microservices.
