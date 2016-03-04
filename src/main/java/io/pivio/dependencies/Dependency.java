@@ -1,12 +1,14 @@
 package io.pivio.dependencies;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dependency implements Comparable {
-
     public String name;
     public String version;
+    @JsonProperty("licenses")
     final List<License> licences = new ArrayList<>();
 
     public Dependency(String name, String version, List<License> licenses) {
