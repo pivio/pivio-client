@@ -26,7 +26,7 @@ class Collector {
     @Autowired
     Configuration configuration;
 
-    final static String DEPENDENCIES = "dependencies";
+    final static String DEPENDENCIES = "software_dependencies";
     final static String VCS = "vcsroot";
 
     Map<String, Object> gatherSingleFile() throws IllegalArgumentException {
