@@ -1,14 +1,14 @@
 package io.pivio.dependencies;
 
-import com.esotericsoftware.yamlbeans.YamlException;
-import com.esotericsoftware.yamlbeans.YamlReader;
 import io.pivio.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +31,9 @@ class ManualDependencyReader implements DependencyReader {
     List<Dependency> readFile(File file) {
         List<Dependency> result = new ArrayList<>();
         try {
-            YamlReader yamlReader = new YamlReader(new FileReader(file));
-            Object object = yamlReader.read();
+            InputStream input = new FileInputStream(file);
+            Yaml yaml = new Yaml();
+            Object object = yaml.load(input);
             if (object instanceof ArrayList) {
                 ArrayList entries = (ArrayList) object;
                 for (Object o : entries) {
@@ -51,8 +52,6 @@ class ManualDependencyReader implements DependencyReader {
             }
         } catch (FileNotFoundException e) {
             System.out.println("File '" + file.getAbsolutePath() + "' could not be found.");
-        } catch (YamlException e) {
-            System.out.println("File '" + file.getAbsolutePath() + "' could not be parsed. Is it in YAML format?");
         }
 
         return result;
@@ -60,7 +59,7 @@ class ManualDependencyReader implements DependencyReader {
 
     private String getValueFromHash(Map map, String key) {
         if (map.containsKey(key)) {
-            return (String) map.get(key);
+            return map.get(key).toString();
         }
         return "";
     }
