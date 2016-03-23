@@ -27,7 +27,7 @@ public class Writer {
         uploadToServer(json);
       }
     } catch (IOException e) {
-      throw new IllegalArgumentException("Could not create JSON output.");
+      throw new IllegalArgumentException("Could not create JSON output." ,e);
     }
   }
 

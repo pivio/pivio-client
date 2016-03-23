@@ -1,11 +1,11 @@
 ID: 349534957349857387534
-Team: Pivio
-documentversion: 1
+owner: Pivio
+document_version: 1
 Type: Tool
 Description: Reads descriptions out of source repositories and extracts information to send it to the pivio server.
 Name: Pivio Client
 Links:
-  Homepage: http://none
+  Homepage: http://wiki.local
   Buildchain: http://ci.local
 
 Contact: Oliver Wehrens
