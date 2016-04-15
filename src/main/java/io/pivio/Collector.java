@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ class Collector {
     final static String DEPENDENCIES = "software_dependencies";
     final static String VCS = "vcsroot";
 
-    Map<String, Object> gatherSingleFile() throws IllegalArgumentException {
+    Map<String, Object> gatherSingleFile()  {
         Map<String, Object> document = readFile(configuration.getYamlFilePath());
         if (!configuration.hasOption(Configuration.SWITCH_USE_THIS_YAML_FILE) &&
                 !configuration.hasOption(Configuration.SWITCH_YAML_DIR)) {
@@ -47,12 +48,12 @@ class Collector {
         try {
             document = reader.readYamlFile(file);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Could not find valid config file. " + e.getLocalizedMessage());
+            throw new PivioFileNotFoundException("Could not find valid config file. " + e.getLocalizedMessage());
         }
         return document;
     }
 
-    List<Map<String, Object>> gatherMultipleFiles() throws IllegalArgumentException {
+    List<Map<String, Object>> gatherMultipleFiles() throws FileNotFoundException {
         List<Map<String, Object>> documents = new ArrayList<>();
         String parameter = configuration.getParameter(Configuration.SWITCH_YAML_DIR);
         try {

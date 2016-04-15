@@ -47,6 +47,13 @@ public class Application implements CommandLineRunner {
                     writer.write(document);
                 }
             }
+        } catch (PivioFileNotFoundException e) {
+            System.out.println(e.getMessage());
+            if (configuration.hasOption(Configuration.SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0)) {
+                System.exit(0);
+            } else {
+                System.exit(1);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.exit(1);

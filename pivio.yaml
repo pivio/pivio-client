@@ -4,6 +4,8 @@ document_version: 1
 Type: Tool
 Description: Reads descriptions out of source repositories and extracts information to send it to the pivio server.
 Name: Pivio Client
+tag:
+ - pivio
 Links:
   Homepage: http://wiki.local
   Buildchain: http://ci.local

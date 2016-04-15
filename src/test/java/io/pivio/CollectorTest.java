@@ -62,7 +62,7 @@ public class CollectorTest {
         try {
             collector.gatherSingleFile();
             fail("Should have thrown Exception.");
-        } catch (IllegalArgumentException e) {
+        } catch (PivioFileNotFoundException e) {
             assertThat(e).isNotNull();
         }
     }
