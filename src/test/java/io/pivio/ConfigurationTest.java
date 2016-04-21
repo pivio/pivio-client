@@ -84,17 +84,17 @@ public class ConfigurationTest {
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
 
-        String option = "server";
+        String option = Configuration.SWITCH_SERVICE_URL;
         String parameter = configuration.getParameter(option);
         assertThat(parameter).isEqualTo("http://localhost:9123");
     }
 
     @Test
     public void testGetParameterUploadServerSpecified() throws Exception {
-        String[] args = {"-server", "http://test"};
+        String[] args = {"-"+Configuration.SWITCH_SERVICE_URL, "http://test"};
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
-        String option = "server";
+        String option = Configuration.SWITCH_SERVICE_URL;
         String parameter = configuration.getParameter(option);
         assertThat(parameter).isEqualTo("http://test");
     }

@@ -16,10 +16,10 @@ public class Configuration {
 
     public final static String SWITCH_SOURCE_DIR = "source";
     public final static String SWITCH_GIT_REMOTE = "gitremote";
-    public final static String SWITCH_SERVER_URL = "server";
+    public final static String SWITCH_SERVICE_URL = "serviceurl";
     public final static String SWITCH_HELP = "help";
     public final static String SWITCH_USE_THIS_YAML_FILE = "file";
-    public final static String SWITCH_DEFAULT_YAML_FILE_NAME = "defaultfile";
+    public final static String SWITCH_DEFAULT_YAML_FILE_NAME = "defaultconfigname";
     public final static String SWITCH_DRY_RUN = "dry";
     public final static String SWITCH_CONFIG = "config";
     public final static String SWITCH_VERBOSE = "verbose";
@@ -33,11 +33,11 @@ public class Configuration {
     @Value(value = "${app.git.remote}")
     private String DEFAULT_VALUE_GIT_REMOTE = "origin";
     @Value(value = "${app.server.url}")
-    private String DEFAULT_VALUE_SERVER_URL = "http://localhost:9123";
+    private String DEFAULT_VALUE_SERVICE_URL = "http://localhost:9123";
     @Value(value = "${app.yaml.file}")
     private String DEFAULT_VALUE_YAML_FILE_NAME = "pivio.yaml";
     @Value(value = "${app.config.file}")
-    private String DEFAULT_CONFIG_FILE = "/etc/pivio.properties";
+    private String DEFAULT_CONFIG_FILE = "/etc/pivio-client.properties";
     @Value(value = "${app.dependencies.manual}")
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
 
@@ -80,9 +80,9 @@ public class Configuration {
                 defaultValue = getValueFromConfigFile(SWITCH_GIT_REMOTE, DEFAULT_VALUE_GIT_REMOTE);
                 result = commandLine.getOptionValue(SWITCH_GIT_REMOTE, defaultValue);
                 break;
-            case SWITCH_SERVER_URL:
-                defaultValue = getValueFromConfigFile(SWITCH_SERVER_URL, DEFAULT_VALUE_SERVER_URL);
-                result = commandLine.getOptionValue(SWITCH_SERVER_URL, defaultValue);
+            case SWITCH_SERVICE_URL:
+                defaultValue = getValueFromConfigFile(SWITCH_SERVICE_URL, DEFAULT_VALUE_SERVICE_URL);
+                result = commandLine.getOptionValue(SWITCH_SERVICE_URL, defaultValue);
                 break;
             case SWITCH_USE_THIS_YAML_FILE:
                 defaultValue = getValueFromConfigFile(SWITCH_USE_THIS_YAML_FILE, DEFAULT_VALUE_YAML_FILE_NAME);
@@ -139,13 +139,14 @@ public class Configuration {
         options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false, "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
         options.addOption(SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0, false, "Fail with Exit(0) when a pivio document was not found in the source directory. Default is 1 in such as case.");
 
-        options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read.");
+        options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read and each file is treated as self contained definition of an artefact.");
         options.addOption(SWITCH_SOURCE_DIR, true, "The directory with the sources containing the pivio.yaml file.");
-        options.addOption(SWITCH_CONFIG, true, "Defines the config for all parameters. This is a properties file with all the switched listed here.");
+        options.addOption(SWITCH_CONFIG, true, "Defines the config for all parameters. This is a properties file with some the switches listed here. Default location is /etc/pivio-client.properties.");
         options.addOption(SWITCH_GIT_REMOTE, true, "Uses the given argument as origin for Git VCS remote detection (default: origin). This is useful if you have multiple remotes configured and/or differently named.");
-        options.addOption(SWITCH_SERVER_URL, true, "The location of the pivio server (default: " + DEFAULT_VALUE_SERVER_URL + ").");
+        options.addOption(SWITCH_SERVICE_URL, true, "The url of the pivio service (default: " + DEFAULT_VALUE_SERVICE_URL + ").");
         options.addOption(SWITCH_USE_THIS_YAML_FILE, true, "Full path to a file containing the data in yaml format. Does not have to be named pivio.yaml. This overwrites the -source switch and only information in this file will be collected.");
-        options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true, "Defines the filename of your yaml metadata.");
+        options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true, "Defines the name of your yaml metadata. The suffix '.yaml' will be always appended. Defaults to 'pivio'.");
+        options.addOption(SWITCH_MANUAL_DEPENDENCIES, true, "Defines the file which holds manual defined dependencies. Defaults to: pivio/dependencies.yaml.");
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);
     }

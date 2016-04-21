@@ -32,7 +32,7 @@ public class Writer {
     }
 
     private void uploadToServer(String json) {
-        String serverUrl = configuration.getParameter(Configuration.SWITCH_SERVER_URL);
+        String serverUrl = configuration.getParameter(Configuration.SWITCH_SERVICE_URL);
         if (configuration.isVerbose()) {
             System.out.println("Uploading  to " + serverUrl + ": " + json);
         }
