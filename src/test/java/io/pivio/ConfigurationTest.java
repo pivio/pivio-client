@@ -140,6 +140,15 @@ public class ConfigurationTest {
     }
 
     @Test
+    public void testYamlPathSourceDirDefault() throws Exception {
+        String[] args = {};
+        CommandLine commandLine = configuration.parseCommandLine(args);
+        configuration.setParameter(commandLine);
+
+        assertThat(configuration.getYamlFilePath()).isEqualTo(System.getProperty("user.dir")+"/pivio.yaml");
+    }
+
+    @Test
     public void testParameterFileOverwritesParameterSource() throws Exception {
         String[] args = {"-source", "/tmp", "-file", "/var/test.yaml"};
         CommandLine commandLine = configuration.parseCommandLine(args);
