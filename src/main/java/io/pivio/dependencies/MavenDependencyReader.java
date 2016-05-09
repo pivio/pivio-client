@@ -1,5 +1,7 @@
 package io.pivio.dependencies;
 
+import io.pivio.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -11,6 +13,8 @@ import static org.joox.JOOX.$;
 @Service
 class MavenDependencyReader  {
 
+    @Autowired
+    Logger log;
 
     public List<Dependency> readDependencies(File licenceFile)  {
         List<Dependency> result = new ArrayList<>();
@@ -28,7 +32,7 @@ class MavenDependencyReader  {
                 });
             });
         } catch (Exception e) {
-            System.out.println("The file " + licenceFile + " could not be read.");
+            log.output("The file " + licenceFile + " could not be read.");
         }
         return result;
     }

@@ -27,8 +27,11 @@ class Collector {
     @Autowired
     Configuration configuration;
 
-    final static String DEPENDENCIES = "software_dependencies";
-    final static String VCS = "vcsroot";
+    @Autowired
+    Logger log;
+
+    static final String DEPENDENCIES = "software_dependencies";
+    static final String VCS = "vcsroot";
 
     Map<String, Object> gatherSingleFile()  {
         Map<String, Object> document = readFile(configuration.getYamlFilePath());
@@ -37,9 +40,7 @@ class Collector {
             document.put(DEPENDENCIES, dependenciesReader.getDependencies());
             document.put(VCS, vcsReader.getVCSRoot());
         }
-        if (configuration.isVerbose()) {
-            System.out.println("Final result has " + document.size() + " entries.");
-        }
+        log.verboseOutput("Final result has " + document.size() + " entries.");
         return document;
     }
 
@@ -60,11 +61,11 @@ class Collector {
             Files.list(new File(parameter).toPath())
                     .filter(p -> p.getFileName().toString().endsWith(".yaml"))
                     .forEach(yaml -> {
-                        System.out.println("Reading file: "+yaml);
+                        log.output("Reading file: "+yaml);
                         documents.add(readFile(yaml.toString()));
                     });
         } catch (Exception e) {
-            e.printStackTrace();
+            log.output(e.getMessage());
         }
         return documents;
     }

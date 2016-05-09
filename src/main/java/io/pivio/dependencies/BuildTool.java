@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,9 @@ class BuildTool {
     @Autowired
     Configuration configuration;
 
+    @Autowired
+    Logger log;
+
     @PostConstruct
     public void loadBuildConfigs() {
         detectableBuildFiles.put(GRADLE, gradleDependencyReader);
@@ -47,13 +51,9 @@ class BuildTool {
         DependencyReader[] result = {manualDependencyReader};
         detectableBuildFiles.forEach((buildToolFile, reader) -> {
             String fileNameForBuildToolConfig = directory.getAbsolutePath() + "/" + buildToolFile;
-            if (configuration.isVerbose()) {
-                System.out.println("Checking for '"+fileNameForBuildToolConfig+"'.");
-            }
+            log.verboseOutput("Checking for '"+fileNameForBuildToolConfig+"'.");
             if (new File(fileNameForBuildToolConfig).exists()) {
-                if (configuration.isVerbose()) {
-                    System.out.println("Found "+fileNameForBuildToolConfig+".");
-                }
+                log.verboseOutput("Found "+fileNameForBuildToolConfig+".");
                 result[0] = reader;
             }
         });

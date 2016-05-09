@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class GradleDependencyReaderTest {
 
     GradleDependencyReader gradleLicenseReader;
     Configuration configurationMock;
+    Logger loggerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -27,6 +29,8 @@ public class GradleDependencyReaderTest {
 
         configurationMock = mock(Configuration.class);
         gradleLicenseReader.configuration = configurationMock;
+        loggerMock = mock(Logger.class);
+        gradleLicenseReader.log = loggerMock;
         when(configurationMock.isVerbose()).thenReturn(true);
     }
 

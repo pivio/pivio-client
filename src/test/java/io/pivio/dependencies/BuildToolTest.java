@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,6 +16,7 @@ public class BuildToolTest {
     public BuildTool buildTool;
 
     Configuration configurationMock;
+    Logger loggerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -27,6 +29,8 @@ public class BuildToolTest {
 
         configurationMock = mock(Configuration.class);
         buildTool.configuration = configurationMock;
+        loggerMock = mock(Logger.class);
+        buildTool.log = loggerMock;
         when(configurationMock.isVerbose()).thenReturn(false);
 
     }

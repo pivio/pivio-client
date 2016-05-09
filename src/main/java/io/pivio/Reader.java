@@ -19,6 +19,9 @@ class Reader {
     @Autowired
     Configuration configuration;
 
+    @Autowired
+    Logger log;
+
     Map<String, Object> makeLowerCaseKeys(final Map<String, Object> map) {
         Map<String, Object> result = new HashMap<>();
         Set<String> keys = map.keySet();
@@ -26,9 +29,7 @@ class Reader {
             Object value = map.get(key);
             result.put(key.toLowerCase(), value);
         });
-        if (configuration.isVerbose()) {
-            System.out.println("Yaml file has " + result.size() + " entries.");
-        }
+        log.verboseOutput("Yaml file has " + result.size() + " entries.");
         return result;
     }
 

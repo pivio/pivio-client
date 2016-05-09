@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -21,6 +22,9 @@ class ManualDependencyReader implements DependencyReader {
 
     @Autowired
     public Configuration configuration;
+
+    @Autowired
+    Logger log;
 
     @Override
     public List<Dependency> readDependencies(String sourceRootDirectory) {
@@ -51,7 +55,7 @@ class ManualDependencyReader implements DependencyReader {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File '" + file.getAbsolutePath() + "' could not be found.");
+            log.output("File '" + file.getAbsolutePath() + "' could not be found.");
         }
 
         return result;

@@ -1,5 +1,6 @@
 package io.pivio.dependencies;
 
+import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,16 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 
 public class MavenParentPomDependencyReaderTest {
 
     public MavenParentPomDependencyReader reader;
+    Logger loggerMock;
+
 
     @Before
     public void setup() {
         reader = new MavenParentPomDependencyReader();
         reader.mavenDependencyReader = new MavenDependencyReader();
+        loggerMock = mock(Logger.class);
+        reader.log = loggerMock;
     }
 
     @Test

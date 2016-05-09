@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,14 @@ class GradleDependencyReader implements DependencyReader {
     @Autowired
     Configuration configuration;
 
+    @Autowired
+    Logger log;
 
     public List<Dependency> readDependencies(String sourceRootDirectory) {
         try {
             return readFile(new File(sourceRootDirectory + "/" + defaultLicenseFile));
         } catch (Exception e) {
-            if (configuration.isVerbose()) {
-                System.out.println("The file " + defaultLicenseFile + " could not be read.");
-            }
+            log.verboseOutput("The file " + defaultLicenseFile + " could not be read.");
         }
         return new ArrayList<>();
     }
@@ -41,9 +42,7 @@ class GradleDependencyReader implements DependencyReader {
             });
             result.add(new Dependency(depName, depVersion, licensesForDependency));
         });
-        if (configuration.isVerbose()) {
-            System.out.println("Found " + result.size() + " dependencies.");
-        }
+        log.verboseOutput("Found " + result.size() + " dependencies.");
         return result;
     }
 }

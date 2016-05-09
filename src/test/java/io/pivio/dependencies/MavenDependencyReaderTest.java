@@ -1,5 +1,6 @@
 package io.pivio.dependencies;
 
+import io.pivio.Logger;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,15 +9,20 @@ import java.io.File;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 
 public class MavenDependencyReaderTest {
 
     private MavenDependencyReader mavenLicenseReader;
+    Logger loggerMock;
+
 
     @Before
     public void setUp() throws Exception {
         mavenLicenseReader = new MavenDependencyReader();
+        loggerMock = mock(Logger.class);
+        mavenLicenseReader.log = loggerMock;
     }
 
     @Test

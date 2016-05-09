@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,10 +16,14 @@ public class ManualDependencyReaderTest {
 
 
     private ManualDependencyReader manualDependencyReader;
+    Logger loggerMock;
+
 
     @Before
     public void setUp() throws Exception {
         manualDependencyReader = new ManualDependencyReader();
+        loggerMock = mock(Logger.class);
+        manualDependencyReader.log = loggerMock;
     }
 
     @Test

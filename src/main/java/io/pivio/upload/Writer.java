@@ -3,6 +3,7 @@ package io.pivio.upload;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class Writer {
 
     @Autowired
     private Configuration configuration;
+
+    @Autowired
+    Logger log;
 
     public void write(Map<String, Object> document) throws IllegalArgumentException {
         try {
@@ -33,9 +37,7 @@ public class Writer {
 
     private void uploadToServer(String json) {
         String serverUrl = configuration.getParameter(Configuration.SWITCH_SERVICE_URL);
-        if (configuration.isVerbose()) {
-            System.out.println("Uploading  to " + serverUrl + ": " + json);
-        }
+        log.verboseOutput("Uploading  to " + serverUrl + ": " + json);
 
         RestTemplate rt = new RestTemplate();
         rt.setErrorHandler(new RestCallErrorHandler());
@@ -45,8 +47,8 @@ public class Writer {
             ResponseEntity<JsonNode> responseEntity = rt.exchange(serverUrl, HttpMethod.POST, new HttpEntity<>(json, headers), JsonNode.class);
             if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
                 handleNonCreatedStatusCode(serverUrl, responseEntity, json);
-            } else if (configuration.isVerbose()) {
-                System.out.println("Upload to " + serverUrl + " successful.");
+            } else  {
+                log.verboseOutput("Upload to " + serverUrl + " successful.");
             }
         } catch (ResourceAccessException e) {
             handleConnectionRefused(serverUrl);
@@ -58,7 +60,7 @@ public class Writer {
         if (configuration.hasOption(Configuration.SWITCH_UPLOAD_FAILS_EXIT1)) {
             throw new RuntimeException(message);
         } else {
-            System.out.println(message);
+            log.output(message);
         }
     }
 
@@ -67,7 +69,7 @@ public class Writer {
         if (configuration.hasOption(Configuration.SWITCH_UPLOAD_FAILS_EXIT1)) {
             throw new RuntimeException(message);
         } else {
-            System.out.println(message);
+            log.output(message);
         }
     }
 }

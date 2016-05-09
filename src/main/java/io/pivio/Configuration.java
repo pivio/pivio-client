@@ -70,7 +70,7 @@ public class Configuration {
 
     public String getParameter(String option) {
         String result = "";
-        String defaultValue = "";
+        String defaultValue;
         switch (option) {
             case SWITCH_SOURCE_DIR:
                 defaultValue = getValueFromConfigFile(SWITCH_SOURCE_DIR, Paths.get(DEFAULT_VALUE_SOURCE_DIR).toAbsolutePath().normalize().toString());

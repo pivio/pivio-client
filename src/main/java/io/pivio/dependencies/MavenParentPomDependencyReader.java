@@ -1,5 +1,6 @@
 package io.pivio.dependencies;
 
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ class MavenParentPomDependencyReader implements DependencyReader {
     @Autowired
     MavenDependencyReader mavenDependencyReader;
 
+    @Autowired
+    Logger log;
+
     MavenParentPomDependencyReader() {
         nonMavenDirs.add("src");
         nonMavenDirs.add("target");
@@ -33,7 +37,7 @@ class MavenParentPomDependencyReader implements DependencyReader {
             dependencies = mavenDependencyReader.readDependencies(new File(licenseFile));
             dependencies.addAll(readDependenciesFromSubmodules(sourceRootDirectory));
         } catch (Exception e) {
-            System.out.println("The file " + defaultLicenseFile + " could not be read.");
+            log.output("The file " + defaultLicenseFile + " could not be read.");
         }
         return removeDuplicates(dependencies);
     }
