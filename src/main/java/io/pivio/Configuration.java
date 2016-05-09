@@ -112,17 +112,25 @@ public class Configuration {
         boolean configFileViaSwitchDoesNotExist = !config.exists() && !config.getAbsolutePath().equals(DEFAULT_CONFIG_FILE);
         if (configFileViaSwitchDoesNotExist) {
             System.out.println("Provided config '" + configFileLocation + "' file does not exist.");
-        }
-        try {
-            InputStream in = new FileInputStream(config);
-            Properties prop = new Properties();
-            prop.load(in);
-            if (prop.containsKey(option)) {
-                result = prop.getProperty(option);
+        } else {
+            InputStream in = null;
+            try {
+                in = new FileInputStream(config);
+                Properties prop = new Properties();
+                prop.load(in);
+                if (prop.containsKey(option)) {
+                    result = prop.getProperty(option);
+                }
+            } catch (IOException ignored) {
+            } finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException ignored) {
+                    }
+                }
             }
-        } catch (IOException ignored) {
         }
-
         return result;
     }
 
