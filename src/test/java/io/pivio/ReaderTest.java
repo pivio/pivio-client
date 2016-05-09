@@ -64,4 +64,17 @@ public class ReaderTest {
 
         assertThat(result).isEqualTo(stringObjectMap);
     }
+
+    @Test
+    public void testFileDoesNotExists() throws Exception {
+        Map<String, Object> result = reader.readYamlFile("src/test/resources/nonExistingYamlFile.yaml");
+        assertThat(result).hasSize(0);
+    }
+
+    @Test
+    public void testNonMapYamlFile() throws Exception {
+        Map<String, Object> result = reader.readYamlFile("src/test/resources/NonMapYamlFile.yaml");
+        assertThat(result).hasSize(0);
+    }
+
 }

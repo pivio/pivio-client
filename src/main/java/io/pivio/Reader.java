@@ -34,11 +34,16 @@ class Reader {
     }
 
     Map<String, Object> readYamlFile(String yamlfile) throws FileNotFoundException {
-        InputStream input = new FileInputStream(new File(yamlfile));
-        Yaml yaml = new Yaml();
-        Object data = yaml.load(input);
-        if (data instanceof Map) {
-            return makeLowerCaseKeys((Map<String, Object>) data);
+        File file = new File(yamlfile);
+        if (file.exists()) {
+            InputStream input = new FileInputStream(file);
+            Yaml yaml = new Yaml();
+            Object data = yaml.load(input);
+            if (data instanceof Map) {
+                return makeLowerCaseKeys((Map<String, Object>) data);
+            } else {
+                return Collections.emptyMap();
+            }
         } else {
             return Collections.emptyMap();
         }

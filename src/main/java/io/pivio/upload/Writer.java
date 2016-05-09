@@ -26,7 +26,7 @@ public class Writer {
         try {
             String json = new ObjectMapper().writeValueAsString(document);
             if (configuration.hasOption(Configuration.SWITCH_DRY_RUN)) {
-                System.out.println("\n " + json + "\n");
+                log.output("\n " + json + "\n");
             } else {
                 uploadToServer(json);
             }

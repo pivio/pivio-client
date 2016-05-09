@@ -44,10 +44,6 @@ class BuildTool {
     }
 
     DependencyReader getDependencyReader(File directory) {
-        return getBuildToolInfo(directory);
-    }
-
-    DependencyReader getBuildToolInfo(File directory) {
         DependencyReader[] result = {manualDependencyReader};
         detectableBuildFiles.forEach((buildToolFile, reader) -> {
             String fileNameForBuildToolConfig = directory.getAbsolutePath() + "/" + buildToolFile;

@@ -37,25 +37,25 @@ public class BuildToolTest {
 
     @Test
     public void testDetectedGradleBuildTool() throws Exception {
-        DependencyReader buildToolInfo = buildTool.getBuildToolInfo(new File("src/test/resources/buildtool/gradle"));
+        DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/gradle"));
         assertThat(buildToolInfo).isInstanceOf(GradleDependencyReader.class);
     }
 
     @Test
     public void testDetectedMavenBuildTool() throws Exception {
-        DependencyReader buildToolInfo = buildTool.getBuildToolInfo(new File("src/test/resources/buildtool/maven"));
+        DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/maven"));
         assertThat(buildToolInfo).isInstanceOf(MavenParentPomDependencyReader.class);
     }
 
     @Test
     public void testDetectedSbtBuildTool() throws Exception {
-        DependencyReader buildToolInfo = buildTool.getBuildToolInfo(new File("src/test/resources/buildtool/sbt"));
+        DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/sbt"));
         assertThat(buildToolInfo).isInstanceOf(SbtDependencyReader.class);
     }
 
     @Test
     public void testDetectedManualBuildTool() throws Exception {
-        DependencyReader buildToolInfo = buildTool.getBuildToolInfo(new File("src/test/resources/buildtool/none"));
+        DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/none"));
         assertThat(buildToolInfo).isInstanceOf(ManualDependencyReader.class);
     }
 
