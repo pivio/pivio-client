@@ -31,7 +31,7 @@ public class SbtDependencyReaderTest {
     @Test
     public void testReadDependenciesPackage() throws Exception {
         List<Dependency> dependencies = sbtDependencyReader.readDependencies("src/test/resources/dependencies/sbt/");
-        assertThat(dependencies.get(0).name).isEqualTo("com.github.nscala-time.nscala-time_2.11");
+        assertThat(dependencies.get(0).name).isEqualTo("com.github.nscala-time:nscala-time_2.11");
     }
 
 }

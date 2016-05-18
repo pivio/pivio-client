@@ -42,7 +42,7 @@ class SbtDependencyReader implements DependencyReader {
     private Dependency getDependency(String line) {
         String[] splitIntoFields = line.split("\\|");
         String[] dependencyInfo = splitIntoFields[2].split("#");
-        String dependencyPackage = dependencyInfo[0].trim() + "." + dependencyInfo[1].trim();
+        String dependencyPackage = dependencyInfo[0].trim() + ":" + dependencyInfo[1].trim();
         String dependencyVersion = dependencyInfo[2].trim();
         String licenseName = getCharsBetween(splitIntoFields[1], "\\[", "\\]");
         String licenseUrl = getCharsBetween(splitIntoFields[1], "\\(", "\\)");
