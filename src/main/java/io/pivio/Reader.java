@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +21,22 @@ class Reader {
     @Autowired
     Logger log;
 
+    Map<String, Object> readYamlFile(String yamlfile) throws FileNotFoundException {
+        File file = new File(yamlfile);
+        if (file.exists()) {
+            InputStream input = new FileInputStream(file);
+            Yaml yaml = new Yaml();
+            Object data = yaml.load(input);
+            if (data instanceof Map) {
+                return makeLowerCaseKeys((Map<String, Object>) data);
+            } else {
+                throw new FileNotFoundException("Data in " + yamlfile + " is not valid.");
+            }
+        } else {
+            throw new FileNotFoundException("Could not find " + yamlfile + ".");
+        }
+    }
+
     Map<String, Object> makeLowerCaseKeys(final Map<String, Object> map) {
         Map<String, Object> result = new HashMap<>();
         Set<String> keys = map.keySet();
@@ -33,19 +48,5 @@ class Reader {
         return result;
     }
 
-    Map<String, Object> readYamlFile(String yamlfile) throws FileNotFoundException {
-        File file = new File(yamlfile);
-        if (file.exists()) {
-            InputStream input = new FileInputStream(file);
-            Yaml yaml = new Yaml();
-            Object data = yaml.load(input);
-            if (data instanceof Map) {
-                return makeLowerCaseKeys((Map<String, Object>) data);
-            } else {
-                return Collections.emptyMap();
-            }
-        } else {
-            return Collections.emptyMap();
-        }
-    }
+
 }

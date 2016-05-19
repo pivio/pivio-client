@@ -2,10 +2,12 @@ package io.pivio;
 
 import io.pivio.upload.Writer;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -51,26 +53,30 @@ public class Application implements CommandLineRunner {
                     writer.write(document);
                 }
             }
-        } catch (PivioFileNotFoundException e) {
+
+        } catch (MissingIdException missingId) {
+            log.output(missingId.getMessage());
+            System.exit(0);
+        } catch (PivioFileNotFoundException | FileNotFoundException e) {
             log.output(e.getMessage());
             if (configuration.hasOption(Configuration.SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0)) {
                 System.exit(0);
             } else {
                 System.exit(1);
             }
-        } catch (Exception e) {
-            log.output(e.getMessage());
+        } catch (ParseException e) {
+            log.output("Could not parse the command line parameters. ");
             System.exit(1);
         }
     }
 
-    void checkForIdElement(Map<String, Object> document) throws Exception {
+    void checkForIdElement(Map<String, Object> document) throws MissingIdException {
         if (!document.containsKey("id")) {
             StringBuilder content = new StringBuilder();
             document.keySet().forEach(key -> {
                 content.append(document.get(key));
             });
-            throw new Exception("You need to have an id element in your configuration. (" + content + ")");
+            throw new IllegalArgumentException("You need to have an id element in your configuration. (" + content + ")");
         }
     }
 

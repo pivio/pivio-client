@@ -8,10 +8,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,14 +69,12 @@ public class ReaderTest {
 
     @Test
     public void testFileDoesNotExists() throws Exception {
-        Map<String, Object> result = reader.readYamlFile("src/test/resources/nonExistingYamlFile.yaml");
-        assertThat(result).hasSize(0);
+        assertThatThrownBy(() -> reader.readYamlFile("src/test/resources/nonExistingYamlFile.yaml")).isInstanceOf(FileNotFoundException.class).hasMessageContaining("Could not find src/test/resources/nonExistingYamlFile.yaml.");
     }
 
     @Test
     public void testNonMapYamlFile() throws Exception {
-        Map<String, Object> result = reader.readYamlFile("src/test/resources/NonMapYamlFile.yaml");
-        assertThat(result).hasSize(0);
+        assertThatThrownBy(() -> reader.readYamlFile("src/test/resources/NonMapYamlFile.yaml")).isInstanceOf(FileNotFoundException.class).hasMessageContaining("Data in src/test/resources/NonMapYamlFile.yaml is not valid.");
     }
 
 }
