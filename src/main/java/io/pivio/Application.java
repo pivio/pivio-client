@@ -73,10 +73,8 @@ public class Application implements CommandLineRunner {
     void checkForIdElement(Map<String, Object> document) throws MissingIdException {
         if (!document.containsKey("id")) {
             StringBuilder content = new StringBuilder();
-            document.keySet().forEach(key -> {
-                content.append(document.get(key));
-            });
-            throw new IllegalArgumentException("You need to have an id element in your configuration. (" + content + ")");
+            document.keySet().forEach(key -> content.append(document.get(key)));
+            throw new MissingIdException("You need to have an id element in your configuration. (" + content + ")");
         }
     }
 
