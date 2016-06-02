@@ -3,6 +3,7 @@ package io.pivio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +27,16 @@ class Reader {
         if (file.exists()) {
             InputStream input = new FileInputStream(file);
             Yaml yaml = new Yaml();
-            Object data = yaml.load(input);
+            Object data;
+            try {
+                data = yaml.load(input);
+            } catch (YAMLException ye) {
+                throw new PivioYamlParserException("Data in " + yamlfile + " is not valid: "+ye.getMessage());
+            }
             if (data instanceof Map) {
                 return makeLowerCaseKeys((Map<String, Object>) data);
             } else {
-                throw new FileNotFoundException("Data in " + yamlfile + " is not valid.");
+                throw new PivioYamlParserException("Data in " + yamlfile + " is not valid.");
             }
         } else {
             throw new FileNotFoundException("Could not find " + yamlfile + ".");

@@ -74,7 +74,12 @@ public class ReaderTest {
 
     @Test
     public void testNonMapYamlFile() throws Exception {
-        assertThatThrownBy(() -> reader.readYamlFile("src/test/resources/NonMapYamlFile.yaml")).isInstanceOf(FileNotFoundException.class).hasMessageContaining("Data in src/test/resources/NonMapYamlFile.yaml is not valid.");
+        assertThatThrownBy(() -> reader.readYamlFile("src/test/resources/NonMapYamlFile.yaml")).isInstanceOf(PivioYamlParserException.class).hasMessageContaining("Data in src/test/resources/NonMapYamlFile.yaml is not valid.");
+    }
+
+    @Test
+    public void testYamlFile() throws Exception {
+        assertThatThrownBy(() -> reader.readYamlFile("src/test/resources/broken-yaml.yaml")).isInstanceOf(PivioYamlParserException.class).hasMessageContaining("Data in src/test/resources/broken-yaml.yaml is not valid");
     }
 
 }

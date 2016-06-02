@@ -54,9 +54,9 @@ public class Application implements CommandLineRunner {
                 }
             }
 
-        } catch (MissingIdException missingId) {
-            log.output(missingId.getMessage());
-            System.exit(0);
+        } catch (PivioMissingIdException | PivioYamlParserException e) {
+            log.output(e.getMessage());
+            System.exit(1);
         } catch (PivioFileNotFoundException | FileNotFoundException e) {
             log.output(e.getMessage());
             if (configuration.hasOption(Configuration.SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0)) {
@@ -65,16 +65,16 @@ public class Application implements CommandLineRunner {
                 System.exit(1);
             }
         } catch (ParseException e) {
-            log.output("Could not parse the command line parameters. ");
+            log.output("Could not parse the command line parameters.");
             System.exit(1);
         }
     }
 
-    void checkForIdElement(Map<String, Object> document) throws MissingIdException {
+    void checkForIdElement(Map<String, Object> document) throws PivioMissingIdException {
         if (!document.containsKey("id")) {
             StringBuilder content = new StringBuilder();
             document.keySet().forEach(key -> content.append(document.get(key)));
-            throw new MissingIdException("You need to have an id element in your configuration. (" + content + ")");
+            throw new PivioMissingIdException("You need to have an id element in your configuration. (" + content + ")");
         }
     }
 
