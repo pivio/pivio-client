@@ -83,6 +83,10 @@ You can configure the following values:
 
 The format is key:value as in Java properties files.
 
+# Exit codes
+
+If a Yaml file is not a valid yaml file the client will exit with code 1.
+
 # Format
 
 The format is defined in https://github.com/pivio/documentation/tree/master/dataformat. At the moment this client only 
