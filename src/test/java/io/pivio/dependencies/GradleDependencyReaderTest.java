@@ -43,7 +43,7 @@ public class GradleDependencyReaderTest {
     @Test
     public void testReadFileContainsOneDependencyWith2Licenses() throws Exception {
         List<Dependency> result = gradleLicenseReader.readFile(new File("src/test/resources/gradle-dependency-license-one-dependency.xml"));
-        Assertions.assertThat(result.get(0).licences).hasSize(2);
+        Assertions.assertThat(result.get(0).getLicences()).hasSize(2);
     }
 
     @Test

@@ -44,7 +44,7 @@ public class ManualDependencyReaderTest {
     public void testReadOneDependencyLicense() throws Exception {
         List<Dependency> dependencies = manualDependencyReader.readFile(new File("src/test/resources/manual-dependencies-one.yaml"));
 
-        assertThat(dependencies.get(0).licences.get(0).name).isEqualTo("LIC");
+        assertThat(dependencies.get(0).getLicences().get(0).name).isEqualTo("LIC");
     }
 
     @Test

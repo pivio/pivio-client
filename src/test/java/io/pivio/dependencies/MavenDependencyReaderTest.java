@@ -40,7 +40,7 @@ public class MavenDependencyReaderTest {
 
         List<Dependency> dependencies = mavenLicenseReader.readDependencies(new File(licenseFile));
 
-        Assertions.assertThat(dependencies.get(0).licences).hasSize(2);
+        Assertions.assertThat(dependencies.get(0).getLicences()).hasSize(2);
     }
 
     @Test
