@@ -19,6 +19,9 @@ public class DependencyTest {
         Dependency dependency = new Dependency("softwarename", "versionstring", licenses);
 
         assertThat(dependency.getLicences().get(0).name).isEqualTo("name1");
+        assertThat(dependency.getLicences().get(1).name).isEqualTo("name2");
+        assertThat(dependency.getLicences().get(2).name).isEqualTo("name3");
+        assertThat(dependency.getLicences().get(3).name).isEqualTo("name5");
     }
 
 }
