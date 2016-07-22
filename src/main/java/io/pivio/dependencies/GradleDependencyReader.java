@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.joox.JOOX.$;
@@ -40,6 +41,7 @@ class GradleDependencyReader implements DependencyReader {
             $(dependency).children("license").each(license -> {
                 licensesForDependency.add(new License($(license).attr("name"), $(license).attr("url")));
             });
+            Collections.sort(licensesForDependency);
             result.add(new Dependency(depName, depVersion, licensesForDependency));
         });
         log.verboseOutput("Found " + result.size() + " dependencies.");

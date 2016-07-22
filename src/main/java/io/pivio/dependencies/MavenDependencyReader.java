@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.joox.JOOX.$;
@@ -28,6 +29,7 @@ class MavenDependencyReader  {
                     $(dependency).child("licenses").children("license").each(license -> {
                         licenses.add(new License($(license).child("name").text(), $(license).child("url").text()));
                     });
+                    Collections.sort(licenses);
                     result.add(new Dependency(depText, version, licenses));
                 });
             });
