@@ -40,7 +40,9 @@ class Collector {
         if (!configuration.hasOption(Configuration.SWITCH_USE_THIS_YAML_FILE) &&
                 !configuration.hasOption(Configuration.SWITCH_YAML_DIR)) {
             List<Dependency> dependencies = dependenciesReader.getDependencies();
-            document.put(DEPENDENCIES, dependencies);
+            if (!dependencies.isEmpty()) {
+                document.put(DEPENDENCIES, dependencies);
+            }
             document.put(VCS, vcsReader.getVCSRoot());
         }
         log.verboseOutput("Final result has " + document.size() + " entries.");
