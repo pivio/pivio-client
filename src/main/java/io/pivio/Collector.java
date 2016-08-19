@@ -17,31 +17,29 @@ import java.util.Map;
 @Service
 class Collector {
 
-    @Autowired
-    Reader reader;
-
-    @Autowired
-    DependenciesReader dependenciesReader;
-
-    @Autowired
-    VcsReader vcsReader;
-
-    @Autowired
-    Configuration configuration;
-
-    @Autowired
-    Logger log;
-
     static final String DEPENDENCIES = "software_dependencies";
     static final String VCS = "vcsroot";
+    @Autowired
+    Reader reader;
+    @Autowired
+    DependenciesReader dependenciesReader;
+    @Autowired
+    VcsReader vcsReader;
+    @Autowired
+    Configuration configuration;
+    @Autowired
+    Logger log;
 
     Map<String, Object> gatherSingleFile() {
         Map<String, Object> document = readFile(configuration.getYamlFilePath());
         if (!configuration.hasOption(Configuration.SWITCH_USE_THIS_YAML_FILE) &&
                 !configuration.hasOption(Configuration.SWITCH_YAML_DIR)) {
             List<Dependency> dependencies = dependenciesReader.getDependencies();
-            if (!dependencies.isEmpty()) {
+            boolean hasDependenciesDeclaredInDependencyFile = !dependencies.isEmpty();
+            if (hasDependenciesDeclaredInDependencyFile) {
                 document.put(DEPENDENCIES, dependencies);
+            } else if (!document.containsKey(DEPENDENCIES)) {
+                document.put(DEPENDENCIES, new ArrayList<>());
             }
             document.put(VCS, vcsReader.getVCSRoot());
         }
