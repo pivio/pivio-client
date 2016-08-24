@@ -25,11 +25,11 @@ public class DependenciesReaderTest {
         mockedDependencyReader = mock(DependencyReader.class);
         dependenciesReader.buildTool = mockedBuildTool;
         dependenciesReader.configuration = new Configuration();
-        dependenciesReader.configuration.setParameter(generateCommandLine());
     }
 
     @Test
     public void testReadLicenses() throws Exception {
+        dependenciesReader.configuration.setParameter(generateCommandLineWithSourceSwitch());
         ArrayList<Dependency> expectedResult = new ArrayList<>();
         expectedResult.add(new Dependency("test", "testurl", new ArrayList()));
         when(mockedBuildTool.getDependencyReader(new File("/"))).thenReturn(mockedDependencyReader);
@@ -41,11 +41,46 @@ public class DependenciesReaderTest {
         assertThat(dependencies).isEqualTo(expectedResult);
     }
 
-    private CommandLine generateCommandLine() throws ParseException {
+    @Test
+    public void testReadAbsoluteSourceCodeDir() throws Exception {
+        dependenciesReader.configuration.setParameter(generateCommandLineWithSourceAndSourceCodeSwitch());
+
+        String sourceDirectory = dependenciesReader.getSourceDirectory();
+
+        assertThat(sourceDirectory).isEqualTo("/tmp");
+    }
+
+    @Test
+    public void testReadRelativeSourceCodeDir() throws Exception {
+        dependenciesReader.configuration.setParameter(generateCommandLineWithSourceAndRelativeSourceCodeSwitch());
+
+        String sourceDirectory = dependenciesReader.getSourceDirectory();
+
+        assertThat(sourceDirectory).isEqualTo("/tmp/app/src");
+    }
+
+    private Options getOptions() {
         Options options = new Options();
         options.addOption(Configuration.SWITCH_SOURCE_DIR, true, "The directory with the checkout files.");
+        options.addOption(Configuration.SWITCH_SOURCE_CODE, true, "The directory with the checkout files.");
+        return options;
+    }
+
+    private CommandLine generateCommandLineWithSourceSwitch() throws ParseException {
         CommandLineParser parser = new DefaultParser();
         String[] args = {"-source", "/"};
-        return parser.parse(options, args);
+        return parser.parse(getOptions(), args);
+    }
+
+    private CommandLine generateCommandLineWithSourceAndSourceCodeSwitch() throws ParseException {
+        CommandLineParser parser = new DefaultParser();
+        String[] args = {"-source", "/", "-sourcecode", "/tmp"};
+        return parser.parse(getOptions(), args);
+    }
+
+    private CommandLine generateCommandLineWithSourceAndRelativeSourceCodeSwitch() throws ParseException {
+        CommandLineParser parser = new DefaultParser();
+        String[] args = {"-source", "/tmp", "-sourcecode", "app/src"};
+        return parser.parse(getOptions(), args);
     }
 }

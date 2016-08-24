@@ -17,8 +17,23 @@ public class DependenciesReader {
     Configuration configuration;
 
     public List<Dependency> getDependencies() {
-        File directory = new File(configuration.getParameter(Configuration.SWITCH_SOURCE_DIR));
+        String sourceCodeDirectory = getSourceDirectory();
+        File directory = new File(sourceCodeDirectory);
         DependencyReader dependencyReader = buildTool.getDependencyReader(directory);
         return dependencyReader.readDependencies(directory.getAbsolutePath());
+    }
+
+    String getSourceDirectory() {
+        String sourceRootParameter = configuration.getParameter(Configuration.SWITCH_SOURCE_DIR);
+        String sourceCodeParameter = configuration.getParameter(Configuration.SWITCH_SOURCE_CODE);
+        String sourceCodeDirectory;
+
+        if (sourceCodeParameter.startsWith("/")) {
+            sourceCodeDirectory = sourceCodeParameter;
+        } else {
+            String slash = sourceRootParameter.endsWith("/") ? "" : "/";
+            sourceCodeDirectory = sourceRootParameter + slash + sourceCodeParameter;
+        }
+        return sourceCodeDirectory;
     }
 }

@@ -1,13 +1,14 @@
 package io.pivio;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConfigurationTest {
 
@@ -35,7 +36,7 @@ public class ConfigurationTest {
         configuration.setParameter(commandLine);
 
         String source = configuration.getParameter("source");
-        String expectedResult = new java.io.File( "." ).getCanonicalPath();
+        String expectedResult = new java.io.File(".").getCanonicalPath();
         assertThat(source).isEqualTo(expectedResult);
     }
 
@@ -91,7 +92,7 @@ public class ConfigurationTest {
 
     @Test
     public void testGetParameterUploadServerSpecified() throws Exception {
-        String[] args = {"-"+Configuration.SWITCH_SERVICE_URL, "http://test"};
+        String[] args = {"-" + Configuration.SWITCH_SERVICE_URL, "http://test"};
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
         String option = Configuration.SWITCH_SERVICE_URL;
@@ -145,7 +146,7 @@ public class ConfigurationTest {
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
 
-        assertThat(configuration.getYamlFilePath()).isEqualTo(System.getProperty("user.dir")+"/pivio.yaml");
+        assertThat(configuration.getYamlFilePath()).isEqualTo(System.getProperty("user.dir") + "/pivio.yaml");
     }
 
     @Test
@@ -163,6 +164,15 @@ public class ConfigurationTest {
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
 
-        assertThat(configuration.getYamlFilePath()).isEqualTo(Paths.get("").toAbsolutePath().toString()+ "/pivio.yaml");
+        assertThat(configuration.getYamlFilePath()).isEqualTo(Paths.get("").toAbsolutePath().toString() + "/pivio.yaml");
+    }
+
+    @Test
+    public void testSourceCodeDirIsNeverNull() throws Exception {
+        String[] args = {};
+        CommandLine commandLine = configuration.parseCommandLine(args);
+        configuration.setParameter(commandLine);
+
+        assertThat(configuration.getParameter(Configuration.SWITCH_SOURCE_CODE)).isNullOrEmpty();
     }
 }
