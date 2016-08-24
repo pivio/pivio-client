@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.apache.commons.cli.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ public class DependenciesReaderTest {
     public DependenciesReader dependenciesReader;
     BuildTool mockedBuildTool;
     DependencyReader mockedDependencyReader;
+    Logger log;
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +26,8 @@ public class DependenciesReaderTest {
         mockedBuildTool = mock(BuildTool.class);
         mockedDependencyReader = mock(DependencyReader.class);
         dependenciesReader.buildTool = mockedBuildTool;
+        log = mock(Logger.class);
+        dependenciesReader.log  = log;
         dependenciesReader.configuration = new Configuration();
     }
 

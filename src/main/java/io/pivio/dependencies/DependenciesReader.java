@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
+import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +17,13 @@ public class DependenciesReader {
     @Autowired
     Configuration configuration;
 
+    @Autowired
+    Logger log;
+
     public List<Dependency> getDependencies() {
         String sourceCodeDirectory = getSourceDirectory();
         File directory = new File(sourceCodeDirectory);
+        log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".");
         DependencyReader dependencyReader = buildTool.getDependencyReader(directory);
         return dependencyReader.readDependencies(directory.getAbsolutePath());
     }

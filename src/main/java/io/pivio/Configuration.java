@@ -100,6 +100,9 @@ public class Configuration {
                 break;
             case SWITCH_SOURCE_CODE:
                 result = commandLine.getOptionValue(SWITCH_SOURCE_CODE, "");
+                if (System.getenv("PIVIO_SOURCECODE") != null && result.equals("")) {
+                    result = System.getenv("PIVIO_SOURCECODE");
+                }
                 break;
             default:
                 break;
@@ -159,7 +162,7 @@ public class Configuration {
         options.addOption(SWITCH_USE_THIS_YAML_FILE, true, "Full path to a file containing the data in yaml format. Does not have to be named pivio.yaml. This overwrites the -source switch and only information in this file will be collected.");
         options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true, "Defines the name of your yaml metadata. The suffix '.yaml' will be always appended. Defaults to 'pivio'.");
         options.addOption(SWITCH_MANUAL_DEPENDENCIES, true, "Defines the file which holds manual defined dependencies. Defaults to: pivio/dependencies.yaml.");
-        options.addOption(SWITCH_SOURCE_CODE, true, "Defines the directory your source code with the build file is located in. If it is relative path, it is relative to the pivio.yaml file.");
+        options.addOption(SWITCH_SOURCE_CODE, true, "Defines the directory your source code with the build file is located in. If it is relative path, it is relative to the pivio.yaml file. This switch can also be defined with the 'PIVIO_SOURCECODE' environment variable.");
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);
     }
