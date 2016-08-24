@@ -1,6 +1,7 @@
 package io.pivio;
 
 import org.apache.commons.cli.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class Configuration {
     public final static String SWITCH_UPLOAD_FAILS_EXIT1 = "uploadfailexit1";
     public final static String SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0 = "piviofilenotfoundexit0";
     public final static String SWITCH_SOURCE_CODE = "sourcecode";
-
+    @Autowired
+    Logger log;
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
     @Value(value = "${app.git.remote}")
@@ -102,6 +104,7 @@ public class Configuration {
                 result = commandLine.getOptionValue(SWITCH_SOURCE_CODE, "");
                 if (System.getenv("PIVIO_SOURCECODE") != null && result.equals("")) {
                     result = System.getenv("PIVIO_SOURCECODE");
+                    log.verboseOutput("Reading switch '" + SWITCH_SOURCE_CODE + "' from environment variable with value : '" + result + "'.");
                 }
                 break;
             default:
