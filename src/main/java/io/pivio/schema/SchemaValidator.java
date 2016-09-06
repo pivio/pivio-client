@@ -21,6 +21,7 @@ public class SchemaValidator {
 
     public boolean isValid(JsonNode jsonNode) {
         final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+        log.verboseOutput("Checking against schema. Available at 'https://raw.githubusercontent.com/pivio/pivio-client/master/src/main/resources/pivio-schema.json'.");
         try {
             String schemaContent = readFromJARFile("/pivio-schema.json");
             JsonNode schemaNode = new ObjectMapper().readTree(schemaContent);
@@ -31,14 +32,10 @@ public class SchemaValidator {
                 log.output(pointer + " : " + processingMessage.getMessage());
             }
             return processingReport.isSuccess();
-        } catch (ProcessingException e) {
+        } catch (ProcessingException | IOException e ) {
+            log.output("Error processing Json. "+e.getMessage());
             return false;
-        } catch (UnsupportedEncodingException e) {
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
     public String readFromJARFile(String filename)

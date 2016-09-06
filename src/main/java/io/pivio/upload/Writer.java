@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pivio.Configuration;
 import io.pivio.Logger;
+import io.pivio.PivioYamlParserException;
 import io.pivio.schema.SchemaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -35,7 +36,7 @@ public class Writer {
                     uploadToServer(json);
                 }
             } else {
-                throw new IllegalArgumentException("Converted Yaml to Json is invalid.");
+                throw new PivioYamlParserException("Converted Yaml to Json is invalid.");
             }
         } catch (IOException e) {
             throw new IllegalArgumentException("Could not create JSON output.", e);
