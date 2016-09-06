@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.pivio.Configuration;
 import io.pivio.Logger;
+import io.pivio.schema.SchemaValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,24 @@ import java.util.Map;
 public class Writer {
 
     @Autowired
-    private Configuration configuration;
-
-    @Autowired
     Logger log;
+    @Autowired
+    SchemaValidator schemaValidator;
+    @Autowired
+    private Configuration configuration;
 
     public void write(Map<String, Object> document) throws IllegalArgumentException {
         try {
             String json = new ObjectMapper().writeValueAsString(document);
-            if (configuration.hasOption(Configuration.SWITCH_DRY_RUN)) {
-                log.output("\n " + json + "\n");
+            JsonNode jsonNode = new ObjectMapper().readTree(json);
+            if (schemaValidator.isValid(jsonNode)) {
+                if (configuration.hasOption(Configuration.SWITCH_DRY_RUN)) {
+                    log.output("\n " + json + "\n");
+                } else {
+                    uploadToServer(json);
+                }
             } else {
-                uploadToServer(json);
+                throw new IllegalArgumentException("Converted Yaml to Json is invalid.");
             }
         } catch (IOException e) {
             throw new IllegalArgumentException("Could not create JSON output.", e);
@@ -47,7 +54,7 @@ public class Writer {
             ResponseEntity<JsonNode> responseEntity = rt.exchange(serverUrl, HttpMethod.POST, new HttpEntity<>(json, headers), JsonNode.class);
             if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
                 handleNonCreatedStatusCode(serverUrl, responseEntity, json);
-            } else  {
+            } else {
                 log.verboseOutput("Upload to " + serverUrl + " successful.");
             }
         } catch (ResourceAccessException e) {

@@ -23,7 +23,6 @@ public class ReaderTest {
     Configuration configurationMock;
     Logger loggerMock;
 
-
     @Before
     public void setUp() throws Exception {
         reader = new Reader();

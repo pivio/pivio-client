@@ -1,0 +1,37 @@
+{
+  "id": "next-generation-print-2342-2413-9189-1990",
+  "name": "Next Generation Print Service",
+  "type": "service",
+  "owner": "Team Goldfinger",
+  "description": "Prints all kinds of things. Now with 3D printing support.",
+  "vcs": "git://git.vcs.local/UBP",
+  "contact": "Auric Goldfinger",
+  "short_name": "NGPS",
+  "service": {
+    "provides": [
+      {
+        "description": "SOAP API (legacy)",
+        "service_name": "print-service",
+        "protocol": "http",
+        "port": 80,
+        "public_dns": [
+          "soap.demo-company.io"
+        ],
+        "transport_protocol": "tcp"
+      }
+    ],
+    "depends_on": [
+      {
+        "service_name": "print-service",
+        "why": "I need to print"
+      },
+      {
+        "service_name": "gateway-service"
+      },
+      {
+        "short_name": "NGPS",
+        "port": 8791
+      }
+    ]
+  }
+}
