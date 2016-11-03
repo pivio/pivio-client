@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/pivio/pivio-client.svg?branch=master)](https://travis-ci.org/pivio/pivio-client)
 
+# Docs
+
+- [Pivio Client documentation](http://pivio.io/docs/#_client)
+- [Pivio documentation](http://pivio.io/docs/)
+
+
 # Requirements
 
 Build: Java SDK > 8.x
