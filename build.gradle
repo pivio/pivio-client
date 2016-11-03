@@ -62,7 +62,6 @@ dependencies {
     testCompile('org.mockito:mockito-all:1.10.19')
 }
 
-
 eclipse {
     classpath {
          containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
