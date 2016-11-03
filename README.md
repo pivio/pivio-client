@@ -1,6 +1,6 @@
 # Status
 
-Beta.
+[![Build Status](https://travis-ci.org/pivio/pivio-client.svg?branch=master)](https://travis-ci.org/pivio/pivio-client)
 
 # Requirements
 
