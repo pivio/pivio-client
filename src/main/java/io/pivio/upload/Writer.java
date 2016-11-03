@@ -39,7 +39,6 @@ public class Writer {
                 if (configuration.hasOption(Configuration.SWITCH_DRY_RUN)) {
                     log.output("\n " + json + "\n");
                 } else {
-                    outputJsonSchema(json);
                     writeToFile(document);
                     uploadToServer(json);
                 }
@@ -48,14 +47,6 @@ public class Writer {
             }
         } catch (IOException e) {
             throw new IllegalArgumentException("Could not create JSON output.", e);
-        }
-    }
-
-    private void outputJsonSchema(String json) {
-        if (configuration.hasOption(SWITCH_GENERATE_JSON_SCHEMA)) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
-            JsonSchema schema = schemaGen.generateSchema(json);
         }
     }
 
