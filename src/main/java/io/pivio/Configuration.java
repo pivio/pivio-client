@@ -30,6 +30,7 @@ public class Configuration {
     public final static String SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0 = "piviofilenotfoundexit0";
     public final static String SWITCH_SOURCE_CODE = "sourcecode";
     public final static String SWITCH_OUTFILE = "out";
+    public final static String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
     public final static String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
 
     @Autowired
@@ -165,6 +166,7 @@ public class Configuration {
         options.addOption(SWITCH_DRY_RUN, false, "Do a dry run, do not submit anything but output it to stdout.");
         options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false, "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
         options.addOption(SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0, false, "Fail with Exit(0) when a pivio document was not found in the source directory. Default is 1 in such as case.");
+        options.addOption(SWITCH_GENERATE_JSON_SCHEMA, false, "Outputs the json schema for validation to the current processed yaml file.");
 
         options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read and each file is treated as self contained definition of an artefact.");
         options.addOption(SWITCH_SOURCE_DIR, true, "The directory containing the pivio.yaml file. Should be the root directory of the project.");

@@ -2,10 +2,12 @@ package io.pivio.upload;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivio.Configuration;
 import io.pivio.Logger;
 import io.pivio.PivioYamlParserException;
 import io.pivio.schema.SchemaValidator;
+import org.codehaus.jackson.schema.JsonSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class Writer {
                 if (configuration.hasOption(Configuration.SWITCH_DRY_RUN)) {
                     log.output("\n " + json + "\n");
                 } else {
+                    outputJsonSchema(json);
                     writeToFile(document);
                     uploadToServer(json);
                 }
@@ -45,6 +48,14 @@ public class Writer {
             }
         } catch (IOException e) {
             throw new IllegalArgumentException("Could not create JSON output.", e);
+        }
+    }
+
+    private void outputJsonSchema(String json) {
+        if (configuration.hasOption(SWITCH_GENERATE_JSON_SCHEMA)) {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
+            JsonSchema schema = schemaGen.generateSchema(json);
         }
     }
 
