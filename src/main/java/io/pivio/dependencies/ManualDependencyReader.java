@@ -20,11 +20,14 @@ import static io.pivio.Configuration.SWITCH_MANUAL_DEPENDENCIES;
 @Service
 class ManualDependencyReader implements DependencyReader {
 
-    @Autowired
-    public Configuration configuration;
+    public final Configuration configuration;
+    final Logger log;
 
     @Autowired
-    Logger log;
+    public ManualDependencyReader(Configuration configuration, Logger log) {
+        this.configuration = configuration;
+        this.log = log;
+    }
 
     @Override
     public List<Dependency> readDependencies(String sourceRootDirectory) {

@@ -15,14 +15,11 @@ import static org.mockito.Mockito.mock;
 public class MavenDependencyReaderTest {
 
     private MavenDependencyReader mavenLicenseReader;
-    Logger loggerMock;
-
 
     @Before
     public void setUp() throws Exception {
-        mavenLicenseReader = new MavenDependencyReader();
-        loggerMock = mock(Logger.class);
-        mavenLicenseReader.log = loggerMock;
+        Logger loggerMock = mock(Logger.class);
+        mavenLicenseReader = new MavenDependencyReader(loggerMock);
     }
 
     @Test

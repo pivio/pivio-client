@@ -13,16 +13,14 @@ import static org.mockito.Mockito.mock;
 
 public class MavenParentPomDependencyReaderTest {
 
-    public MavenParentPomDependencyReader reader;
-    Logger loggerMock;
-
+    private MavenParentPomDependencyReader reader;
 
     @Before
     public void setup() {
         reader = new MavenParentPomDependencyReader();
-        reader.mavenDependencyReader = new MavenDependencyReader();
-        loggerMock = mock(Logger.class);
+        Logger loggerMock = mock(Logger.class);
         reader.log = loggerMock;
+        reader.mavenDependencyReader = new MavenDependencyReader(loggerMock);
     }
 
     @Test

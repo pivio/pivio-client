@@ -14,16 +14,12 @@ import static org.mockito.Mockito.when;
 
 public class ManualDependencyReaderTest {
 
-
     private ManualDependencyReader manualDependencyReader;
-    Logger loggerMock;
-
 
     @Before
     public void setUp() throws Exception {
-        manualDependencyReader = new ManualDependencyReader();
-        loggerMock = mock(Logger.class);
-        manualDependencyReader.log = loggerMock;
+        Logger loggerMock = mock(Logger.class);
+        manualDependencyReader = new ManualDependencyReader(new Configuration(), loggerMock);
     }
 
     @Test
@@ -49,9 +45,10 @@ public class ManualDependencyReaderTest {
 
     @Test
     public void testDifferentDependenciesName() throws Exception {
+        Logger loggerMock = mock(Logger.class);
         Configuration configurationMock = mock(Configuration.class);
         when(configurationMock.getParameter(Configuration.SWITCH_MANUAL_DEPENDENCIES)).thenReturn("something/ourstuff.yaml");
-        manualDependencyReader.configuration = configurationMock;
+        manualDependencyReader = new ManualDependencyReader(configurationMock, loggerMock);
         List<Dependency> dependencies = manualDependencyReader.readDependencies("src/test/resources/dependencies/manual");
 
         assertThat(dependencies).hasSize(3);
