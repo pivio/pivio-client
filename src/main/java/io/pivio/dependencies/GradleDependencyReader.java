@@ -15,15 +15,17 @@ import static org.joox.JOOX.$;
 @Service
 class GradleDependencyReader implements DependencyReader {
 
-    private String defaultLicenseFile = "build/reports/license/dependency-license.xml";
+    final Configuration configuration;
+    final Logger log;
 
     @Autowired
-    Configuration configuration;
-
-    @Autowired
-    Logger log;
+    public GradleDependencyReader(Configuration configuration, Logger log) {
+        this.configuration = configuration;
+        this.log = log;
+    }
 
     public List<Dependency> readDependencies(String sourceRootDirectory) {
+        String defaultLicenseFile = "build/reports/license/dependency-license.xml";
         try {
             return readFile(new File(sourceRootDirectory + "/" + defaultLicenseFile));
         } catch (Exception e) {

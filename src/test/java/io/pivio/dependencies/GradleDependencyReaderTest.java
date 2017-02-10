@@ -19,18 +19,13 @@ import static org.mockito.Mockito.when;
 
 public class GradleDependencyReaderTest {
 
-    GradleDependencyReader gradleLicenseReader;
-    Configuration configurationMock;
-    Logger loggerMock;
+    private GradleDependencyReader gradleLicenseReader;
 
     @Before
     public void setUp() throws Exception {
-        gradleLicenseReader = new GradleDependencyReader();
-
-        configurationMock = mock(Configuration.class);
-        gradleLicenseReader.configuration = configurationMock;
-        loggerMock = mock(Logger.class);
-        gradleLicenseReader.log = loggerMock;
+        Configuration configurationMock = mock(Configuration.class);
+        Logger loggerMock = mock(Logger.class);
+        gradleLicenseReader = new GradleDependencyReader(configurationMock, loggerMock);
         when(configurationMock.isVerbose()).thenReturn(true);
     }
 

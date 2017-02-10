@@ -19,7 +19,7 @@ public class BuildToolTest {
     public void setUp() throws Exception {
         Configuration configurationMock = mock(Configuration.class);
         Logger loggerMock = mock(Logger.class);
-        buildTool = new BuildTool(new GradleDependencyReader(), new MavenParentPomDependencyReader(), new SbtDependencyReader(),
+        buildTool = new BuildTool(new GradleDependencyReader(new Configuration(), new Logger()), new MavenParentPomDependencyReader(), new SbtDependencyReader(),
                 new ManualDependencyReader(),new Configuration(), loggerMock);
         buildTool.loadBuildConfigs();
         when(configurationMock.isVerbose()).thenReturn(false);
