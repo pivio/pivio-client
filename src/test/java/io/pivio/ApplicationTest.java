@@ -11,23 +11,18 @@ import static org.mockito.Mockito.*;
 
 public class ApplicationTest {
 
-    Application application;
-    Configuration configurationMock;
-    Collector collectorMock;
-    Writer writerMock;
-
+    private Application application;
+    private Configuration configurationMock;
+    private Collector collectorMock;
+    private Writer writerMock;
 
     @Before
     public void setup() {
-        application = new Application();
         configurationMock = mock(Configuration.class);
         collectorMock = mock(Collector.class);
         writerMock = mock(Writer.class);
-        application.configuration = configurationMock;
-        application.collector = collectorMock;
-        application.writer = writerMock;
+        application = new Application(configurationMock, collectorMock, writerMock, new Logger());
     }
-
 
     @Test(expected = Exception.class)
     public void testCheckForIdElement() throws Exception {
@@ -40,7 +35,7 @@ public class ApplicationTest {
         String[] args = {"-help"};
         when(configurationMock.hasOption(Configuration.SWITCH_HELP)).thenReturn(true);
         when(configurationMock.parseCommandLine(args)).thenReturn(null);
-        application.configuration = configurationMock;
+        application = new Application(configurationMock, collectorMock, writerMock, new Logger());
 
         application.run(args);
 

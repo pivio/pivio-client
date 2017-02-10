@@ -14,7 +14,7 @@ import static org.joox.JOOX.$;
 @Service
 class MavenDependencyReader  {
 
-    final Logger log;
+    private final Logger log;
 
     @Autowired
     public MavenDependencyReader(Logger log) {

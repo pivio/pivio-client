@@ -14,17 +14,18 @@ import java.util.Map;
 @Service
 public class Application implements CommandLineRunner {
 
-    @Autowired
-    Configuration configuration;
+    final Configuration configuration;
+    final Collector collector;
+    final Writer writer;
+    final Logger log;
 
     @Autowired
-    Collector collector;
-
-    @Autowired
-    Writer writer;
-
-    @Autowired
-    Logger log;
+    public Application(Configuration configuration, Collector collector, Writer writer, Logger log) {
+        this.configuration = configuration;
+        this.collector = collector;
+        this.writer = writer;
+        this.log = log;
+    }
 
 
     /**
