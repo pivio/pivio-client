@@ -15,18 +15,18 @@ class MavenParentPomDependencyReader implements DependencyReader {
     private String defaultLicenseFile = "target/generated-resources/licenses.xml";
     private List<String> nonMavenDirs = new ArrayList<>();
 
-    @Autowired
-    MavenDependencyReader mavenDependencyReader;
+    private final MavenDependencyReader mavenDependencyReader;
+    private final Logger log;
 
     @Autowired
-    Logger log;
-
-    MavenParentPomDependencyReader() {
+    MavenParentPomDependencyReader(MavenDependencyReader mavenDependencyReader, Logger log) {
         nonMavenDirs.add("src");
         nonMavenDirs.add("target");
         nonMavenDirs.add(".svn");
         nonMavenDirs.add(".git");
         nonMavenDirs.add("vagrant");
+        this.mavenDependencyReader = mavenDependencyReader;
+        this.log = log;
     }
 
     @Override
