@@ -14,10 +14,10 @@ import java.util.Map;
 @Service
 public class Application implements CommandLineRunner {
 
-    final Configuration configuration;
-    final Collector collector;
-    final Writer writer;
-    final Logger log;
+    private final Configuration configuration;
+    private final Collector collector;
+    private final Writer writer;
+    private final Logger log;
 
     @Autowired
     public Application(Configuration configuration, Collector collector, Writer writer, Logger log) {

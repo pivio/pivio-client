@@ -1,8 +1,8 @@
 package io.pivio;
 
-public class PivioMissingIdException extends RuntimeException {
+class PivioMissingIdException extends RuntimeException {
 
-    public PivioMissingIdException(String s) {
+    PivioMissingIdException(String s) {
         super(s);
     }
 

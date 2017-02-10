@@ -20,11 +20,11 @@ class Collector {
     static final String DEPENDENCIES = "software_dependencies";
     static final String VCS = "vcsroot";
     static final String LAST_COMMIT_DATE = "last_commit_date";
-    final Reader reader;
-    final DependenciesReader dependenciesReader;
-    final VcsReader vcsReader;
-    final Configuration configuration;
-    final Logger log;
+    private final Reader reader;
+    private final DependenciesReader dependenciesReader;
+    private final VcsReader vcsReader;
+    private final Configuration configuration;
+    private final Logger log;
 
     @Autowired
     public Collector(Reader reader, DependenciesReader dependenciesReader, VcsReader vcsReader, Configuration configuration, Logger log) {

@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class Logger {
 
+    private final Configuration configuration;
+
     @Autowired
-    Configuration configuration;
+    public Logger(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public void verboseOutput(String text) {
         if (configuration.isVerbose()) {
