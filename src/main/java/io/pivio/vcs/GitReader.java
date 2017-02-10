@@ -1,6 +1,7 @@
 package io.pivio.vcs;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -28,4 +29,20 @@ class GitReader {
         }
         return "";
     }
+
+    String getLastCommitDate(String localPath) {
+        File gitWorkDir = Paths.get(localPath).toAbsolutePath().normalize().toFile();
+        Git git = null;
+        try {
+            git = Git.open(gitWorkDir);
+            return git.reflog().call().iterator().next().getWho().getWhen().toString();
+        } catch (IOException | GitAPIException ignored) {
+            throw new IllegalArgumentException("Could not get last commit date from Git.");
+        } finally {
+            if (git != null) {
+                git.close();
+            }
+        }
+    }
+
 }

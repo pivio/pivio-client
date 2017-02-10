@@ -19,6 +19,7 @@ class Collector {
 
     static final String DEPENDENCIES = "software_dependencies";
     static final String VCS = "vcsroot";
+    static final String LAST_COMMIT_DATE = "last_commit_date";
     @Autowired
     Reader reader;
     @Autowired
@@ -42,6 +43,11 @@ class Collector {
                 document.put(DEPENDENCIES, new ArrayList<>());
             }
             document.put(VCS, vcsReader.getVCSRoot());
+            try {
+                document.put(LAST_COMMIT_DATE, vcsReader.getLastCommitDate());
+            } catch (IllegalArgumentException ignored) {
+            }
+
         }
         log.verboseOutput("Final result has " + document.size() + " entries.");
         return document;

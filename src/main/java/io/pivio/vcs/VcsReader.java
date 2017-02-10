@@ -4,6 +4,8 @@ import io.pivio.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class VcsReader {
 
@@ -22,5 +24,9 @@ public class VcsReader {
         String result = gitReader.getRemoteUrl(sourceDir, gitRemote);
         result = result + svnReader.getRemoteUrl(sourceDir);
         return result;
+    }
+
+    public String getLastCommitDate() {
+        return gitReader.getLastCommitDate(configuration.getParameter(Configuration.SWITCH_SOURCE_DIR));
     }
 }
