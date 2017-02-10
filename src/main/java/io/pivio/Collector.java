@@ -58,7 +58,7 @@ class Collector {
     }
 
     private Map<String, Object> readFile(String file) {
-        Map<String, Object> document = new HashMap();
+        Map<String, Object> document;
         try {
             document = reader.readYamlFile(file);
         } catch (FileNotFoundException fnf) {

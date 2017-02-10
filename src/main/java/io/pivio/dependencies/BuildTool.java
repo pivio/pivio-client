@@ -18,12 +18,12 @@ class BuildTool {
     static final String SBT = "build.sbt";
     private Map<String, DependencyReader> detectableBuildFiles = new HashMap<>();
 
-    final GradleDependencyReader gradleDependencyReader;
-    final MavenParentPomDependencyReader mavenParentPomDependencyReader;
-    final SbtDependencyReader sbtDependencyReader;
-    final ManualDependencyReader manualDependencyReader;
-    final Configuration configuration;
-    final Logger log;
+    private final GradleDependencyReader gradleDependencyReader;
+    private final MavenParentPomDependencyReader mavenParentPomDependencyReader;
+    private final SbtDependencyReader sbtDependencyReader;
+    private final ManualDependencyReader manualDependencyReader;
+    private final Configuration configuration;
+    private final Logger log;
 
     @Autowired
     public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration, Logger log) {
