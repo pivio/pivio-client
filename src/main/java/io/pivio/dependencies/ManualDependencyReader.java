@@ -21,7 +21,7 @@ import static io.pivio.Configuration.SWITCH_MANUAL_DEPENDENCIES;
 class ManualDependencyReader implements DependencyReader {
 
     public final Configuration configuration;
-    final Logger log;
+    private final Logger log;
 
     @Autowired
     public ManualDependencyReader(Configuration configuration, Logger log) {
