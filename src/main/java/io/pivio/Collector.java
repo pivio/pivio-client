@@ -20,16 +20,20 @@ class Collector {
     static final String DEPENDENCIES = "software_dependencies";
     static final String VCS = "vcsroot";
     static final String LAST_COMMIT_DATE = "last_commit_date";
+    final Reader reader;
+    final DependenciesReader dependenciesReader;
+    final VcsReader vcsReader;
+    final Configuration configuration;
+    final Logger log;
+
     @Autowired
-    Reader reader;
-    @Autowired
-    DependenciesReader dependenciesReader;
-    @Autowired
-    VcsReader vcsReader;
-    @Autowired
-    Configuration configuration;
-    @Autowired
-    Logger log;
+    public Collector(Reader reader, DependenciesReader dependenciesReader, VcsReader vcsReader, Configuration configuration, Logger log) {
+        this.reader = reader;
+        this.dependenciesReader = dependenciesReader;
+        this.vcsReader = vcsReader;
+        this.configuration = configuration;
+        this.log = log;
+    }
 
     Map<String, Object> gatherSingleFile() {
         Map<String, Object> document = readFile(configuration.getYamlFilePath());

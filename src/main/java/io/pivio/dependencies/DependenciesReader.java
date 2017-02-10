@@ -11,14 +11,16 @@ import java.util.List;
 @Service
 public class DependenciesReader {
 
-    @Autowired
-    BuildTool buildTool;
+    private final BuildTool buildTool;
+    final Configuration configuration;
+    final Logger log;
 
     @Autowired
-    Configuration configuration;
-
-    @Autowired
-    Logger log;
+    public DependenciesReader(BuildTool buildTool, Configuration configuration, Logger log) {
+        this.buildTool = buildTool;
+        this.configuration = configuration;
+        this.log = log;
+    }
 
     public List<Dependency> getDependencies() {
         String sourceCodeDirectory = getSourceDirectory();

@@ -18,23 +18,22 @@ class BuildTool {
     static final String SBT = "build.sbt";
     private Map<String, DependencyReader> detectableBuildFiles = new HashMap<>();
 
-    @Autowired
-    GradleDependencyReader gradleDependencyReader;
+    final GradleDependencyReader gradleDependencyReader;
+    final MavenParentPomDependencyReader mavenParentPomDependencyReader;
+    final SbtDependencyReader sbtDependencyReader;
+    final ManualDependencyReader manualDependencyReader;
+    final Configuration configuration;
+    final Logger log;
 
     @Autowired
-    MavenParentPomDependencyReader mavenParentPomDependencyReader;
-
-    @Autowired
-    SbtDependencyReader sbtDependencyReader;
-
-    @Autowired
-    ManualDependencyReader manualDependencyReader;
-
-    @Autowired
-    Configuration configuration;
-
-    @Autowired
-    Logger log;
+    public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration, Logger log) {
+        this.gradleDependencyReader = gradleDependencyReader;
+        this.mavenParentPomDependencyReader = mavenParentPomDependencyReader;
+        this.sbtDependencyReader = sbtDependencyReader;
+        this.manualDependencyReader = manualDependencyReader;
+        this.configuration = configuration;
+        this.log = log;
+    }
 
     @PostConstruct
     public void loadBuildConfigs() {

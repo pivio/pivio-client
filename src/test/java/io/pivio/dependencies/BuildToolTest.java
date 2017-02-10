@@ -13,24 +13,15 @@ import static org.mockito.Mockito.when;
 
 public class BuildToolTest {
 
-    public BuildTool buildTool;
-
-    Configuration configurationMock;
-    Logger loggerMock;
+    private BuildTool buildTool;
 
     @Before
     public void setUp() throws Exception {
-        buildTool = new BuildTool();
-        buildTool.mavenParentPomDependencyReader = new MavenParentPomDependencyReader();
-        buildTool.gradleDependencyReader = new GradleDependencyReader();
-        buildTool.sbtDependencyReader = new SbtDependencyReader();
-        buildTool.manualDependencyReader = new ManualDependencyReader();
+        Configuration configurationMock = mock(Configuration.class);
+        Logger loggerMock = mock(Logger.class);
+        buildTool = new BuildTool(new GradleDependencyReader(), new MavenParentPomDependencyReader(), new SbtDependencyReader(),
+                new ManualDependencyReader(),new Configuration(), loggerMock);
         buildTool.loadBuildConfigs();
-
-        configurationMock = mock(Configuration.class);
-        buildTool.configuration = configurationMock;
-        loggerMock = mock(Logger.class);
-        buildTool.log = loggerMock;
         when(configurationMock.isVerbose()).thenReturn(false);
 
     }

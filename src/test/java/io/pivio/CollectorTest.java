@@ -29,17 +29,12 @@ public class CollectorTest {
 
     @Before
     public void setUp() throws Exception {
-        collector = new Collector();
         readerMock = mock(Reader.class);
         vcsReaderMock = mock(VcsReader.class);
         dependenciesReaderMock = mock(DependenciesReader.class);
         configurationMock = mock(Configuration.class);
         loggerMock = mock(Logger.class);
-        collector.configuration = configurationMock;
-        collector.reader = readerMock;
-        collector.vcsReader = vcsReaderMock;
-        collector.dependenciesReader = dependenciesReaderMock;
-        collector.log = loggerMock;
+        collector = new Collector(readerMock, dependenciesReaderMock, vcsReaderMock, configurationMock, loggerMock);
 
         when(configurationMock.isVerbose()).thenReturn(false);
     }

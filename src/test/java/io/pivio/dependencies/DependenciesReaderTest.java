@@ -22,13 +22,10 @@ public class DependenciesReaderTest {
 
     @Before
     public void setUp() throws Exception {
-        dependenciesReader = new DependenciesReader();
         mockedBuildTool = mock(BuildTool.class);
         mockedDependencyReader = mock(DependencyReader.class);
-        dependenciesReader.buildTool = mockedBuildTool;
         log = mock(Logger.class);
-        dependenciesReader.log  = log;
-        dependenciesReader.configuration = new Configuration();
+        dependenciesReader = new DependenciesReader(mockedBuildTool, new Configuration(), log);
     }
 
     @Test
