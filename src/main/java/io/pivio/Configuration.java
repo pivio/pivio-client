@@ -34,7 +34,7 @@ public class Configuration {
     public final static String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
 
     @Autowired
-    Logger log;
+    public Logger log;
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
     @Value(value = "${app.git.remote}")
@@ -120,6 +120,7 @@ public class Configuration {
             default:
                 break;
         }
+        log.verboseOutput("Parameter '"+option+"' was requested and '"+result+"' was returned.");
         return result;
     }
 
@@ -151,6 +152,7 @@ public class Configuration {
                 }
             }
         }
+        log.verboseOutput("Option '"+option+"' was requested from config file in "+configFileLocation+"' (default: "+defaultValue+") and returned '"+result+"'.");
         return result;
     }
 

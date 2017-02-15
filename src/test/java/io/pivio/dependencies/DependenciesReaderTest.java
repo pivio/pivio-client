@@ -25,7 +25,9 @@ public class DependenciesReaderTest {
         mockedBuildTool = mock(BuildTool.class);
         mockedDependencyReader = mock(DependencyReader.class);
         log = mock(Logger.class);
-        dependenciesReader = new DependenciesReader(mockedBuildTool, new Configuration(), log);
+        Configuration configuration = new Configuration();
+        configuration.log = log;
+        dependenciesReader = new DependenciesReader(mockedBuildTool, configuration, log);
     }
 
     @Test

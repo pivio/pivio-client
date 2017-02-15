@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class ConfigurationTest {
 
@@ -17,6 +18,8 @@ public class ConfigurationTest {
     @Before
     public void setUp() throws Exception {
         configuration = new Configuration();
+        Logger mockLogger = mock(Logger.class);
+        configuration.log = mockLogger;
     }
 
     @Test

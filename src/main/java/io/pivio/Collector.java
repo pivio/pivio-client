@@ -49,7 +49,7 @@ class Collector {
             document.put(VCS, vcsReader.getVCSRoot());
             try {
                 document.put(LAST_COMMIT_DATE, vcsReader.getLastCommitDate());
-            } catch (IllegalArgumentException ignored) {
+            } catch (Exception ignored) {
             }
 
         }
