@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DependenciesReader {
@@ -22,24 +24,29 @@ public class DependenciesReader {
     }
 
     public List<Dependency> getDependencies() {
-        String sourceCodeDirectory = getSourceDirectory();
-        File directory = new File(sourceCodeDirectory);
-        log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".", configuration.isVerbose());
-        DependencyReader dependencyReader = buildTool.getDependencyReader(directory);
-        return dependencyReader.readDependencies(directory.getAbsolutePath());
+        return getSourceDirectories().stream().flatMap(sourceCodeDirectory -> {
+            File directory = new File(sourceCodeDirectory);
+            log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".", configuration.isVerbose());
+            DependencyReader dependencyReader = buildTool.getDependencyReader(directory);
+            return dependencyReader.readDependencies(directory.getAbsolutePath()).stream();
+        })
+        .collect(Collectors.toList());
     }
 
-    String getSourceDirectory() {
+    List<String> getSourceDirectories() {
         String sourceRootParameter = configuration.getParameter(Configuration.SWITCH_SOURCE_DIR);
-        String sourceCodeParameter = configuration.getParameter(Configuration.SWITCH_SOURCE_CODE);
-        String sourceCodeDirectory;
+        List<String> sourceCodesParameter = Arrays.asList(configuration.getParameter(Configuration.SWITCH_SOURCE_CODE).split("[\\s,]+"));
 
-        if (sourceCodeParameter.startsWith("/")) {
-            sourceCodeDirectory = sourceCodeParameter;
-        } else {
-            String slash = sourceRootParameter.endsWith("/") ? "" : "/";
-            sourceCodeDirectory = sourceRootParameter + slash + sourceCodeParameter;
-        }
-        return sourceCodeDirectory;
+        return sourceCodesParameter.stream().map(sourceCodeParameter -> {
+            String sourceCodeDirectory;
+            if (sourceCodeParameter.startsWith("/")) {
+                sourceCodeDirectory = sourceCodeParameter;
+            } else {
+                String slash = sourceRootParameter.endsWith("/") ? "" : "/";
+                sourceCodeDirectory = sourceRootParameter + slash + sourceCodeParameter;
+            }
+            return sourceCodeDirectory;
+        })
+        .collect(Collectors.toList());
     }
 }
