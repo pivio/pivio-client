@@ -1,0 +1,30 @@
+{
+  "are-we-there-yet@1.0.0": {
+    "licenses": ["ISC", "BSD"],
+    "repository": "https://github.com/iarna/are-we-there-yet",
+    "publisher": "Rebecca Turner",
+    "url": "http://re-becca.org",
+    "licenseFile": "/two/dev/gkr-frontend/node_modules/are-we-there-yet/LICENSE"
+  },
+  "@angularlike/core@1.0.0": {
+    "licenses": "MIT",
+    "repository": "https://github.com/iarna/are-we-there-yet",
+    "publisher": "Rebecca Turner",
+    "url": "http://re-becca.org",
+    "licenseFile": "/two/dev/gkr-frontend/node_modules/are-we-there-yet/LICENSE"
+  },
+  "broccoli-funnel@1.2.3": {
+    "licenses": "MIT",
+    "repository": "https://github.com/broccolijs/broccoli-funnel",
+    "publisher": "Robert Jackson",
+    "licenseFile": "/two/dev/gkr-frontend/node_modules/broccoli-funnel/LICENSE"
+  },
+  "vinyl@3.2.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/wearefractal/vinyl",
+    "publisher": "Fractal",
+    "email": "contact@wearefractal.com",
+    "url": "http://wearefractal.com/",
+    "licenseFile": "/two/dev/gkr-frontend/node_modules/vinyl/LICENSE"
+  }
+}

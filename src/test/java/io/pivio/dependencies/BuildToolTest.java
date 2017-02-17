@@ -1,7 +1,6 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
-import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,9 +17,14 @@ public class BuildToolTest {
     @Before
     public void setUp() throws Exception {
         Configuration configurationMock = mock(Configuration.class);
+
         buildTool = new BuildTool(new GradleDependencyReader(configurationMock),
                 new MavenParentPomDependencyReader(new MavenDependencyReader()),
-                new SbtDependencyReader(), new ManualDependencyReader(configurationMock),configurationMock);
+                new SbtDependencyReader(),
+                new NpmDependencyReader(),
+                new ManualDependencyReader(configurationMock),
+                configurationMock);
+
         buildTool.loadBuildConfigs();
         when(configurationMock.isVerbose()).thenReturn(false);
 
@@ -42,6 +46,12 @@ public class BuildToolTest {
     public void testDetectedSbtBuildTool() throws Exception {
         DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/sbt"));
         assertThat(buildToolInfo).isInstanceOf(SbtDependencyReader.class);
+    }
+
+    @Test
+    public void testDetectedNpmBuildTool() throws Exception {
+        DependencyReader buildToolInfo = buildTool.getDependencyReader(new File("src/test/resources/buildtool/npm"));
+        assertThat(buildToolInfo).isInstanceOf(NpmDependencyReader.class);
     }
 
     @Test

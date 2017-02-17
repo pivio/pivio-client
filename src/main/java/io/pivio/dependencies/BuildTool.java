@@ -16,20 +16,23 @@ class BuildTool {
     static final String GRADLE = "build.gradle";
     static final String MAVEN = "pom.xml";
     static final String SBT = "build.sbt";
+    static final String NPM = "package.json";
     private Map<String, DependencyReader> detectableBuildFiles = new HashMap<>();
 
     private final GradleDependencyReader gradleDependencyReader;
     private final MavenParentPomDependencyReader mavenParentPomDependencyReader;
     private final SbtDependencyReader sbtDependencyReader;
+    private final NpmDependencyReader npmDependencyReader;
     private final ManualDependencyReader manualDependencyReader;
     private final Configuration configuration;
-    private final Logger log =new Logger();
+    private final Logger log = new Logger();
 
     @Autowired
-    public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration) {
+    public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, NpmDependencyReader npmDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration) {
         this.gradleDependencyReader = gradleDependencyReader;
         this.mavenParentPomDependencyReader = mavenParentPomDependencyReader;
         this.sbtDependencyReader = sbtDependencyReader;
+        this.npmDependencyReader = npmDependencyReader;
         this.manualDependencyReader = manualDependencyReader;
         this.configuration = configuration;
     }
@@ -39,6 +42,7 @@ class BuildTool {
         detectableBuildFiles.put(GRADLE, gradleDependencyReader);
         detectableBuildFiles.put(MAVEN, mavenParentPomDependencyReader);
         detectableBuildFiles.put(SBT, sbtDependencyReader);
+        detectableBuildFiles.put(NPM, npmDependencyReader);
     }
 
     DependencyReader getDependencyReader(File directory) {
