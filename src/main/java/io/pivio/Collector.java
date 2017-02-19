@@ -53,7 +53,7 @@ class Collector {
             }
 
         }
-        log.verboseOutput("Final result has " + document.size() + " entries.");
+        log.verboseOutput("Final result has " + document.size() + " entries.", configuration.isVerbose());
         return document;
     }
 

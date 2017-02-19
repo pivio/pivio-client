@@ -16,17 +16,16 @@ class MavenParentPomDependencyReader implements DependencyReader {
     private List<String> nonMavenDirs = new ArrayList<>();
 
     private final MavenDependencyReader mavenDependencyReader;
-    private final Logger log;
+    private final Logger log = new Logger();
 
     @Autowired
-    MavenParentPomDependencyReader(MavenDependencyReader mavenDependencyReader, Logger log) {
+    MavenParentPomDependencyReader(MavenDependencyReader mavenDependencyReader) {
         nonMavenDirs.add("src");
         nonMavenDirs.add("target");
         nonMavenDirs.add(".svn");
         nonMavenDirs.add(".git");
         nonMavenDirs.add("vagrant");
         this.mavenDependencyReader = mavenDependencyReader;
-        this.log = log;
     }
 
     @Override

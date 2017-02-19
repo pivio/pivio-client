@@ -7,6 +7,7 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import io.pivio.Configuration;
 import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,17 @@ import java.io.*;
 @Service
 public class SchemaValidator {
 
+    Logger log = new Logger();
+    Configuration configuration;
+
     @Autowired
-    Logger log;
+    public SchemaValidator(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public boolean isValid(JsonNode jsonNode) {
         final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-        log.verboseOutput("Checking against schema. Available at 'https://raw.githubusercontent.com/pivio/pivio-client/master/src/main/resources/pivio-schema.json'.");
+        log.verboseOutput("Checking against schema. Available at 'https://raw.githubusercontent.com/pivio/pivio-client/master/src/main/resources/pivio-schema.json'.", configuration.isVerbose());
         try {
             String schemaContent = readFromJARFile("/pivio-schema.json");
             JsonNode schemaNode = new ObjectMapper().readTree(schemaContent);

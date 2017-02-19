@@ -16,12 +16,11 @@ import static org.joox.JOOX.$;
 class GradleDependencyReader implements DependencyReader {
 
     final Configuration configuration;
-    final Logger log;
+    final Logger log = new Logger();
 
     @Autowired
-    public GradleDependencyReader(Configuration configuration, Logger log) {
+    public GradleDependencyReader(Configuration configuration) {
         this.configuration = configuration;
-        this.log = log;
     }
 
     public List<Dependency> readDependencies(String sourceRootDirectory) {
@@ -29,7 +28,7 @@ class GradleDependencyReader implements DependencyReader {
         try {
             return readFile(new File(sourceRootDirectory + "/" + defaultLicenseFile));
         } catch (Exception e) {
-            log.verboseOutput("The file " + defaultLicenseFile + " could not be read.");
+            log.verboseOutput("The file " + defaultLicenseFile + " could not be read.", configuration.isVerbose());
         }
         return new ArrayList<>();
     }
@@ -46,7 +45,7 @@ class GradleDependencyReader implements DependencyReader {
             Collections.sort(licensesForDependency);
             result.add(new Dependency(depName, depVersion, licensesForDependency));
         });
-        log.verboseOutput("Found " + result.size() + " dependencies.");
+        log.verboseOutput("Found " + result.size() + " dependencies.", configuration.isVerbose());
         return result;
     }
 }

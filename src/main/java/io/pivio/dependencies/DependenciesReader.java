@@ -25,7 +25,7 @@ public class DependenciesReader {
     public List<Dependency> getDependencies() {
         String sourceCodeDirectory = getSourceDirectory();
         File directory = new File(sourceCodeDirectory);
-        log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".");
+        log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".", configuration.isVerbose());
         DependencyReader dependencyReader = buildTool.getDependencyReader(directory);
         return dependencyReader.readDependencies(directory.getAbsolutePath());
     }

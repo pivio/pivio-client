@@ -14,12 +14,7 @@ import static org.joox.JOOX.$;
 @Service
 class MavenDependencyReader  {
 
-    private final Logger log;
-
-    @Autowired
-    public MavenDependencyReader(Logger log) {
-        this.log = log;
-    }
+    private final Logger log = new Logger();
 
     public List<Dependency> readDependencies(File licenceFile)  {
         List<Dependency> result = new ArrayList<>();

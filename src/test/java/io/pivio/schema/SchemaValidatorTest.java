@@ -2,6 +2,7 @@ package io.pivio.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.pivio.Configuration;
 import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +24,8 @@ public class SchemaValidatorTest {
 
     @Before
     public void setUp() throws Exception {
-        validator = new SchemaValidator();
+        Configuration configurationMock = mock(Configuration.class);
+        validator = new SchemaValidator(configurationMock);
         objectMapper = new ObjectMapper();
         loggerMock = mock(Logger.class);
         validator.log = loggerMock;

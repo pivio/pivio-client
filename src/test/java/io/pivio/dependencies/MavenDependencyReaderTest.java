@@ -18,8 +18,7 @@ public class MavenDependencyReaderTest {
 
     @Before
     public void setUp() throws Exception {
-        Logger loggerMock = mock(Logger.class);
-        mavenLicenseReader = new MavenDependencyReader(loggerMock);
+        mavenLicenseReader = new MavenDependencyReader();
     }
 
     @Test

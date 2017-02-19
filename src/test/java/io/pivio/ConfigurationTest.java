@@ -17,9 +17,8 @@ public class ConfigurationTest {
 
     @Before
     public void setUp() throws Exception {
-        configuration = new Configuration();
         Logger mockLogger = mock(Logger.class);
-        configuration.log = mockLogger;
+        configuration = new Configuration();
     }
 
     @Test
@@ -88,8 +87,7 @@ public class ConfigurationTest {
         CommandLine commandLine = configuration.parseCommandLine(args);
         configuration.setParameter(commandLine);
 
-        String option = Configuration.SWITCH_SERVICE_URL;
-        String parameter = configuration.getParameter(option);
+        String parameter = configuration.getParameter(Configuration.SWITCH_SERVICE_URL);
         assertThat(parameter).isEqualTo("http://localhost:9123");
     }
 

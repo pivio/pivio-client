@@ -24,8 +24,7 @@ public class GradleDependencyReaderTest {
     @Before
     public void setUp() throws Exception {
         Configuration configurationMock = mock(Configuration.class);
-        Logger loggerMock = mock(Logger.class);
-        gradleLicenseReader = new GradleDependencyReader(configurationMock, loggerMock);
+        gradleLicenseReader = new GradleDependencyReader(configurationMock);
         when(configurationMock.isVerbose()).thenReturn(true);
     }
 

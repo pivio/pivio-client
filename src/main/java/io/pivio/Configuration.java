@@ -33,8 +33,6 @@ public class Configuration {
     public final static String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
     public final static String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
 
-    @Autowired
-    public Logger log;
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
     @Value(value = "${app.git.remote}")
@@ -49,8 +47,8 @@ public class Configuration {
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
 
     private Options options = new Options();
-
     private CommandLine commandLine;
+    private Logger log = new Logger();
 
     public boolean isVerbose() {
         return commandLine.hasOption(SWITCH_VERBOSE);
@@ -61,7 +59,8 @@ public class Configuration {
     }
 
     public boolean hasOption(String option) {
-        return commandLine.hasOption(option);
+        log.verboseOutput("Checking for hasOption: '"+option+"' result: '"+commandLine.hasOption(option)+"'.", isVerbose());
+        return commandLine.hasOption(option) || (!getValueFromConfigFile(option, "THISISADUMMYVALUE").equals("THISISADUMMYVALUE"));
     }
 
     public String getYamlFilePath() {
@@ -108,7 +107,7 @@ public class Configuration {
                 result = commandLine.getOptionValue(SWITCH_SOURCE_CODE, "");
                 if (System.getenv("PIVIO_SOURCECODE") != null && result.equals("")) {
                     result = System.getenv("PIVIO_SOURCECODE");
-                    log.verboseOutput("Reading switch '" + SWITCH_SOURCE_CODE + "' from environment variable with value : '" + result + "'.");
+                    log.verboseOutput("Reading switch '" + SWITCH_SOURCE_CODE + "' from environment variable with value : '" + result + "'.", isVerbose());
                 }
                 break;
             case SWITCH_OUTFILE:
@@ -120,7 +119,7 @@ public class Configuration {
             default:
                 break;
         }
-        log.verboseOutput("Parameter '"+option+"' was requested and '"+result+"' was returned.");
+        log.verboseOutput("Parameter '"+option+"' was requested and '"+result+"' was returned.", isVerbose());
         return result;
     }
 
@@ -152,9 +151,11 @@ public class Configuration {
                 }
             }
         }
-        log.verboseOutput("Option '"+option+"' was requested from config file in "+configFileLocation+"' (default: "+defaultValue+") and returned '"+result+"'.");
+        log.verboseOutput("Option '"+option+"' was requested from config file in "+configFileLocation+"' (default: "+defaultValue+") and returned '"+result+"'.", isVerbose());
         return result;
     }
+
+
 
     void outputHelp() {
         HelpFormatter formatter = new HelpFormatter();

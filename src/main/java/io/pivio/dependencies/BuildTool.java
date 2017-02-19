@@ -23,16 +23,15 @@ class BuildTool {
     private final SbtDependencyReader sbtDependencyReader;
     private final ManualDependencyReader manualDependencyReader;
     private final Configuration configuration;
-    private final Logger log;
+    private final Logger log =new Logger();
 
     @Autowired
-    public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration, Logger log) {
+    public BuildTool(GradleDependencyReader gradleDependencyReader, MavenParentPomDependencyReader mavenParentPomDependencyReader, SbtDependencyReader sbtDependencyReader, ManualDependencyReader manualDependencyReader, Configuration configuration) {
         this.gradleDependencyReader = gradleDependencyReader;
         this.mavenParentPomDependencyReader = mavenParentPomDependencyReader;
         this.sbtDependencyReader = sbtDependencyReader;
         this.manualDependencyReader = manualDependencyReader;
         this.configuration = configuration;
-        this.log = log;
     }
 
     @PostConstruct
@@ -46,9 +45,9 @@ class BuildTool {
         DependencyReader[] result = {manualDependencyReader};
         detectableBuildFiles.forEach((buildToolFile, reader) -> {
             String fileNameForBuildToolConfig = directory.getAbsolutePath() + "/" + buildToolFile;
-            log.verboseOutput("Checking for '"+fileNameForBuildToolConfig+"'.");
+            log.verboseOutput("Checking for '"+fileNameForBuildToolConfig+"'.", configuration.isVerbose());
             if (new File(fileNameForBuildToolConfig).exists()) {
-                log.verboseOutput("Found "+fileNameForBuildToolConfig+".");
+                log.verboseOutput("Found "+fileNameForBuildToolConfig+".", configuration.isVerbose());
                 result[0] = reader;
             }
         });

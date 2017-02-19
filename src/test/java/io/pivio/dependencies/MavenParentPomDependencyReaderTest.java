@@ -19,12 +19,12 @@ public class MavenParentPomDependencyReaderTest {
     @Before
     public void setup() {
         loggerMock = mock(Logger.class);
-        reader = new MavenParentPomDependencyReader(new MavenDependencyReader(loggerMock), loggerMock);
+        reader = new MavenParentPomDependencyReader(new MavenDependencyReader());
     }
 
     @Test
     public void testRemoveDuplicates() throws Exception {
-        MavenParentPomDependencyReader reader = new MavenParentPomDependencyReader(new MavenDependencyReader(loggerMock), loggerMock);
+        MavenParentPomDependencyReader reader = new MavenParentPomDependencyReader(new MavenDependencyReader());
         ArrayList<Dependency> dependencies = new ArrayList<>();
         dependencies.add(new Dependency("Demo", "1.0", new ArrayList<>()));
         dependencies.add(new Dependency("Demo", "1.0", new ArrayList<>()));

@@ -61,17 +61,17 @@ public class Writer {
                     String[] attributes = attributeParameter.split(",");
                     for (String attribute : attributes) {
                         if (document.containsKey(attribute)) {
-                            log.verboseOutput("Filtering output to file with attribute '" + attribute + "'.");
+                            log.verboseOutput("Filtering output to file with attribute '" + attribute + "'.", configuration.isVerbose());
                             writeToFile.put(attribute, document.get(attribute));
                         } else {
-                            log.verboseOutput("Could not find requested top level attribute '" + attribute + "'.");
+                            log.verboseOutput("Could not find requested top level attribute '" + attribute + "'.", configuration.isVerbose());
                         }
                     }
                 } else {
                     writeToFile = document;
                 }
                 mapper.writeValue(new File(fileName), writeToFile);
-                log.verboseOutput("Wrote output to file '" + fileName + "'.");
+                log.verboseOutput("Wrote output to file '" + fileName + "'.", configuration.isVerbose());
             } catch (IOException e) {
                 log.output("Error writing file " + fileName);
                 throw new IllegalArgumentException("Could not write to file '" + fileName + "'.");
@@ -82,7 +82,7 @@ public class Writer {
     private void uploadToServer(String json) {
         if (configuration.hasOption(SWITCH_SERVICE_URL)) {
             String serviceUrl = configuration.getParameter(SWITCH_SERVICE_URL);
-            log.verboseOutput("Uploading  to " + serviceUrl + ": " + json);
+            log.verboseOutput("Uploading  to " + serviceUrl + ": " + json, configuration.isVerbose());
             RestTemplate rt = new RestTemplate();
             rt.setErrorHandler(new RestCallErrorHandler());
             HttpHeaders headers = new HttpHeaders();
@@ -92,13 +92,13 @@ public class Writer {
                 if (responseEntity.getStatusCode() != HttpStatus.CREATED) {
                     handleNonCreatedStatusCode(serviceUrl, responseEntity, json);
                 } else {
-                    log.verboseOutput("Upload to " + serviceUrl + " successful.");
+                    log.verboseOutput("Upload to " + serviceUrl + " successful.", configuration.isVerbose());
                 }
             } catch (ResourceAccessException e) {
                 handleConnectionRefused(serviceUrl);
             }
         } else {
-            log.verboseOutput("Not uploading to any server since no '" + SWITCH_SERVICE_URL + "' parameter was specified.");
+            log.verboseOutput("Not uploading to any server since no '" + SWITCH_SERVICE_URL + "' parameter was specified.", configuration.isVerbose());
         }
     }
 

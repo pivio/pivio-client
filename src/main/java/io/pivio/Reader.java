@@ -50,7 +50,7 @@ class Reader {
             Object value = map.get(key);
             result.put(key.toLowerCase(), value);
         });
-        log.verboseOutput("Yaml file has " + result.size() + " entries.");
+        log.verboseOutput("Yaml file has " + result.size() + " entries.", configuration.isVerbose());
         return result;
     }
 
