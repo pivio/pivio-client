@@ -21,7 +21,7 @@ public class ApplicationTest {
         configurationMock = mock(Configuration.class);
         collectorMock = mock(Collector.class);
         writerMock = mock(Writer.class);
-        application = new Application(configurationMock, collectorMock, writerMock, new Logger());
+        application = new Application(configurationMock, collectorMock, writerMock);
     }
 
     @Test(expected = Exception.class)
@@ -35,7 +35,7 @@ public class ApplicationTest {
         String[] args = {"-help"};
         when(configurationMock.hasOption(Configuration.SWITCH_HELP)).thenReturn(true);
         when(configurationMock.parseCommandLine(args)).thenReturn(null);
-        application = new Application(configurationMock, collectorMock, writerMock, new Logger());
+        application = new Application(configurationMock, collectorMock, writerMock);
 
         application.run(args);
 

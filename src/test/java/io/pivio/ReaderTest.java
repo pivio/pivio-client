@@ -21,13 +21,10 @@ public class ReaderTest {
 
     Reader reader;
     Configuration configurationMock;
-    Logger loggerMock;
 
     @Before
     public void setUp() throws Exception {
         reader = new Reader();
-        loggerMock = mock(Logger.class);
-        reader.log = loggerMock;
     }
 
     @Test

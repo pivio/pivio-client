@@ -19,8 +19,7 @@ class Reader {
     @Autowired
     Configuration configuration;
 
-    @Autowired
-    Logger log;
+    private Logger log = new Logger();
 
     Map<String, Object> readYamlFile(String yamlfile) throws FileNotFoundException {
         File file = new File(yamlfile);

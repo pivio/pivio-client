@@ -17,14 +17,13 @@ public class Application implements CommandLineRunner {
     private final Configuration configuration;
     private final Collector collector;
     private final Writer writer;
-    private final Logger log;
+    private final Logger log = new Logger();
 
     @Autowired
-    public Application(Configuration configuration, Collector collector, Writer writer, Logger log) {
+    public Application(Configuration configuration, Collector collector, Writer writer) {
         this.configuration = configuration;
         this.collector = collector;
         this.writer = writer;
-        this.log = log;
     }
 
 
@@ -41,6 +40,8 @@ public class Application implements CommandLineRunner {
             configuration.setParameter(commandLine);
             if (configuration.hasOption(Configuration.SWITCH_HELP)) {
                 configuration.outputHelp();
+            } else if (configuration.hasOption(Configuration.SWITCH_VERSION)) {
+                configuration.outputVersion();
             } else {
                 if (configuration.hasOption(Configuration.SWITCH_YAML_DIR)) {
                     List<Map<String, Object>> files = collector.gatherMultipleFiles();

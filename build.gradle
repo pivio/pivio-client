@@ -21,6 +21,16 @@ apply plugin: 'spring-boot'
 apply plugin: 'jacoco'
 apply plugin: "com.github.hierynomus.license"
 
+task preBuild << {
+    println 'Generating version number from git.'
+    new File("build/resources/main/VERSION").withWriter { out ->
+        out.println 'git rev-parse HEAD'.execute().text
+    }
+}
+
+build.dependsOn preBuild
+
+
 license {
     ignoreFailures true
     header = file('LICENSE')

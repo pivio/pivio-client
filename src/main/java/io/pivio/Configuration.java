@@ -1,16 +1,13 @@
 package io.pivio;
 
 import org.apache.commons.cli.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 @Service
 public class Configuration {
@@ -26,6 +23,7 @@ public class Configuration {
     public final static String SWITCH_VERBOSE = "verbose";
     public final static String SWITCH_MANUAL_DEPENDENCIES = "manualdependencies";
     public final static String SWITCH_YAML_DIR = "yamldir";
+    public final static String SWITCH_VERSION = "version";
     public final static String SWITCH_UPLOAD_FAILS_EXIT1 = "uploadfailexit1";
     public final static String SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0 = "piviofilenotfoundexit0";
     public final static String SWITCH_SOURCE_CODE = "sourcecode";
@@ -59,7 +57,7 @@ public class Configuration {
     }
 
     public boolean hasOption(String option) {
-        log.verboseOutput("Checking for hasOption: '"+option+"' result: '"+commandLine.hasOption(option)+"'.", isVerbose());
+        log.verboseOutput("Checking for hasOption: '" + option + "' result: '" + commandLine.hasOption(option) + "'.", isVerbose());
         return commandLine.hasOption(option) || (!getValueFromConfigFile(option, "THISISADUMMYVALUE").equals("THISISADUMMYVALUE"));
     }
 
@@ -119,7 +117,7 @@ public class Configuration {
             default:
                 break;
         }
-        log.verboseOutput("Parameter '"+option+"' was requested and '"+result+"' was returned.", isVerbose());
+        log.verboseOutput("Parameter '" + option + "' was requested and '" + result + "' was returned.", isVerbose());
         return result;
     }
 
@@ -151,10 +149,9 @@ public class Configuration {
                 }
             }
         }
-        log.verboseOutput("Option '"+option+"' was requested from config file in "+configFileLocation+"' (default: "+defaultValue+") and returned '"+result+"'.", isVerbose());
+        log.verboseOutput("Option '" + option + "' was requested from config file in " + configFileLocation + "' (default: " + defaultValue + ") and returned '" + result + "'.", isVerbose());
         return result;
     }
-
 
 
     void outputHelp() {
@@ -170,6 +167,7 @@ public class Configuration {
         options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false, "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
         options.addOption(SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0, false, "Fail with Exit(0) when a pivio document was not found in the source directory. Default is 1 in such as case.");
         options.addOption(SWITCH_GENERATE_JSON_SCHEMA, false, "Outputs the json schema for validation to the current processed yaml file.");
+        options.addOption(SWITCH_VERSION, false, "Shows the version of the client and end the client.");
 
         options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read and each file is treated as self contained definition of an artefact.");
         options.addOption(SWITCH_SOURCE_DIR, true, "The directory containing the pivio.yaml file. Should be the root directory of the project.");
@@ -185,5 +183,20 @@ public class Configuration {
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);
+    }
+
+    public void outputVersion() {
+        String version = "0.2";
+        String gitHash = "DEV-VERSION";
+        InputStream in = this.getClass().getResourceAsStream("/VERSION");
+        if (in != null) {
+            try (BufferedReader buffer = new BufferedReader(new InputStreamReader(in))) {
+                gitHash = buffer.lines().collect(Collectors.joining("\n"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Pivio client version: " + version + " githash: " + gitHash);
+
     }
 }

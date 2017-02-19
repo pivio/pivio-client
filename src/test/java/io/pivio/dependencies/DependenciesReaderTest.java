@@ -18,15 +18,13 @@ public class DependenciesReaderTest {
     public DependenciesReader dependenciesReader;
     BuildTool mockedBuildTool;
     DependencyReader mockedDependencyReader;
-    Logger log;
 
     @Before
     public void setUp() throws Exception {
         mockedBuildTool = mock(BuildTool.class);
         mockedDependencyReader = mock(DependencyReader.class);
-        log = mock(Logger.class);
         Configuration configuration = new Configuration();
-        dependenciesReader = new DependenciesReader(mockedBuildTool, configuration, log);
+        dependenciesReader = new DependenciesReader(mockedBuildTool, configuration);
     }
 
     @Test

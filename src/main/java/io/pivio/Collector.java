@@ -24,15 +24,14 @@ class Collector {
     private final DependenciesReader dependenciesReader;
     private final VcsReader vcsReader;
     private final Configuration configuration;
-    private final Logger log;
+    private final Logger log = new Logger();
 
     @Autowired
-    public Collector(Reader reader, DependenciesReader dependenciesReader, VcsReader vcsReader, Configuration configuration, Logger log) {
+    public Collector(Reader reader, DependenciesReader dependenciesReader, VcsReader vcsReader, Configuration configuration) {
         this.reader = reader;
         this.dependenciesReader = dependenciesReader;
         this.vcsReader = vcsReader;
         this.configuration = configuration;
-        this.log = log;
     }
 
     Map<String, Object> gatherSingleFile() {

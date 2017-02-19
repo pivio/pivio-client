@@ -24,8 +24,7 @@ import static io.pivio.Configuration.*;
 @Service
 public class Writer {
 
-    @Autowired
-    Logger log;
+    Logger log = new Logger();
     @Autowired
     SchemaValidator schemaValidator;
     @Autowired

@@ -13,13 +13,12 @@ public class DependenciesReader {
 
     private final BuildTool buildTool;
     final Configuration configuration;
-    final Logger log;
+    final Logger log = new Logger();
 
     @Autowired
-    public DependenciesReader(BuildTool buildTool, Configuration configuration, Logger log) {
+    public DependenciesReader(BuildTool buildTool, Configuration configuration) {
         this.buildTool = buildTool;
         this.configuration = configuration;
-        this.log = log;
     }
 
     public List<Dependency> getDependencies() {
