@@ -37,7 +37,7 @@ Pivio has some options to configure its use.
 ```
 usage: pivio
  -config <arg>               Defines the config for all parameters. This
-                             is a properties file with all the switche
+                             is a properties file with some the switches
                              listed here. Default location is
                              /etc/pivio-client.properties.
  -defaultconfigname <arg>    Defines the name of your yaml metadata. The
@@ -50,6 +50,8 @@ usage: pivio
                              pivio.yaml. This overwrites the -source
                              switch and only information in this file will
                              be collected.
+ -generatejsonschema         Outputs the json schema for validation to the
+                             current processed yaml file.
  -gitremote <arg>            Uses the given argument as origin for Git VCS
                              remote detection (default: origin). This is
                              useful if you have multiple remotes
@@ -58,17 +60,26 @@ usage: pivio
  -manualdependencies <arg>   Defines the file which holds manual defined
                              dependencies. Defaults to:
                              pivio/dependencies.yaml.
+ -out <arg>                  Output the generated json to this file.
+ -outattributes <arg>        Only output these top level attributes to the
+                             outfile, e.g. name,id,runtime.
  -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
                              not found in the source directory. Default is
                              1 in such as case.
- -serviceurl <arg>           The url of the pivio service (default:
-                             http://localhost:9123/document).
- -source <arg>               The directory with the sources containing the
-                             pivio.yaml file.
+ -serviceurl <arg>           The url of the pivio service. If this switch
+                             is not supplied, no upload will happen.
+ -source <arg>               The directory containing the pivio.yaml file.
+                             Should be the root directory of the project.
+ -sourcecode <arg>           Defines the directory (or comma-separated
+                             directories) your source code with the build
+                             file is located in. If it is relative path,
+                             it is relative to the pivio.yaml file. This
+                             switch can also be defined with the
+                             'PIVIO_SOURCECODE' environment variable.
  -uploadfailexit1            Fail with Exit(1) when document can not be
                              uploaded. Default is 0 in such a case.
  -verbose                    Prints more information.
- -yamldir <arg>              All \*.yaml files in this directory will be
+ -yamldir <arg>              All *.yaml files in this directory will be
                              read and each file is treated as self
                              contained definition of an artefact.
 

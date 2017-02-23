@@ -42,21 +42,68 @@ public class DependenciesReaderTest {
     }
 
     @Test
+    public void testReadLicensesCombined() throws Exception {
+        ArrayList<Dependency> resultFe = new ArrayList<>();
+        resultFe.add(new Dependency("fe_dependency", "testurl", new ArrayList()));
+        ArrayList<Dependency> resultBe = new ArrayList<>();
+        resultBe.add(new Dependency("be_dependency_1", "testurl", new ArrayList()));
+        resultBe.add(new Dependency("be_dependency_2", "testurl", new ArrayList()));
+        dependenciesReader.configuration.setParameter(generateCommandLineWithMultipleSourcesAndRelativeSourceCodeSwitch());
+        when(mockedBuildTool.getDependencyReader(new File("/tmp/frontend/src"))).thenReturn(mockedDependencyReader);
+        when(mockedDependencyReader.readDependencies("/tmp/frontend/src")).thenReturn(resultFe);
+        when(mockedBuildTool.getDependencyReader(new File("/tmp/backend/src"))).thenReturn(mockedDependencyReader);
+        when(mockedDependencyReader.readDependencies("/tmp/backend/src")).thenReturn(resultBe);
+
+        List<Dependency> dependencies = dependenciesReader.getDependencies();
+
+        ArrayList<Dependency> expectedResult = new ArrayList<>();
+        expectedResult.addAll(resultFe);
+        expectedResult.addAll(resultBe);
+
+        verify(mockedDependencyReader, times(2)).readDependencies(anyString());
+        assertThat(dependencies).isEqualTo(expectedResult);
+    }
+
+    @Test
     public void testReadAbsoluteSourceCodeDir() throws Exception {
         dependenciesReader.configuration.setParameter(generateCommandLineWithSourceAndSourceCodeSwitch());
 
-        String sourceDirectory = dependenciesReader.getSourceDirectory();
+        List<String> sourceDirectories = dependenciesReader.getSourceDirectories();
 
-        assertThat(sourceDirectory).isEqualTo("/tmp");
+        assertThat(sourceDirectories).isNotEmpty();
+        assertThat(sourceDirectories.get(0)).isEqualTo("/tmp");
     }
 
     @Test
     public void testReadRelativeSourceCodeDir() throws Exception {
         dependenciesReader.configuration.setParameter(generateCommandLineWithSourceAndRelativeSourceCodeSwitch());
 
-        String sourceDirectory = dependenciesReader.getSourceDirectory();
+        List<String> sourceDirectories = dependenciesReader.getSourceDirectories();
 
-        assertThat(sourceDirectory).isEqualTo("/tmp/app/src");
+        assertThat(sourceDirectories).isNotEmpty();
+        assertThat(sourceDirectories.get(0)).isEqualTo("/tmp/app/src");
+    }
+
+    @Test
+    public void testMultipleAbsoluteSourceCodeDirs() throws Exception {
+        dependenciesReader.configuration.setParameter(generateCommandLineWithMultipleSources());
+
+        List<String> sourceDirectories = dependenciesReader.getSourceDirectories();
+
+        assertThat(sourceDirectories).isNotEmpty();
+        assertThat(sourceDirectories.get(0)).isEqualTo("/abs/frontend/src");
+        assertThat(sourceDirectories.get(1)).isEqualTo("/abs/backend/src");
+    }
+
+    @Test
+    public void testMultipleRelativeSourceCodeDirs() throws Exception {
+        dependenciesReader.configuration.setParameter(generateCommandLineWithMultipleSourcesAndRelativeSourceCodeSwitch());
+
+        List<String> sourceDirectories = dependenciesReader.getSourceDirectories();
+
+        assertThat(sourceDirectories).isNotEmpty();
+        assertThat(sourceDirectories.get(0)).isEqualTo("/tmp/frontend/src");
+        assertThat(sourceDirectories.get(1)).isEqualTo("/tmp/backend/src");
     }
 
     private Options getOptions() {
@@ -81,6 +128,18 @@ public class DependenciesReaderTest {
     private CommandLine generateCommandLineWithSourceAndRelativeSourceCodeSwitch() throws ParseException {
         CommandLineParser parser = new DefaultParser();
         String[] args = {"-source", "/tmp", "-sourcecode", "app/src"};
+        return parser.parse(getOptions(), args);
+    }
+
+    private CommandLine generateCommandLineWithMultipleSources() throws ParseException {
+        CommandLineParser parser = new DefaultParser();
+        String[] args = {"-sourcecode", "/abs/frontend/src,/abs/backend/src"};
+        return parser.parse(getOptions(), args);
+    }
+
+    private CommandLine generateCommandLineWithMultipleSourcesAndRelativeSourceCodeSwitch() throws ParseException {
+        CommandLineParser parser = new DefaultParser();
+        String[] args = {"-source", "/tmp", "-sourcecode", "frontend/src,backend/src"};
         return parser.parse(getOptions(), args);
     }
 }
