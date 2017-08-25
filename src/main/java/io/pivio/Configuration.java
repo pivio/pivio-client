@@ -12,24 +12,24 @@ import java.util.stream.Collectors;
 @Service
 public class Configuration {
 
-    public final static String SWITCH_SOURCE_DIR = "source";
-    public final static String SWITCH_GIT_REMOTE = "gitremote";
-    public final static String SWITCH_SERVICE_URL = "serviceurl";
-    public final static String SWITCH_HELP = "help";
-    public final static String SWITCH_USE_THIS_YAML_FILE = "file";
-    public final static String SWITCH_DEFAULT_YAML_FILE_NAME = "defaultconfigname";
-    public final static String SWITCH_DRY_RUN = "dry";
-    public final static String SWITCH_CONFIG = "config";
-    public final static String SWITCH_VERBOSE = "verbose";
-    public final static String SWITCH_MANUAL_DEPENDENCIES = "manualdependencies";
-    public final static String SWITCH_YAML_DIR = "yamldir";
-    public final static String SWITCH_VERSION = "version";
-    public final static String SWITCH_UPLOAD_FAILS_EXIT1 = "uploadfailexit1";
-    public final static String SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0 = "piviofilenotfoundexit0";
-    public final static String SWITCH_SOURCE_CODE = "sourcecode";
-    public final static String SWITCH_OUTFILE = "out";
-    public final static String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
-    public final static String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
+    public static final String SWITCH_SOURCE_DIR = "source";
+    public static final String SWITCH_GIT_REMOTE = "gitremote";
+    public static final String SWITCH_SERVICE_URL = "serviceurl";
+    public static final String SWITCH_HELP = "help";
+    public static final String SWITCH_USE_THIS_YAML_FILE = "file";
+    public static final String SWITCH_DEFAULT_YAML_FILE_NAME = "defaultconfigname";
+    public static final String SWITCH_DRY_RUN = "dry";
+    public static final String SWITCH_CONFIG = "config";
+    public static final String SWITCH_VERBOSE = "verbose";
+    public static final String SWITCH_MANUAL_DEPENDENCIES = "manualdependencies";
+    public static final String SWITCH_YAML_DIR = "yamldir";
+    public static final String SWITCH_VERSION = "version";
+    public static final String SWITCH_UPLOAD_FAILS_EXIT1 = "uploadfailexit1";
+    public static final String SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0 = "piviofilenotfoundexit0";
+    public static final String SWITCH_SOURCE_CODE = "sourcecode";
+    public static final String SWITCH_OUTFILE = "out";
+    public static final String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
+    public static final String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
 
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
@@ -193,7 +193,7 @@ public class Configuration {
             try (BufferedReader buffer = new BufferedReader(new InputStreamReader(in))) {
                 gitHash = buffer.lines().collect(Collectors.joining("\n"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.output("There was an error getting the version.");
             }
         }
         System.out.println("Pivio client version: " + version + " githash: " + gitHash);

@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +33,7 @@ class ManualDependencyReader implements DependencyReader {
 
     List<Dependency> readFile(File file) {
         List<Dependency> result = new ArrayList<>();
-        try {
-            InputStream input = new FileInputStream(file);
+        try (InputStream input = new FileInputStream(file)) {
             Yaml yaml = new Yaml();
             Object object = yaml.load(input);
             if (object instanceof ArrayList) {
@@ -56,7 +52,7 @@ class ManualDependencyReader implements DependencyReader {
                     }
                 }
             }
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             log.output("File '" + file.getAbsolutePath() + "' could not be found.");
         }
 
