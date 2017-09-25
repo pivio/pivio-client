@@ -7,20 +7,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class Dependency implements Comparable {
-    @JsonProperty("licenses")
-    private final List<License> licences = new ArrayList<>();
     public String name;
     public String version;
+    @JsonProperty("licenses")
+    private final List<License> licenses = new ArrayList<>();
 
     public Dependency(String name, String version, List<License> licenses) {
         this.name = name;
         this.version = version;
-        this.licences.addAll(licenses);
-        Collections.sort(this.licences);
+        this.licenses.addAll(licenses);
+        Collections.sort(this.licenses);
     }
 
-    public List<License> getLicences() {
-        return licences;
+    public List<License> getLicenses() {
+        return licenses;
     }
 
     @Override
@@ -44,6 +44,6 @@ public class Dependency implements Comparable {
 
     @Override
     public int compareTo(Object o) {
-        return name.compareTo(((Dependency) o).name);
+        return name.compareTo(((Dependency)o).name);
     }
 }

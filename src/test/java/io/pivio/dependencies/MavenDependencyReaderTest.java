@@ -1,6 +1,5 @@
 package io.pivio.dependencies;
 
-import io.pivio.Logger;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,9 +7,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
+import static org.assertj.core.api.Assertions.*;
 
 public class MavenDependencyReaderTest {
 
@@ -36,7 +33,7 @@ public class MavenDependencyReaderTest {
 
         List<Dependency> dependencies = mavenLicenseReader.readDependencies(new File(licenseFile));
 
-        Assertions.assertThat(dependencies.get(0).getLicences()).hasSize(2);
+        Assertions.assertThat(dependencies.get(0).getLicenses()).hasSize(2);
     }
 
     @Test

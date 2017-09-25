@@ -18,10 +18,10 @@ public class DependencyTest {
 
         Dependency dependency = new Dependency("softwarename", "versionstring", licenses);
 
-        assertThat(dependency.getLicences().get(0).name).isEqualTo("name1");
-        assertThat(dependency.getLicences().get(1).name).isEqualTo("name2");
-        assertThat(dependency.getLicences().get(2).name).isEqualTo("name3");
-        assertThat(dependency.getLicences().get(3).name).isEqualTo("name5");
+        assertThat(dependency.getLicenses().get(0).fullName).isEqualTo("name1");
+        assertThat(dependency.getLicenses().get(1).fullName).isEqualTo("name2");
+        assertThat(dependency.getLicenses().get(2).fullName).isEqualTo("name3");
+        assertThat(dependency.getLicenses().get(3).fullName).isEqualTo("name5");
     }
 
 }

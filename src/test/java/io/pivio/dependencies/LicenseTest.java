@@ -21,11 +21,11 @@ public class LicenseTest {
 
     @Test
     public void testIfItIsMappedToJson() throws JsonProcessingException {
-        License license = new License("name", "url");
+        License license = new License("fullName", "url");
 
         String json = objectMapper.writeValueAsString(license);
 
-        assertThat(json).isEqualTo("{\"name\":\"name\",\"url\":\"url\"}");
+        assertThat(json).isEqualTo("{\"fullName\":\"fullName\",\"url\":\"url\"}");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class LicenseTest {
 
         String json = objectMapper.writeValueAsString(document);
 
-        assertThat(json).isEqualTo("{\"dependencies\":[{\"name\":\"software\",\"version\":\"1.0\",\"licenses\":[{\"name\":\"name1\",\"url\":\"url1\"},{\"name\":\"name2\",\"url\":\"url2\"}]}]}");
+        assertThat(json).isEqualTo("{\"dependencies\":[{\"name\":\"software\",\"version\":\"1.0\",\"licenses\":[{\"fullName\":\"name1\",\"url\":\"url1\"},{\"fullName\":\"name2\",\"url\":\"url2\"}]}]}");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class LicenseTest {
         licenses.add(new License("name5", "url2"));
         licenses.add(new License("name1", "url1"));
         Collections.sort(licenses);
-        assertThat(licenses.get(0).name).isEqualTo("name1");
+        assertThat(licenses.get(0).fullName).isEqualTo("name1");
     }
 
 }

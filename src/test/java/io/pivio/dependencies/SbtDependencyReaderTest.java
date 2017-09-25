@@ -25,7 +25,7 @@ public class SbtDependencyReaderTest {
     @Test
     public void testReadDependenciesLicense() throws Exception {
         List<Dependency> dependencies = sbtDependencyReader.readDependencies("src/test/resources/dependencies/sbt/");
-        assertThat(dependencies.get(0).getLicences().get(0).name).isEqualTo("Apache");
+        assertThat(dependencies.get(0).getLicenses().get(0).fullName).isEqualTo("Apache");
     }
 
     @Test

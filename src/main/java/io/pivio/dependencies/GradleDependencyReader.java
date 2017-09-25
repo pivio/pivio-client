@@ -33,14 +33,14 @@ class GradleDependencyReader implements DependencyReader {
         return new ArrayList<>();
     }
 
-    List<Dependency> readFile(File licenceFile) throws Exception {
+    List<Dependency> readFile(File licenseFile) throws Exception {
         List<Dependency> result = new ArrayList<>();
-        $(licenceFile).children("dependency").each(dependency -> {
+        $(licenseFile).children("dependency").each(dependency -> {
             String depName = $(dependency).attr("name").split(":")[0] + ":" + $(dependency).attr("name").split(":")[1];
             String depVersion = $(dependency).attr("name").split(":")[2];
             ArrayList<License> licensesForDependency = new ArrayList<>();
             $(dependency).children("license").each(license -> {
-                licensesForDependency.add(new License($(license).attr("name"), $(license).attr("url")));
+                licensesForDependency.add(new License($(license).attr("fullName"), $(license).attr("url")));
             });
             Collections.sort(licensesForDependency);
             result.add(new Dependency(depName, depVersion, licensesForDependency));

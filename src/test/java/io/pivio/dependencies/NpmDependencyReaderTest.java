@@ -1,14 +1,12 @@
 package io.pivio.dependencies;
 
 
-import io.pivio.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.assertj.core.api.Assertions.*;
 
 public class NpmDependencyReaderTest {
 
@@ -33,9 +31,9 @@ public class NpmDependencyReaderTest {
         assertThat(dependencies.get(1).name).isEqualTo("@angularlike/core");
         assertThat(dependencies.get(1).version).isEqualTo("1.0.0");
 
-        assertThat(dependencies.get(0).getLicences().size()).isEqualTo(2);
+        assertThat(dependencies.get(0).getLicenses().size()).isEqualTo(2);
 
-        assertThat(dependencies.get(1).getLicences().size()).isEqualTo(1);
+        assertThat(dependencies.get(1).getLicenses().size()).isEqualTo(1);
     }
 
 }
