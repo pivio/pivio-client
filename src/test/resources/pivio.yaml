@@ -44,7 +44,7 @@ general:
   # Where is my source code
   # - Value can be anything, maybe if URL starts with http we link it later
   # - Mandatory
-  vcs: git://vcs.local/billprint
+  vcsroot: git://vcs.local/billprint
 
   # Links to several resources which a user can click on
   links:
