@@ -25,7 +25,7 @@ class MavenDependencyReader {
                     String version = $(dependency).child("version").text();
                     List<License> licenses = new ArrayList<>();
                     $(dependency).child("licenses").children("license").each(license -> {
-                        licenses.add(new License($(license).child("fullName").text(), $(license).child("url").text()));
+                        licenses.add(new License($(license).child("name").text(), $(license).child("url").text()));
                     });
                     Collections.sort(licenses);
                     result.add(new Dependency(depText, version, licenses));

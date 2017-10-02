@@ -40,7 +40,7 @@ class GradleDependencyReader implements DependencyReader {
             String depVersion = $(dependency).attr("name").split(":")[2];
             ArrayList<License> licensesForDependency = new ArrayList<>();
             $(dependency).children("license").each(license -> {
-                licensesForDependency.add(new License($(license).attr("fullName"), $(license).attr("url")));
+                licensesForDependency.add(new License($(license).attr("name"), $(license).attr("url")));
             });
             Collections.sort(licensesForDependency);
             result.add(new Dependency(depName, depVersion, licensesForDependency));
