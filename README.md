@@ -16,7 +16,7 @@ Run: Java RE > 8.x
 # Build
 
 ```
-./gradlew
+./gradlew build
 ```
 
 or if you have gradle installed
