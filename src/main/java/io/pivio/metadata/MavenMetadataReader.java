@@ -19,7 +19,7 @@ public class MavenMetadataReader implements MetadataReader {
             metadata.name = $(buildFile).child("name").text();
             metadata.description = $(buildFile).child("description").text();
         } catch (Exception e) {
-            log.output("The file " + buildFile.toString() + "could not be read.");
+            log.output("The file " + buildFile.toString() + " could not be read.");
         }
         return metadata;
     }

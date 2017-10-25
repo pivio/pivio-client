@@ -43,6 +43,10 @@ public class Configuration {
     private String DEFAULT_CONFIG_FILE = "/etc/pivio-client.properties";
     @Value(value = "${app.dependencies.manual}")
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
+    @Value(value = "${dependencies.blacklist}")
+    public String[] BLACKLIST = null;
+    @Value(value = "${dependencies.whitelist}")
+    public String[] WHITELIST = null;
 
     private Options options = new Options();
     private CommandLine commandLine;
@@ -185,6 +189,7 @@ public class Configuration {
         return parser.parse(options, args);
     }
 
+    // FIXME: Crazy! The persons that developed something automatic for version display etc. hardcoded this!
     public void outputVersion() {
         String version = "0.2";
         String gitHash = "DEV-VERSION";
