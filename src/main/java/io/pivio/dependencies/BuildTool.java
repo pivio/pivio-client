@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+@Service("DependenciesBuildTool")
 class BuildTool {
 
     static final String GRADLE = "build.gradle";
