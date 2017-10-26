@@ -21,7 +21,7 @@ public class BuildToolTest {
         buildTool = new BuildTool(new GradleDependencyReader(configurationMock),
                 new MavenParentPomDependencyReader(new MavenDependencyReader()),
                 new SbtDependencyReader(),
-                new NpmDependencyReader(),
+                new NpmDependencyReader(configuration),
                 new ManualDependencyReader(configurationMock),
                 configurationMock);
 

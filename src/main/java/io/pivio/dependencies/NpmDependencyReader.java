@@ -83,7 +83,7 @@ public class NpmDependencyReader implements DependencyReader {
 
     private List<Dependency> applyWhiteList(List<Dependency> dependencies) {
         List<Dependency> result = new ArrayList<>();
-        if (configuration.WHITELIST.length >0) {
+        if (configuration.WHITELIST.length > 0) {
             for (Dependency dependency : dependencies) {
                 boolean onWhiteList = false;
                 for (String regex : configuration.WHITELIST) {
@@ -104,7 +104,7 @@ public class NpmDependencyReader implements DependencyReader {
 
     private List<Dependency> applyBlackList(List<Dependency> dependencies) {
         List<Dependency> result = new ArrayList<>();
-        if (configuration.BLACKLIST.length >0) {
+        if (configuration.BLACKLIST.length > 0) {
             for (Dependency dependency : dependencies) {
                 boolean onBlackList = false;
                 for (String regex : configuration.BLACKLIST) {

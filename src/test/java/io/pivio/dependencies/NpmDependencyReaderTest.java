@@ -1,6 +1,7 @@
 package io.pivio.dependencies;
 
 
+import io.pivio.Configuration;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +15,8 @@ public class NpmDependencyReaderTest {
 
     @Before
     public void setUp() throws Exception {
-        npmLicenseReader = new NpmDependencyReader();
+        Configuration configuration = new Configuration();
+        npmLicenseReader = new NpmDependencyReader(configuration);
     }
 
     @Test
