@@ -2,6 +2,7 @@ package io.pivio.dependencies;
 
 import io.pivio.Configuration;
 import io.pivio.Logger;
+import io.pivio.metadata.Metadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;

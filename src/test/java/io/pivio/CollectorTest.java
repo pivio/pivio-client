@@ -2,6 +2,7 @@ package io.pivio;
 
 import io.pivio.dependencies.DependenciesReader;
 import io.pivio.dependencies.Dependency;
+import io.pivio.metadata.MetadataService;
 import io.pivio.vcs.VcsReader;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class CollectorTest {
     private Reader readerMock;
     private VcsReader vcsReaderMock;
     private DependenciesReader dependenciesReaderMock;
+    private MetadataService metadataServiceMock;
     private Configuration configurationMock;
 
     @Before
@@ -31,8 +33,9 @@ public class CollectorTest {
         readerMock = mock(Reader.class);
         vcsReaderMock = mock(VcsReader.class);
         dependenciesReaderMock = mock(DependenciesReader.class);
+        metadataServiceMock = mock(MetadataService.class);
         configurationMock = mock(Configuration.class);
-        collector = new Collector(readerMock, dependenciesReaderMock, vcsReaderMock, configurationMock);
+        collector = new Collector(readerMock, dependenciesReaderMock, metadataServiceMock, vcsReaderMock, configurationMock);
 
         when(configurationMock.isVerbose()).thenReturn(false);
     }
