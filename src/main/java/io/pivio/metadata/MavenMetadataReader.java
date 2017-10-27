@@ -12,7 +12,11 @@ public class MavenMetadataReader implements MetadataReader {
 
     @Override
     public Metadata readMetadata(File sourceDirectory) {
-        File buildFile = new File(sourceDirectory.getAbsolutePath() + "/" + BuildTool.MAVEN);
+        return readMetadata(sourceDirectory, BuildTool.MAVEN);
+    }
+
+    Metadata readMetadata(File sourceDirectory, String pomFileName) {
+        File buildFile = new File(sourceDirectory.getAbsolutePath() + "/" + pomFileName);
         Metadata metadata = new Metadata();
         try {
             metadata.version = $(buildFile).child("version").text();

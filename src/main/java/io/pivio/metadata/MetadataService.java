@@ -23,7 +23,7 @@ public class MetadataService {
     public Optional<Metadata> readMetadata() {
         String sourceRoot = configuration.getParameter(Configuration.SWITCH_SOURCE_DIR);
         File directory = new File(sourceRoot);
-        log.verboseOutput("Looking for source code in directory "+directory.getAbsolutePath()+".", configuration.isVerbose());
+        log.verboseOutput("Looking for build tool to read metadata in directory " + directory.getAbsolutePath() + ".", configuration.isVerbose());
         Optional<MetadataReader> metadataReader = buildTool.getMetadataReader(directory);
         if (metadataReader.isPresent()) {
             return Optional.of(metadataReader.get().readMetadata(directory));

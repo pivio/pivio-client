@@ -99,6 +99,7 @@ public class Configuration {
                 result = commandLine.getOptionValue(SWITCH_YAML_DIR, ".");
                 break;
             case SWITCH_MANUAL_DEPENDENCIES:
+                // FIXME: command line option not working
                 result = getValueFromConfigFile(SWITCH_MANUAL_DEPENDENCIES, DEFAULT_MANUAL_DEPENDENCIES);
                 break;
             case SWITCH_SOURCE_CODE:

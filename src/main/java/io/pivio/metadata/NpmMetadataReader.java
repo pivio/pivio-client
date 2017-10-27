@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class NpmMetadataReader implements MetadataReader {
 
     @Override
-    public Metadata readMetadata(File buildFile) {
+    public Metadata readMetadata(File buildDirectory) {
         return null;
     }
 }
