@@ -43,6 +43,10 @@ public class Configuration {
     private String DEFAULT_CONFIG_FILE = "/etc/pivio-client.properties";
     @Value(value = "${app.dependencies.manual}")
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
+    @Value(value = "${dependencies.blacklist}")
+    public String[] BLACKLIST = new String[0];
+    @Value(value = "${dependencies.whitelist}")
+    public String[] WHITELIST = new String[0];
 
     private Options options = new Options();
     private CommandLine commandLine;

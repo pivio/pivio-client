@@ -1,7 +1,10 @@
 package io.pivio.dependencies;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.pivio.Configuration;
 import io.pivio.Logger;
+import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -17,15 +20,19 @@ import java.util.stream.Collectors;
 public class NpmDependencyReader implements DependencyReader {
 
     private final Logger log = new Logger();
+    private final Configuration configuration;
 
-    public NpmDependencyReader() {}
+    @Autowired
+    public NpmDependencyReader(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     @Override
     public List<Dependency> readDependencies(String sourceRootDirectory) {
         String dependenciesFilePath = sourceRootDirectory + "/dependencies.json";
         try {
             Map<String, Object> dependencies = new ObjectMapper().readerFor(Map.class).readValue(new File(dependenciesFilePath));
-            return convertToDependencies(dependencies);
+            return applyBlackList(applyWhiteList(convertToDependencies(dependencies)));
         } catch (IOException e) {
             log.output("The file " + dependenciesFilePath + " could not be read.");
             return Collections.emptyList();
@@ -73,5 +80,49 @@ public class NpmDependencyReader implements DependencyReader {
     private String getLicenseUrl(String license) {
         return "http://choosealicense.com/licenses/" + license;
     }
+
+    private List<Dependency> applyWhiteList(List<Dependency> dependencies) {
+        List<Dependency> result = new ArrayList<>();
+        if (configuration.WHITELIST.length > 0) {
+            for (Dependency dependency : dependencies) {
+                boolean onWhiteList = false;
+                for (String regex : configuration.WHITELIST) {
+                    if (dependency.name.matches(regex)){
+                        onWhiteList = true;
+                        continue;
+                    }
+                }
+                if (onWhiteList) {
+                    result.add(dependency);
+                }
+            }
+        } else {
+            result = dependencies;
+        }
+        return result;
+    }
+
+    private List<Dependency> applyBlackList(List<Dependency> dependencies) {
+        List<Dependency> result = new ArrayList<>();
+        if (configuration.BLACKLIST.length > 0) {
+            for (Dependency dependency : dependencies) {
+                boolean onBlackList = false;
+                for (String regex : configuration.BLACKLIST) {
+                    if (dependency.name.matches(regex)){
+                        onBlackList = true;
+                        continue;
+                    }
+                }
+                if (!onBlackList) {
+                    result.add(dependency);
+                }
+            }
+        } else {
+            result = dependencies;
+        }
+        return result;
+    }
+
+
 
 }

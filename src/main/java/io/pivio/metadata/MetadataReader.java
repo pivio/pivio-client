@@ -3,5 +3,5 @@ package io.pivio.metadata;
 import java.io.File;
 
 public interface MetadataReader {
-    Metadata readMetadata(File buildDirectory);
+    Metadata readMetadata(File sourceDirectory);
 }
