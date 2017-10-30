@@ -25,4 +25,18 @@ public class NpmMetadataReader implements MetadataReader {
         }
         return metadata;
     }
+
+    public Metadata readMetadata(File sourceDirectory, String fileName) {
+        Metadata metadata = new Metadata();
+        File buildFile = new File(sourceDirectory.getAbsolutePath() + "/" + fileName);
+        try {
+            Map<String, Object> metadataJson = new ObjectMapper().readerFor(Map.class).readValue(buildFile);
+            metadata.version = metadataJson.get("version").toString();
+            metadata.name = metadataJson.get("name").toString();
+            metadata.description = metadataJson.get("description").toString();
+        } catch (Exception e) {
+            log.output("The file " + buildFile.toString() + " could not be read.");
+        }
+        return metadata;
+    }
 }
