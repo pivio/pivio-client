@@ -70,7 +70,7 @@ class Collector {
                         document.remove("blacklist");
                     }
                     else {
-                        configuration.BLACKLIST = (String[]) blackListPivioYaml.toArray();
+                        configuration.BLACKLIST = (String[]) blackListPivioYaml.toArray(new String[] {});
                     }
                 }
             }

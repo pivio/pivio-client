@@ -29,12 +29,12 @@ public class NpmDependencyReader implements DependencyReader {
 
     @Override
     public List<Dependency> readDependencies(String sourceRootDirectory) {
-        String dependenciesFilePath = sourceRootDirectory + "/dependencies.json";
+        File dependenciesFile = new File(sourceRootDirectory, "dependencies.json");
         try {
-            Map<String, Object> dependencies = new ObjectMapper().readerFor(Map.class).readValue(new File(dependenciesFilePath));
+            Map<String, Object> dependencies = new ObjectMapper().readerFor(Map.class).readValue(dependenciesFile);
             return applyBlackList(applyWhiteList(convertToDependencies(dependencies)));
         } catch (IOException e) {
-            log.output("The file " + dependenciesFilePath + " could not be read.");
+            log.output("The file " + dependenciesFile.getPath() + " could not be read.");
             return Collections.emptyList();
         }
     }
