@@ -30,6 +30,7 @@ public class Configuration {
     public static final String SWITCH_OUTFILE = "out";
     public static final String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
     public static final String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
+    public static final String SWITCH_ADD_FIELD = "addfield";
 
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
@@ -43,6 +44,10 @@ public class Configuration {
     private String DEFAULT_CONFIG_FILE = "/etc/pivio-client.properties";
     @Value(value = "${app.dependencies.manual}")
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
+    @Value(value = "${dependencies.blacklist}")
+    public String[] BLACKLIST = new String[0];
+    @Value(value = "${dependencies.whitelist}")
+    public String[] WHITELIST = new String[0];
 
     private Options options = new Options();
     private CommandLine commandLine;
@@ -99,6 +104,7 @@ public class Configuration {
                 result = commandLine.getOptionValue(SWITCH_YAML_DIR, ".");
                 break;
             case SWITCH_MANUAL_DEPENDENCIES:
+                // FIXME: command line option not working
                 result = getValueFromConfigFile(SWITCH_MANUAL_DEPENDENCIES, DEFAULT_MANUAL_DEPENDENCIES);
                 break;
             case SWITCH_SOURCE_CODE:
@@ -114,6 +120,8 @@ public class Configuration {
             case SWITCH_OUTFILETOPLEVELATTRIBUTES:
                 result = commandLine.getOptionValue(SWITCH_OUTFILETOPLEVELATTRIBUTES);
                 break;
+            case SWITCH_ADD_FIELD:
+                result = commandLine.getOptionValue(SWITCH_ADD_FIELD);
             default:
                 break;
         }
@@ -180,6 +188,7 @@ public class Configuration {
         options.addOption(SWITCH_SOURCE_CODE, true, "Defines the directory (or comma-separated directories) your source code with the build file is located in. If it is relative path, it is relative to the pivio.yaml file. This switch can also be defined with the 'PIVIO_SOURCECODE' environment variable.");
         options.addOption(SWITCH_OUTFILE, true, "Output the generated json to this file.");
         options.addOption(SWITCH_OUTFILETOPLEVELATTRIBUTES, true, "Only output these top level attributes to the outfile, e.g. name,id,runtime.");
+        options.addOption(SWITCH_ADD_FIELD, true, "Add more fields to the yaml file via the commandline interface.");
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);

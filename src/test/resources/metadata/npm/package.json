@@ -1,0 +1,10 @@
+{
+  "name": "test_application_name",
+  "version": "0.0.1-SNAPSHOT",
+  "description" : "This is a test description for the test package.json",
+  "license": "LicenseRef-LICENSE",
+  "scripts": {},
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {}
+}
