@@ -135,7 +135,6 @@ class Collector {
         return document;
     }
 
-    // TODO: Implement real support for multiple files
     List<Map<String, Object>> gatherMultipleFiles() throws FileNotFoundException {
         List<Map<String, Object>> documents = new ArrayList<>();
         String parameter = configuration.getParameter(Configuration.SWITCH_YAML_DIR);
