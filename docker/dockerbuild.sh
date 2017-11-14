@@ -48,6 +48,6 @@ docker build --pull --tag="leanix/pivio-client:latest" -f Dockerfile ../.
 popd
 
 echo "To run the npm license-checker execute the following command on the base directory of your npm project:"
-echo "docker run --rm -it -v $(pwd):/source leanix/pivio-client ./node_modules/license-checker/bin/license-checker > dependencies.json"
+echo "docker run --rm -it -v $(pwd):/source leanix/pivio-client ./node_modules/license-checker/bin/license-checker --json > dependencies.json"
 
 echo "Run the docker container with: docker run --rm -it leanix/pivio-client"
