@@ -7,4 +7,4 @@
 # --- body ---------------------------------------------------------
 
 cd /source
-/node_modules/license-checker/bin/license-checker --json > dependencies_docker.json
+/node_modules/license-checker/bin/license-checker --json > dependencies.json

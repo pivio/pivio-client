@@ -22,6 +22,7 @@ COPY /docker/pivio.sh /usr/bin/pivio
 COPY /docker/npm-license-checker.sh /usr/bin/npm-license-checker
 
 RUN chmod +x /usr/bin/pivio
+RUN chmod +x /usr/bin/npm-license-checker
 
 
 WORKDIR /
