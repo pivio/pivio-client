@@ -19,6 +19,7 @@ RUN set -x \
 
 COPY /build/libs/pivio.jar /pivio.jar
 COPY /docker/pivio.sh /usr/bin/pivio
+COPY /docker/npm-license-checker.sh /usr/bin/npm-license-checker
 
 RUN chmod +x /usr/bin/pivio
 

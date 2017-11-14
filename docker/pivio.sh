@@ -15,9 +15,9 @@ display_usage() {
     echo -e "                        -h, --help   show this help" 
     echo -e "\nEG:" 
     echo -e "  # Enter your project directory and use the pivio.yaml file in this directory" 
-    echo -e "  docker run --rm -it -v \$(pwd):/source ${CONTAINER_NAME} pivio -serviceurl "https://local-eam.leanix.net/services/integrations/v2/pivio/document" -verbose \n"
+    echo -e "  docker run --rm -v \$(pwd):/source ${CONTAINER_NAME} pivio -serviceurl "https://local-eam.leanix.net/services/integrations/v2/pivio/document" -verbose \n"
     echo -e "  # or"     
-    echo -e "  docker run --rm -it -v \$(pwd):/source --add-host local-eam.leanix.net:192.168.99.100 ${CONTAINER_NAME} pivio -serviceurl "https://local-eam.leanix.net/services/integrations/v2/pivio/document" -verbose -addfield \"api_token=vL6WOsHFczYDJPqsvs3ExxA6HY7jfSn9VNOKnnQe\"\n" 
+    echo -e "  docker run --rm -v \$(pwd):/source --add-host local-eam.leanix.net:192.168.99.100 ${CONTAINER_NAME} pivio -serviceurl "https://local-eam.leanix.net/services/integrations/v2/pivio/document" -verbose -addfield \"api_token=vL6WOsHFczYDJPqsvs3ExxA6HY7jfSn9VNOKnnQe\"\n" 
 } 
 
 # check whether user had supplied -h or --help or no parameters . If yes display usage 
