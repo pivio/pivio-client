@@ -1,10 +1,19 @@
 package io.pivio;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -30,6 +39,12 @@ public class Configuration {
     public static final String SWITCH_OUTFILE = "out";
     public static final String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
     public static final String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
+    public static final String SWITCH_ADD_FIELD = "addfield";
+    public static final String SWITCH_PROXY_PORT = "proxyport";
+    public static final String SWITCH_PROXY_TYPE = "proxytype";
+    public static final String SWITCH_PROXY_HOSTNAME = "proxyhostname";
+    public static final String SWITCH_PROXY_USER = "proxyuser";
+    public static final String SWITCH_PROXY_PWD = "proxypassword";
 
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
@@ -43,6 +58,10 @@ public class Configuration {
     private String DEFAULT_CONFIG_FILE = "/etc/pivio-client.properties";
     @Value(value = "${app.dependencies.manual}")
     private String DEFAULT_MANUAL_DEPENDENCIES = "pivio/dependencies.yaml";
+    @Value(value = "${dependencies.blacklist}")
+    public String[] BLACKLIST = new String[0];
+    @Value(value = "${dependencies.whitelist}")
+    public String[] WHITELIST = new String[0];
 
     private Options options = new Options();
     private CommandLine commandLine;
@@ -57,8 +76,10 @@ public class Configuration {
     }
 
     public boolean hasOption(String option) {
-        log.verboseOutput("Checking for hasOption: '" + option + "' result: '" + commandLine.hasOption(option) + "'.", isVerbose());
-        return commandLine.hasOption(option) || (!getValueFromConfigFile(option, "THISISADUMMYVALUE").equals("THISISADUMMYVALUE"));
+        log.verboseOutput("Checking for hasOption: '" + option + "' result: '" + commandLine.hasOption(option) + "'.",
+            isVerbose());
+        return commandLine.hasOption(option)
+            || (!getValueFromConfigFile(option, "THISISADUMMYVALUE").equals("THISISADUMMYVALUE"));
     }
 
     public String getYamlFilePath() {
@@ -77,7 +98,8 @@ public class Configuration {
         String defaultValue;
         switch (option) {
             case SWITCH_SOURCE_DIR:
-                defaultValue = getValueFromConfigFile(SWITCH_SOURCE_DIR, Paths.get(DEFAULT_VALUE_SOURCE_DIR).toAbsolutePath().normalize().toString());
+                defaultValue = getValueFromConfigFile(SWITCH_SOURCE_DIR,
+                    Paths.get(DEFAULT_VALUE_SOURCE_DIR).toAbsolutePath().normalize().toString());
                 result = commandLine.getOptionValue(SWITCH_SOURCE_DIR, defaultValue);
                 break;
             case SWITCH_GIT_REMOTE:
@@ -99,13 +121,16 @@ public class Configuration {
                 result = commandLine.getOptionValue(SWITCH_YAML_DIR, ".");
                 break;
             case SWITCH_MANUAL_DEPENDENCIES:
+                // FIXME: command line option not working
                 result = getValueFromConfigFile(SWITCH_MANUAL_DEPENDENCIES, DEFAULT_MANUAL_DEPENDENCIES);
                 break;
             case SWITCH_SOURCE_CODE:
                 result = commandLine.getOptionValue(SWITCH_SOURCE_CODE, "");
                 if (System.getenv("PIVIO_SOURCECODE") != null && result.equals("")) {
                     result = System.getenv("PIVIO_SOURCECODE");
-                    log.verboseOutput("Reading switch '" + SWITCH_SOURCE_CODE + "' from environment variable with value : '" + result + "'.", isVerbose());
+                    log.verboseOutput(
+                        "Reading switch '" + SWITCH_SOURCE_CODE + "' from environment variable with value : '" + result + "'.",
+                        isVerbose());
                 }
                 break;
             case SWITCH_OUTFILE:
@@ -113,6 +138,24 @@ public class Configuration {
                 break;
             case SWITCH_OUTFILETOPLEVELATTRIBUTES:
                 result = commandLine.getOptionValue(SWITCH_OUTFILETOPLEVELATTRIBUTES);
+                break;
+            case SWITCH_ADD_FIELD:
+                result = commandLine.getOptionValue(SWITCH_ADD_FIELD);
+                break;
+            case SWITCH_PROXY_HOSTNAME:
+                result = commandLine.getOptionValue(SWITCH_PROXY_HOSTNAME);
+                break;
+            case SWITCH_PROXY_PORT:
+                result = commandLine.getOptionValue(SWITCH_PROXY_PORT);
+                break;
+            case SWITCH_PROXY_TYPE:
+                result = commandLine.getOptionValue(SWITCH_PROXY_TYPE);
+                break;
+            case SWITCH_PROXY_USER:
+                result = commandLine.getOptionValue(SWITCH_PROXY_USER);
+                break;
+            case SWITCH_PROXY_PWD:
+                result = commandLine.getOptionValue(SWITCH_PROXY_PWD);
                 break;
             default:
                 break;
@@ -149,10 +192,10 @@ public class Configuration {
                 }
             }
         }
-        log.verboseOutput("Option '" + option + "' was requested from config file in " + configFileLocation + "' (default: " + defaultValue + ") and returned '" + result + "'.", isVerbose());
+        log.verboseOutput("Option '" + option + "' was requested from config file in " + configFileLocation + "' (default: "
+            + defaultValue + ") and returned '" + result + "'.", isVerbose());
         return result;
     }
-
 
     void outputHelp() {
         HelpFormatter formatter = new HelpFormatter();
@@ -164,22 +207,42 @@ public class Configuration {
         options.addOption(SWITCH_VERBOSE, false, "Prints more information.");
         options.addOption(SWITCH_HELP, false, "This Help.");
         options.addOption(SWITCH_DRY_RUN, false, "Do a dry run, do not submit anything but output it to stdout.");
-        options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false, "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
-        options.addOption(SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0, false, "Fail with Exit(0) when a pivio document was not found in the source directory. Default is 1 in such as case.");
-        options.addOption(SWITCH_GENERATE_JSON_SCHEMA, false, "Outputs the json schema for validation to the current processed yaml file.");
+        options.addOption(SWITCH_UPLOAD_FAILS_EXIT1, false,
+            "Fail with Exit(1) when document can not be uploaded. Default is 0 in such a case.");
+        options.addOption(SWITCH_PIVIO_FILE_NOT_FOUND_EXIT0, false,
+            "Fail with Exit(0) when a pivio document was not found in the source directory. Default is 1 in such as case.");
+        options.addOption(SWITCH_GENERATE_JSON_SCHEMA, false,
+            "Outputs the json schema for validation to the current processed yaml file.");
         options.addOption(SWITCH_VERSION, false, "Shows the version of the client and end the client.");
 
-        options.addOption(SWITCH_YAML_DIR, true, "All *.yaml files in this directory will be read and each file is treated as self contained definition of an artefact.");
-        options.addOption(SWITCH_SOURCE_DIR, true, "The directory containing the pivio.yaml file. Should be the root directory of the project.");
-        options.addOption(SWITCH_CONFIG, true, "Defines the config for all parameters. This is a properties file with some the switches listed here. Default location is /etc/pivio-client.properties.");
-        options.addOption(SWITCH_GIT_REMOTE, true, "Uses the given argument as origin for Git VCS remote detection (default: origin). This is useful if you have multiple remotes configured and/or differently named.");
-        options.addOption(SWITCH_SERVICE_URL, true, "The url of the pivio service. If this switch is not supplied, no upload will happen.");
-        options.addOption(SWITCH_USE_THIS_YAML_FILE, true, "Full path to a file containing the data in yaml format. Does not have to be named pivio.yaml. This overwrites the -source switch and only information in this file will be collected.");
-        options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true, "Defines the name of your yaml metadata. The suffix '.yaml' will be always appended. Defaults to 'pivio'.");
-        options.addOption(SWITCH_MANUAL_DEPENDENCIES, true, "Defines the file which holds manual defined dependencies. Defaults to: pivio/dependencies.yaml.");
-        options.addOption(SWITCH_SOURCE_CODE, true, "Defines the directory (or comma-separated directories) your source code with the build file is located in. If it is relative path, it is relative to the pivio.yaml file. This switch can also be defined with the 'PIVIO_SOURCECODE' environment variable.");
+        options.addOption(SWITCH_YAML_DIR, true,
+            "All *.yaml files in this directory will be read and each file is treated as self contained definition of an artefact.");
+        options.addOption(SWITCH_SOURCE_DIR, true,
+            "The directory containing the pivio.yaml file. Should be the root directory of the project.");
+        options.addOption(SWITCH_CONFIG, true,
+            "Defines the config for all parameters. This is a properties file with some the switches listed here. Default location is /etc/pivio-client.properties.");
+        options.addOption(SWITCH_GIT_REMOTE, true,
+            "Uses the given argument as origin for Git VCS remote detection (default: origin). This is useful if you have multiple remotes configured and/or differently named.");
+        options.addOption(SWITCH_SERVICE_URL, true,
+            "The url of the pivio service. If this switch is not supplied, no upload will happen.");
+        options.addOption(SWITCH_USE_THIS_YAML_FILE, true,
+            "Full path to a file containing the data in yaml format. Does not have to be named pivio.yaml. This overwrites the -source switch and only information in this file will be collected.");
+        options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true,
+            "Defines the name of your yaml metadata. The suffix '.yaml' will be always appended. Defaults to 'pivio'.");
+        options.addOption(SWITCH_MANUAL_DEPENDENCIES, true,
+            "Defines the file which holds manual defined dependencies. Defaults to: pivio/dependencies.yaml.");
+        options.addOption(SWITCH_SOURCE_CODE, true,
+            "Defines the directory (or comma-separated directories) your source code with the build file is located in. If it is relative path, it is relative to the pivio.yaml file. This switch can also be defined with the 'PIVIO_SOURCECODE' environment variable.");
         options.addOption(SWITCH_OUTFILE, true, "Output the generated json to this file.");
-        options.addOption(SWITCH_OUTFILETOPLEVELATTRIBUTES, true, "Only output these top level attributes to the outfile, e.g. name,id,runtime.");
+        options.addOption(SWITCH_OUTFILETOPLEVELATTRIBUTES, true,
+            "Only output these top level attributes to the outfile, e.g. name,id,runtime.");
+        options.addOption(SWITCH_ADD_FIELD, true, "Add more fields to the yaml file via the commandline interface.");
+        options.addOption(SWITCH_PROXY_HOSTNAME, true, "The proxy hostname to be used during the execution.");
+        options.addOption(SWITCH_PROXY_PORT, true, "The port of the proxy to be used during the execution. (Default 8080)");
+        options.addOption(SWITCH_PROXY_TYPE, true,
+            "Set the proxy type of (HTTP/DIRECT/SOCKET) to be used during the execution. (Default HTTP)");
+        options.addOption(SWITCH_PROXY_USER, true, "Username to login into proxy");
+        options.addOption(SWITCH_PROXY_PWD, true, "User password to login into proxy");
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);

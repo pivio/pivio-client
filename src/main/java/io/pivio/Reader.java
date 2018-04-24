@@ -33,7 +33,15 @@ class Reader {
                 throw new PivioYamlParserException("Data in " + yamlfile + " is not valid: "+ye.getMessage());
             }
             if (data instanceof Map) {
-                return makeLowerCaseKeys((Map<String, Object>) data);
+                Map<String,Object> result = makeLowerCaseKeys((Map<String, Object>) data);
+                if (configuration.hasOption(Configuration.SWITCH_ADD_FIELD)) {
+                    String parameterInput = configuration.getParameter(Configuration.SWITCH_ADD_FIELD);
+                    if (!parameterInput.contains("=")) {
+                        throw new PivioYamlParserException("Data in CommandLine input is not valid: SWITCH_ADD_FIELD " + parameterInput);
+                    }
+                    result.put(parameterInput.split("=")[0],parameterInput.split("=")[1]);
+                }
+                return result;
             } else {
                 throw new PivioYamlParserException("Data in " + yamlfile + " is not valid.");
             }
