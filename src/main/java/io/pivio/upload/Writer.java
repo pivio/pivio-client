@@ -1,25 +1,35 @@
 package io.pivio.upload;
 
+import static io.pivio.Configuration.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import io.pivio.Configuration;
 import io.pivio.Logger;
 import io.pivio.PivioYamlParserException;
 import io.pivio.schema.SchemaValidator;
-import org.codehaus.jackson.schema.JsonSchema;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.Proxy.Type;
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.pivio.Configuration.*;
 
 @Service
 public class Writer {
@@ -82,7 +92,7 @@ public class Writer {
         if (configuration.hasOption(SWITCH_SERVICE_URL)) {
             String serviceUrl = configuration.getParameter(SWITCH_SERVICE_URL);
             log.verboseOutput("Uploading  to " + serviceUrl + ": " + json, configuration.isVerbose());
-            RestTemplate rt = new RestTemplate();
+            RestTemplate rt = createRestTemplate();
             rt.setErrorHandler(new RestCallErrorHandler());
             HttpHeaders headers = new HttpHeaders();
             headers.set("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -118,4 +128,71 @@ public class Writer {
             log.output(message);
         }
     }
+    
+    private RestTemplate createRestTemplate() {
+
+        String hostname, username = null, password = null; // password could be null
+        int port = 8080;
+        Type proxyType = Type.HTTP;
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+
+        if (configuration.hasOption(SWITCH_PROXY_HOSTNAME)) {
+            hostname = configuration.getParameter(SWITCH_PROXY_HOSTNAME);
+
+            // getting proxy port
+            if (configuration.hasOption(SWITCH_PROXY_PORT)) {
+                try {
+                    port = Integer.parseInt(configuration.getParameter(SWITCH_PROXY_PORT));
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException(String.format("Given proxy port argument '%s' is not a number",
+                        configuration.getParameter(SWITCH_PROXY_PORT)));
+                }
+            }
+
+            // getting proxy type
+            if (configuration.hasOption(SWITCH_PROXY_TYPE)) {
+                switch (configuration.getParameter(SWITCH_PROXY_TYPE).toUpperCase()) {
+                    case "SOCKET":
+                        proxyType = Type.SOCKS;
+                        break;
+                    case "DIRECT":
+                        proxyType = Type.DIRECT;
+                        break;
+                }
+            }
+
+            HttpClientBuilder clientBuilder = HttpClientBuilder.create();
+            HttpHost proxy = new HttpHost(hostname, port);
+            clientBuilder.setProxy(proxy);
+
+            // check & set proxy credentials
+            if (configuration.hasOption(SWITCH_PROXY_USER)) {
+                username = configuration.getParameter(SWITCH_PROXY_USER);
+                if (!username.isEmpty()) {
+                    if (configuration.hasOption(SWITCH_PROXY_PWD)) {
+                        password = configuration.getParameter(SWITCH_PROXY_PWD);
+                    }
+                    // set credentials
+                    CredentialsProvider credsProvider = new BasicCredentialsProvider();
+                    credsProvider.setCredentials(
+                        new AuthScope(hostname, port),
+                        new UsernamePasswordCredentials(username, password));
+                    clientBuilder.setDefaultCredentialsProvider(credsProvider).disableCookieManagement();
+                }
+            }
+
+            if (configuration.hasOption(SWITCH_VERBOSE)) {
+                log.output("Using proxy: ON");
+                log.output("\t Url => " + hostname);
+                log.output("\t Port => " + String.valueOf(port));
+                log.output("\t Type => " + proxyType.toString());
+                log.output("\t Username => " + username);
+            }
+            HttpClient httpClient = clientBuilder.build();
+            factory.setHttpClient(httpClient);
+        }
+
+        return new RestTemplate(factory);
+    }
+
 }

@@ -31,6 +31,11 @@ public class Configuration {
     public static final String SWITCH_GENERATE_JSON_SCHEMA = "generatejsonschema";
     public static final String SWITCH_OUTFILETOPLEVELATTRIBUTES = "outattributes";
     public static final String SWITCH_ADD_FIELD = "addfield";
+    public static final String SWITCH_PROXY_PORT = "proxyport";
+    public static final String SWITCH_PROXY_TYPE = "proxytype";
+    public static final String SWITCH_PROXY_HOSTNAME = "proxyhostname";
+    public static final String SWITCH_PROXY_USER = "proxyuser";
+    public static final String SWITCH_PROXY_PWD = "proxypassword";
 
     @Value(value = "${app.source.dir}")
     private String DEFAULT_VALUE_SOURCE_DIR = ".";
@@ -122,6 +127,22 @@ public class Configuration {
                 break;
             case SWITCH_ADD_FIELD:
                 result = commandLine.getOptionValue(SWITCH_ADD_FIELD);
+                break;
+            case SWITCH_PROXY_HOSTNAME:
+                result = commandLine.getOptionValue(SWITCH_PROXY_HOSTNAME);
+                break;
+            case SWITCH_PROXY_PORT:
+                result = commandLine.getOptionValue(SWITCH_PROXY_PORT);
+                break;
+            case SWITCH_PROXY_TYPE:
+                result = commandLine.getOptionValue(SWITCH_PROXY_TYPE);
+                break;
+            case SWITCH_PROXY_USER:
+                result = commandLine.getOptionValue(SWITCH_PROXY_USER);
+                break;
+            case SWITCH_PROXY_PWD:
+                result = commandLine.getOptionValue(SWITCH_PROXY_PWD);
+                break;
             default:
                 break;
         }
@@ -189,6 +210,11 @@ public class Configuration {
         options.addOption(SWITCH_OUTFILE, true, "Output the generated json to this file.");
         options.addOption(SWITCH_OUTFILETOPLEVELATTRIBUTES, true, "Only output these top level attributes to the outfile, e.g. name,id,runtime.");
         options.addOption(SWITCH_ADD_FIELD, true, "Add more fields to the yaml file via the commandline interface.");
+        options.addOption(SWITCH_PROXY_HOSTNAME, true, "Enables a proxy server support and specifies the proxy host name.");
+        options.addOption(SWITCH_PROXY_PORT, true, "Specifies the proxy port number in case that a proxy is used. (default: 8080)");
+        options.addOption(SWITCH_PROXY_TYPE, true, "Specifies the proxy type in case that a proxy is used. (default: HTTP)");
+        options.addOption(SWITCH_PROXY_USER, true, "Specifies the proxy's user name if required");
+        options.addOption(SWITCH_PROXY_PWD, true, "Specifies the proxy's user password if required");
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(options, args);
