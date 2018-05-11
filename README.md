@@ -66,14 +66,14 @@ usage: pivio
  -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
                              not found in the source directory. Default is
                              1 in such as case.
- -proxyhostname 			Enables a proxy server support and specifies
- 						    the proxy host name
- -proxyport 				Specifies the proxy port number in case that a
- 						    proxy is used. (default: 8080)
- -proxytype 				Specifies the proxy type in case that a proxy
- 						    is used. (default: HTTP)
- -proxyuser 				Specifies the proxy's user name if required
- -proxypassword 			Specifies the proxy's user password if required
+ -proxyhostname              Enables a proxy server support and specifiesthe proxy
+                             host name
+ -proxyport                  Specifies the proxy port number in case that a
+                             proxy is used. (default: 8080)
+ -proxytype                  Specifies the proxy type in case that a proxy
+                             is used. (default: HTTP)
+ -proxyuser                  Specifies the proxy's user name if required
+ -proxypassword              Specifies the proxy's user password if required
 
  -serviceurl <arg>           The url of the pivio service. If this switch
                              is not supplied, no upload will happen.
