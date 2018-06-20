@@ -14,7 +14,7 @@ public abstract class DependencyReaderBase implements DependencyReader {
 
     public abstract List<Dependency> readDependencies(String sourceRootDirectory);
 
-    public List<Dependency> applyBlackAndWhiteList(List<Dependency> dependencies) {
+    protected List<Dependency> applyFilterLists(List<Dependency> dependencies) {
         return applyBlackList(applyWhiteList(dependencies));
     }
 
