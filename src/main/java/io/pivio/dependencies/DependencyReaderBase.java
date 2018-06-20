@@ -34,9 +34,9 @@ public abstract class DependencyReaderBase implements DependencyReader {
         String[] filters,
         boolean discardingMatches
     ) {
-        if(filters != null ) {
+        if(filters != null && filters.length > 0) {
             List<Dependency> result = new ArrayList<>();
-            if (filters.length > 0) {
+
                 for (Dependency dependency : dependencies) {
                     boolean onList = false;
                     for (String regex : filters) {
@@ -45,19 +45,13 @@ public abstract class DependencyReaderBase implements DependencyReader {
                             continue;
                         }
                     }
-                    if (discardingMatches) {
-                        if(!onList) {
-                            result.add(dependency);
-                        }
-                    } else {
-                        if(onList) {
-                            result.add(dependency);
-                        }
+                    if (discardingMatches && !onList) {
+                        result.add(dependency);
+                    } else if(!discardingMatches && onList) {
+                        result.add(dependency);
                     }
                 }
-            } else {
-                result = dependencies;
-            }
+
             return result;
         } else {
             return dependencies;
