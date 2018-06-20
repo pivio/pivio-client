@@ -6,6 +6,9 @@ import java.util.List;
 
 public abstract class DependencyReaderBase implements DependencyReader {
 
+    private static final boolean DISCARD_MATCHES = true;
+    private static final boolean NO_DISCARD_MATCHES = false;
+
     protected final Configuration configuration;
 
     public DependencyReaderBase(Configuration configuration) {
@@ -19,44 +22,45 @@ public abstract class DependencyReaderBase implements DependencyReader {
     }
 
     protected List<Dependency> applyWhiteList(List<Dependency> dependencies) {
-        List<Dependency> result = new ArrayList<>();
-        if (configuration.WHITELIST.length > 0) {
-            for (Dependency dependency : dependencies) {
-                boolean onWhiteList = false;
-                for (String regex : configuration.WHITELIST) {
-                    if (dependency.name.matches(regex)){
-                        onWhiteList = true;
-                        continue;
-                    }
-                }
-                if (onWhiteList) {
-                    result.add(dependency);
-                }
-            }
-        } else {
-            result = dependencies;
-        }
-        return result;
+        return applyFilterList(dependencies, configuration.WHITELIST, NO_DISCARD_MATCHES);
     }
 
     protected List<Dependency> applyBlackList(List<Dependency> dependencies) {
-        List<Dependency> result = new ArrayList<>();
-        if (configuration.BLACKLIST.length > 0) {
-            for (Dependency dependency : dependencies) {
-                boolean onBlackList = false;
-                for (String regex : configuration.BLACKLIST) {
-                    if (dependency.name.matches(regex)){
-                        onBlackList = true;
-                        continue;
+        return applyFilterList(dependencies, configuration.BLACKLIST, DISCARD_MATCHES);
+    }
+
+    private List<Dependency> applyFilterList(
+        List<Dependency> dependencies,
+        String[] filters,
+        boolean discardingMatches
+    ) {
+        if(filters != null ) {
+            List<Dependency> result = new ArrayList<>();
+            if (filters.length > 0) {
+                for (Dependency dependency : dependencies) {
+                    boolean onList = false;
+                    for (String regex : filters) {
+                        if (dependency.name.matches(regex)){
+                            onList = true;
+                            continue;
+                        }
+                    }
+                    if (discardingMatches) {
+                        if(!onList) {
+                            result.add(dependency);
+                        }
+                    } else {
+                        if(onList) {
+                            result.add(dependency);
+                        }
                     }
                 }
-                if (!onBlackList) {
-                    result.add(dependency);
-                }
+            } else {
+                result = dependencies;
             }
+            return result;
         } else {
-            result = dependencies;
+            return dependencies;
         }
-        return result;
     }
 }
