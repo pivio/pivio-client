@@ -55,7 +55,7 @@ class ManualDependencyReader extends DependencyReaderBase {
             log.output("File '" + file.getAbsolutePath() + "' could not be found.");
         }
 
-        return result;
+        return applyFilterLists(result);
     }
 
     private String getValueFromHash(Map map, String key) {

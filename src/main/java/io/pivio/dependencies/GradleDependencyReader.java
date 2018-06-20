@@ -45,6 +45,6 @@ class GradleDependencyReader extends DependencyReaderBase {
             result.add(new Dependency(depName, depVersion, licensesForDependency));
         });
         log.verboseOutput("Found " + result.size() + " dependencies.", configuration.isVerbose());
-        return result;
+        return applyFilterLists(result);
     }
 }

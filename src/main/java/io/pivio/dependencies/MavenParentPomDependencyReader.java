@@ -40,7 +40,8 @@ class MavenParentPomDependencyReader extends DependencyReaderBase {
         } catch (Exception e) {
             log.output("The file " + defaultLicenseFile + " could not be read.");
         }
-        return removeDuplicates(dependencies);
+        List<Dependency> noDuplicates = removeDuplicates(dependencies);
+        return applyFilterLists(noDuplicates);
     }
 
     private List<Dependency> readDependenciesFromSubmodules(String sourceDir) {

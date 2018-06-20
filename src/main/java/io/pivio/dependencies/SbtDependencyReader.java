@@ -41,7 +41,8 @@ class SbtDependencyReader extends DependencyReaderBase {
                 }
             }
         }
-        return removeDuplicates(result);
+        List<Dependency> noDuplicates = removeDuplicates(result);
+        return applyFilterLists(noDuplicates);
     }
 
     private Dependency getDependency(String line) {

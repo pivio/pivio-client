@@ -29,8 +29,9 @@ public class NpmDependencyReader extends DependencyReaderBase {
     public List<Dependency> readDependencies(String sourceRootDirectory) {
         File dependenciesFile = new File(sourceRootDirectory, "dependencies.json");
         try {
-            Map<String, Object> dependencies = new ObjectMapper().readerFor(Map.class).readValue(dependenciesFile);
-            return applyBlackList(applyWhiteList(convertToDependencies(dependencies)));
+            Map<String, Object> dependenciesToConvert = new ObjectMapper().readerFor(Map.class).readValue(dependenciesFile);
+            List<Dependency> dependencies = convertToDependencies(dependenciesToConvert);
+            return applyFilterLists(dependencies);
         } catch (IOException e) {
             log.output("The file " + dependenciesFile.getPath() + " could not be read.");
             return Collections.emptyList();
