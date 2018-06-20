@@ -1,5 +1,6 @@
 package io.pivio.dependencies;
 
+import io.pivio.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -10,10 +11,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-class SbtDependencyReader implements DependencyReader {
+class SbtDependencyReader extends DependencyReaderBase {
 
     private String sbtLicenseDirectoryName = "target/license-reports/"; // and all *.md files in there
     private int NUMBER_OF_LICENSE_INFO_FIELDS = 4;
+
+    public SbtDependencyReader(Configuration configuration) {
+        super(configuration);
+    }
 
     @Override
     public List<Dependency> readDependencies(String sourceRootDirectory) {

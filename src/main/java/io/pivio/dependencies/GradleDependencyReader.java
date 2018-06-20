@@ -13,14 +13,13 @@ import java.util.List;
 import static org.joox.JOOX.$;
 
 @Service
-class GradleDependencyReader implements DependencyReader {
+class GradleDependencyReader extends DependencyReaderBase {
 
-    final Configuration configuration;
     final Logger log = new Logger();
 
     @Autowired
     public GradleDependencyReader(Configuration configuration) {
-        this.configuration = configuration;
+        super(configuration);
     }
 
     public List<Dependency> readDependencies(String sourceRootDirectory) {

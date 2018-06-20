@@ -15,14 +15,13 @@ import java.util.Map;
 import static io.pivio.Configuration.SWITCH_MANUAL_DEPENDENCIES;
 
 @Service
-class ManualDependencyReader implements DependencyReader {
+class ManualDependencyReader extends DependencyReaderBase {
 
-    public final Configuration configuration;
     private final Logger log = new Logger();
 
     @Autowired
     public ManualDependencyReader(Configuration configuration) {
-        this.configuration = configuration;
+        super(configuration);
     }
 
     @Override
