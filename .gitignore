@@ -3,3 +3,8 @@
 build/
 out/
 *.iml
+bin/
+.classpath
+.project
+.settings
+.vscode
