@@ -18,8 +18,8 @@ public abstract class DependencyReaderBase implements DependencyReader {
     public abstract List<Dependency> readDependencies(String sourceRootDirectory);
 
     /**
-     * @return List<Dependency> filtered via a restrictive method first and
-     *                          then filtering via permisive method described
+     * @return List<Dependency> filtered via a permisive method first and
+     *                          then filtering via restrictive method described
      *                          on {@link #applyBlackList} & {@link #applyWhiteList}
      */
     protected List<Dependency> applyFilterLists(List<Dependency> dependencies) {
@@ -59,16 +59,16 @@ public abstract class DependencyReaderBase implements DependencyReader {
             List<Dependency> result = new ArrayList<>();
 
                 for (Dependency dependency : dependencies) {
-                    boolean onList = false;
+                    boolean isMatched = false;
                     for (String regex : filters) {
                         if (dependency.name.matches(regex)){
-                            onList = true;
+                            isMatched = true;
                             continue;
                         }
                     }
-                    if (discardingMatches && !onList) {
+                    if (discardingMatches && !isMatched) {
                         result.add(dependency);
-                    } else if(!discardingMatches && onList) {
+                    } else if(!discardingMatches && isMatched) {
                         result.add(dependency);
                     }
                 }
