@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import io.pivio.Configuration;
 
 public class SbtDependencyReaderTest {
 
@@ -13,7 +14,8 @@ public class SbtDependencyReaderTest {
 
     @Before
     public void setUp() {
-        sbtDependencyReader = new SbtDependencyReader();
+        Configuration configuration = new Configuration();
+        sbtDependencyReader = new SbtDependencyReader(configuration);
     }
 
     @Test
