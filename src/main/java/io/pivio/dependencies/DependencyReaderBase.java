@@ -18,7 +18,7 @@ public abstract class DependencyReaderBase implements DependencyReader {
     public abstract List<Dependency> readDependencies(String sourceRootDirectory);
 
     /**
-     * @return List<Dependency> filtered via a permisive method first and
+     * @return List<Dependency> filtered via a permissive method first and
      *                          then filtering via restrictive method described
      *                          on {@link #applyBlackList} & {@link #applyWhiteList}
      */
@@ -27,7 +27,7 @@ public abstract class DependencyReaderBase implements DependencyReader {
     }
 
     /**
-     * @return List<Dependency> filtered via a permisive method using a list
+     * @return List<Dependency> filtered via a permissive method using a list
      *                          of regular expresions described on whitelist
      *                          property of pivio file
      */
@@ -37,7 +37,7 @@ public abstract class DependencyReaderBase implements DependencyReader {
 
     /**
      * @return List<Dependency> filtered via a restrictive method using a list
-     *                          of regular expresions described on blacklist
+     *                          of regular expressions described on blacklist
      *                          property of pivio file
      */
     protected List<Dependency> applyBlackList(List<Dependency> dependencies) {
