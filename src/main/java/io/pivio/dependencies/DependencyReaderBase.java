@@ -28,7 +28,7 @@ public abstract class DependencyReaderBase implements DependencyReader {
 
     /**
      * @return List<Dependency> filtered via a permissive method using a list
-     *                          of regular expresions described on whitelist
+     *                          of regular expressions described on whitelist
      *                          property of pivio file
      */
     protected List<Dependency> applyWhiteList(List<Dependency> dependencies) {
