@@ -1,0 +1,9 @@
+{
+  "name": "test_application_name",
+  "version": "0.0.1-SNAPSHOT",
+  "license": "LicenseRef-LICENSE",
+  "scripts": {},
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,5 +1,6 @@
 package io.pivio.dependencies;
 
+import io.pivio.Configuration;
 import io.pivio.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-class MavenParentPomDependencyReader implements DependencyReader {
+class MavenParentPomDependencyReader extends DependencyReaderBase {
 
     private String defaultLicenseFile = "target/generated-resources/licenses.xml";
     private List<String> nonMavenDirs = new ArrayList<>();
@@ -19,7 +20,8 @@ class MavenParentPomDependencyReader implements DependencyReader {
     private final Logger log = new Logger();
 
     @Autowired
-    MavenParentPomDependencyReader(MavenDependencyReader mavenDependencyReader) {
+    MavenParentPomDependencyReader(MavenDependencyReader mavenDependencyReader, Configuration configuration) {
+        super(configuration);
         nonMavenDirs.add("src");
         nonMavenDirs.add("target");
         nonMavenDirs.add(".svn");
@@ -38,7 +40,8 @@ class MavenParentPomDependencyReader implements DependencyReader {
         } catch (Exception e) {
             log.output("The file " + defaultLicenseFile + " could not be read.");
         }
-        return removeDuplicates(dependencies);
+        List<Dependency> noDuplicates = removeDuplicates(dependencies);
+        return applyFilterLists(noDuplicates);
     }
 
     private List<Dependency> readDependenciesFromSubmodules(String sourceDir) {

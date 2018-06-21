@@ -19,9 +19,9 @@ public class BuildToolTest {
         Configuration configurationMock = mock(Configuration.class);
 
         buildTool = new BuildTool(new GradleDependencyReader(configurationMock),
-                new MavenParentPomDependencyReader(new MavenDependencyReader()),
-                new SbtDependencyReader(),
-                new NpmDependencyReader(),
+                new MavenParentPomDependencyReader(new MavenDependencyReader(), configurationMock),
+                new SbtDependencyReader(configurationMock),
+                new NpmDependencyReader(configurationMock),
                 new ManualDependencyReader(configurationMock),
                 configurationMock);
 
