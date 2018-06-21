@@ -1,7 +1,6 @@
 package io.pivio.dependencies;
 
 import io.pivio.Configuration;
-import io.pivio.Logger;
 import org.apache.commons.cli.*;
 import org.junit.Before;
 import org.junit.Test;

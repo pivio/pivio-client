@@ -13,14 +13,13 @@ import java.util.List;
 import static org.joox.JOOX.$;
 
 @Service
-class GradleDependencyReader implements DependencyReader {
+class GradleDependencyReader extends DependencyReaderBase {
 
-    final Configuration configuration;
     final Logger log = new Logger();
 
     @Autowired
     public GradleDependencyReader(Configuration configuration) {
-        this.configuration = configuration;
+        super(configuration);
     }
 
     public List<Dependency> readDependencies(String sourceRootDirectory) {
@@ -46,6 +45,6 @@ class GradleDependencyReader implements DependencyReader {
             result.add(new Dependency(depName, depVersion, licensesForDependency));
         });
         log.verboseOutput("Found " + result.size() + " dependencies.", configuration.isVerbose());
-        return result;
+        return applyFilterLists(result);
     }
 }

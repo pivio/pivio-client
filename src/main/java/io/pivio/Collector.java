@@ -57,7 +57,7 @@ class Collector {
                         document.remove("whitelist");
                     }
                     else {
-                        configuration.WHITELIST = (String[]) whiteListPivioYaml.toArray();
+                        configuration.WHITELIST = whiteListPivioYaml.toArray(new String[] {});
                     }
                 }
 
@@ -70,7 +70,7 @@ class Collector {
                         document.remove("blacklist");
                     }
                     else {
-                        configuration.BLACKLIST = (String[]) blackListPivioYaml.toArray(new String[] {});
+                        configuration.BLACKLIST = blackListPivioYaml.toArray(new String[] {});
                     }
                 }
             }
