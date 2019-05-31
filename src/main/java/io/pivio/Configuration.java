@@ -173,7 +173,7 @@ public class Configuration {
         options.addOption(SWITCH_SOURCE_DIR, true, "The directory containing the pivio.yaml file. Should be the root directory of the project.");
         options.addOption(SWITCH_CONFIG, true, "Defines the config for all parameters. This is a properties file with some the switches listed here. Default location is /etc/pivio-client.properties.");
         options.addOption(SWITCH_GIT_REMOTE, true, "Uses the given argument as origin for Git VCS remote detection (default: origin). This is useful if you have multiple remotes configured and/or differently named.");
-        options.addOption(SWITCH_SERVICE_URL, true, "The url of the pivio service. If this switch is not supplied, no upload will happen.");
+        options.addOption(SWITCH_SERVICE_URL, true, "The URL of the pivio service. If this switch is not supplied, no upload will happen. Needs to end with `/document`.");
         options.addOption(SWITCH_USE_THIS_YAML_FILE, true, "Full path to a file containing the data in yaml format. Does not have to be named pivio.yaml. This overwrites the -source switch and only information in this file will be collected.");
         options.addOption(SWITCH_DEFAULT_YAML_FILE_NAME, true, "Defines the name of your yaml metadata. The suffix '.yaml' will be always appended. Defaults to 'pivio'.");
         options.addOption(SWITCH_MANUAL_DEPENDENCIES, true, "Defines the file which holds manual defined dependencies. Defaults to: pivio/dependencies.yaml.");

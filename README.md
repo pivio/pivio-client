@@ -66,8 +66,9 @@ usage: pivio
  -piviofilenotfoundexit0     Fail with Exit(0) when a pivio document was
                              not found in the source directory. Default is
                              1 in such as case.
- -serviceurl <arg>           The url of the pivio service. If this switch
+ -serviceurl <arg>           The URL of the pivio service. If this switch
                              is not supplied, no upload will happen.
+                             Needs to end with `/document`.
  -source <arg>               The directory containing the pivio.yaml file.
                              Should be the root directory of the project.
  -sourcecode <arg>           Defines the directory (or comma-separated
