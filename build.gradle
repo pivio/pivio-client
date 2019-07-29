@@ -71,7 +71,7 @@ dependencies {
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.0.1.201506240215-r'
     compile('org.yaml:snakeyaml:1.17')
 
-    testCompile('org.assertj:assertj-core:3.2.0')
+    testCompile('org.assertj:assertj-core:3.13.0')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.mockito:mockito-all:1.10.19')
 }
