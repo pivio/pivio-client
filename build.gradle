@@ -14,21 +14,18 @@ buildscript {
     }
 }
 
-plugins {
-    id "org.sonarqube" version "2.7.1"
-}
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
-apply plugin: 'jacoco'
 apply plugin: "com.github.hierynomus.license"
 
-task preBuild << {
-    println 'Generating version number from git.'
-    new File("build/resources/main/VERSION").withWriter { out ->
-        out.println 'git rev-parse HEAD'.execute().text
+task preBuild() {
+    doLast {
+        println 'Generating version number from git.'
+        new File("build/resources/main/VERSION").withWriter { out ->
+            out.println 'git rev-parse HEAD'.execute().text
+        }
     }
 }
 
@@ -53,6 +50,7 @@ repositories {
 
 springBoot {
     executable = true
+    mainClass = "io.pivio.AppLauncher"
 }
 
 dependencies {
@@ -83,7 +81,8 @@ eclipse {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.9'
+wrapper{
+    gradleVersion = '5.1'
+    distributionType = Wrapper.DistributionType.BIN
 }
 
