@@ -70,7 +70,7 @@ dependencies {
     compile('org.jooq:joox:1.6.2')
     compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
     compile 'org.eclipse.jgit:org.eclipse.jgit:4.0.1.201506240215-r'
-    compile('org.yaml:snakeyaml:1.17')
+    compile('org.yaml:snakeyaml:1.24')
 
     testCompile('org.assertj:assertj-core:3.13.2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
