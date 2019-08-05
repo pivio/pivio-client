@@ -3,3 +3,5 @@ jdk:
   - oraclejdk11
 script:
   - ./gradlew build
+
+
