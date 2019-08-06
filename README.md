@@ -1,6 +1,7 @@
 # Status
 
 [![Build Status](https://travis-ci.org/pivio/pivio-client.svg?branch=master)](https://travis-ci.org/pivio/pivio-client)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pivio_pivio-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=pivio_pivio-client)
 
 # Docs
 
