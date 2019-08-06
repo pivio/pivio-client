@@ -1,7 +1,14 @@
 language: java
 jdk:
   - oraclejdk11
+addons:
+  sonarcloud:
+    organization: "pivio"
+    token:
+      secure: "gN2IGhJaSzDqqIHMyyoMDZrQAhfkHRHKmk0823T3DSHThaQhcaLhJoV0EIjavf99axcpzeQzPnPjt/P4LDXNzGdXqNMbPlP3uUKwjeDpNbnvqmWdeE3ShBISbfo5pGt2X+C6JDR1f3iEkVakuXR+RUKrNYBvUQEURRf3yp+z+d9SSnBdhUI3ev6eZ9mYkmAbQWBs5rFMpdq15/rOHN5C+q5hzFD/B3M4iOJlXG/g1igKxRxHggXSXW0xijd8royqmSWTOafZLAv8t22AQQfM651W5IxJLyn2i+Lklg9FQqKRG5hfYwwuryXYq1ltdiWc4ggdU7wUJu6YDkw4DFhha3PO6fKS+3aiyprebuzndM36R0F6YldNbUFfjKXCCl7t3YaAEr3A9SjifitBjtFYkW031zIaaA6wPKqKT208vVLtxlTCY7Of1C4FEc6omu9N+zo/U2eGmUSzz88cQ3+IwDa4A8V5j+JnnptqtztgR6ESwMz4BqYtkW+0+4v+IeP02hAY3ACvVXkMBkVlpqS9o+PlV91LdRUIQA6QUv7hsgaWlVaRfFU3HG3WD0/2TkgNcdYS4y9lMpxbPggHFV7VgR4YTx/a20JwYAfiWoq2oyZG457sio3CgBGYSJkwwF0WvWpqqq8Y/50XUwyhMSOHarz+6Pxq2Wc6uncKCF0kiok="
+
 script:
   - ./gradlew build
+  - ./gradlew sonarqube
 
 
