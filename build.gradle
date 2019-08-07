@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.20.RELEASE'
+        springBootVersion = '2.1.7.RELEASE'
     }
     repositories {
         maven { url "http://repo.spring.io/libs-release" }
