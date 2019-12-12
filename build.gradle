@@ -75,11 +75,11 @@ dependencies {
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
     compile group: 'org.glassfish', name: 'javax.el', version: '3.0.1-b11'
     compile('org.tmatesoft.svnkit:svnkit:1.10.1')
-    compile('org.eclipse.jgit:org.eclipse.jgit:5.4.0.201906121030-r')
+    compile('org.eclipse.jgit:org.eclipse.jgit:5.6.0.201912101111-r')
     compile('commons-cli:commons-cli:1.4')
     compile('org.jooq:joox:1.6.2')
     compile('org.codehaus.jackson:jackson-mapper-asl:1.9.13')
-    compile 'org.eclipse.jgit:org.eclipse.jgit:4.0.1.201506240215-r'
+    compile 'org.eclipse.jgit:org.eclipse.jgit:5.6.0.201912101111-r'
     compile('org.yaml:snakeyaml:1.24')
     compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 
