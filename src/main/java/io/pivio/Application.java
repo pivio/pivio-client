@@ -68,6 +68,7 @@ public class Application implements CommandLineRunner {
             }
         } catch (ParseException e) {
             log.output("Could not parse the command line parameters.");
+            configuration.outputHelp();
             System.exit(1);
         }
     }
